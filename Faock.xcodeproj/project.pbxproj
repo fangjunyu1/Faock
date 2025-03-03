@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D6165B32D75607000570095 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165B22D75607000570095 /* Launch Screen.storyboard */; };
 		1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDB8382D7554DC0004D4B0 /* FaockApp.swift */; };
 		1DFDB83B2D7554DC0004D4B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDB83A2D7554DC0004D4B0 /* ContentView.swift */; };
 		1DFDB83D2D7554DE0004D4B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DFDB83C2D7554DE0004D4B0 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D6165B22D75607000570095 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1DFDB8352D7554DC0004D4B0 /* Faock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFDB8382D7554DC0004D4B0 /* FaockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaockApp.swift; sourceTree = "<group>"; };
 		1DFDB83A2D7554DC0004D4B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +73,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D6165B42D75669D00570095 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1D6165B52D7566A200570095 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1D6165B62D7566A700570095 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		1DFDB82C2D7554DC0004D4B0 = {
 			isa = PBXGroup;
 			children = (
@@ -94,10 +117,14 @@
 		1DFDB8372D7554DC0004D4B0 /* Faock */ = {
 			isa = PBXGroup;
 			children = (
+				1D6165B62D7566A700570095 /* ViewModel */,
+				1D6165B52D7566A200570095 /* Model */,
+				1D6165B42D75669D00570095 /* View */,
 				1DFDB8382D7554DC0004D4B0 /* FaockApp.swift */,
 				1DFDB83A2D7554DC0004D4B0 /* ContentView.swift */,
 				1DFDB83C2D7554DE0004D4B0 /* Assets.xcassets */,
 				1DFDB83E2D7554DE0004D4B0 /* Preview Content */,
+				1D6165B22D75607000570095 /* Launch Screen.storyboard */,
 			);
 			path = Faock;
 			sourceTree = "<group>";
@@ -231,6 +258,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D6165B32D75607000570095 /* Launch Screen.storyboard in Resources */,
 				1DFDB8402D7554DE0004D4B0 /* Preview Assets.xcassets in Resources */,
 				1DFDB83D2D7554DE0004D4B0 /* Assets.xcassets in Resources */,
 			);
@@ -428,15 +456,19 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fangjunyu.Faock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -457,15 +489,19 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fangjunyu.Faock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
