@@ -9,13 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack {
+                Image("3")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 200)
+                Button(action: {
+                    
+                }, label: {
+                    Text("Start the game")
+                })
+            }
         }
-        .padding()
     }
 }
 
