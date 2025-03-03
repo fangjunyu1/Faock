@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D2DC4352D75A15A00F747F8 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DC4342D75A15A00F747F8 /* Color.swift */; };
+		1D2DC4372D75A34700F747F8 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DC4362D75A34700F747F8 /* Game.swift */; };
+		1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DC4382D75AAD800F747F8 /* Home.swift */; };
 		1D6165B32D75607000570095 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165B22D75607000570095 /* Launch Screen.storyboard */; };
 		1D6165BC2D756AE000570095 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165BB2D756AE000570095 /* Localizable.xcstrings */; };
 		1D6165BF2D756AE800570095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165BD2D756AE800570095 /* InfoPlist.strings */; };
@@ -37,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D2DC4342D75A15A00F747F8 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		1D2DC4362D75A34700F747F8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		1D2DC4382D75AAD800F747F8 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		1D6165B22D75607000570095 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1D6165BB2D756AE000570095 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1D6165BE2D756AE800570095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -120,6 +126,8 @@
 		1D6165B42D75669D00570095 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1D2DC4362D75A34700F747F8 /* Game.swift */,
+				1D2DC4382D75AAD800F747F8 /* Home.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -127,6 +135,7 @@
 		1D6165B52D7566A200570095 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1D2DC4342D75A15A00F747F8 /* Color.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -383,6 +392,9 @@
 			files = (
 				1DFDB83B2D7554DC0004D4B0 /* ContentView.swift in Sources */,
 				1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */,
+				1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */,
+				1D2DC4352D75A15A00F747F8 /* Color.swift in Sources */,
+				1D2DC4372D75A34700F747F8 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +621,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -644,6 +657,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

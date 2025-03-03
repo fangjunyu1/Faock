@@ -8,19 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var viewStep = 0
     var body: some View {
-        NavigationStack {
-            VStack {
-                Image("3")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                Button(action: {
-                    
-                }, label: {
-                    Text("Start the game")
-                })
-            }
+        if viewStep == 0 {
+            Home(viewStep: $viewStep)
+        } else if viewStep == 1 {
+            Game(viewStep: $viewStep)
         }
     }
 }
