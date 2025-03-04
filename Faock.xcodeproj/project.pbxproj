@@ -13,6 +13,12 @@
 		1D6165B32D75607000570095 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165B22D75607000570095 /* Launch Screen.storyboard */; };
 		1D6165BC2D756AE000570095 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165BB2D756AE000570095 /* Localizable.xcstrings */; };
 		1D6165BF2D756AE800570095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165BD2D756AE800570095 /* InfoPlist.strings */; };
+		1D61B2B92D769E2400E8CA91 /* GameGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D61B2B82D769E2400E8CA91 /* GameGridView.swift */; };
+		1D61B2BB2D76DB8A00E8CA91 /* DraggableBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */; };
+		1DF103D52D75F0C500A5B23D /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103D42D75F0C500A5B23D /* GameViewModel.swift */; };
+		1DF103D72D75F0E000A5B23D /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103D62D75F0E000A5B23D /* GridView.swift */; };
+		1DF103D92D75F11800A5B23D /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103D82D75F11800A5B23D /* BlockView.swift */; };
+		1DF103DB2D75F16600A5B23D /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103DA2D75F16600A5B23D /* Block.swift */; };
 		1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDB8382D7554DC0004D4B0 /* FaockApp.swift */; };
 		1DFDB83B2D7554DC0004D4B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDB83A2D7554DC0004D4B0 /* ContentView.swift */; };
 		1DFDB83D2D7554DE0004D4B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DFDB83C2D7554DE0004D4B0 /* Assets.xcassets */; };
@@ -86,6 +92,12 @@
 		1D6165E72D756E6400570095 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D6165E82D756E6400570095 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D6165E92D756E6500570095 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1D61B2B82D769E2400E8CA91 /* GameGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGridView.swift; sourceTree = "<group>"; };
+		1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableBlockView.swift; sourceTree = "<group>"; };
+		1DF103D42D75F0C500A5B23D /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		1DF103D62D75F0E000A5B23D /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		1DF103D82D75F11800A5B23D /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		1DF103DA2D75F16600A5B23D /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		1DFDB8352D7554DC0004D4B0 /* Faock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFDB8382D7554DC0004D4B0 /* FaockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaockApp.swift; sourceTree = "<group>"; };
 		1DFDB83A2D7554DC0004D4B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +140,10 @@
 			children = (
 				1D2DC4362D75A34700F747F8 /* Game.swift */,
 				1D2DC4382D75AAD800F747F8 /* Home.swift */,
+				1DF103D62D75F0E000A5B23D /* GridView.swift */,
+				1DF103D82D75F11800A5B23D /* BlockView.swift */,
+				1D61B2B82D769E2400E8CA91 /* GameGridView.swift */,
+				1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -136,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				1D2DC4342D75A15A00F747F8 /* Color.swift */,
+				1DF103DA2D75F16600A5B23D /* Block.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -143,6 +160,7 @@
 		1D6165B62D7566A700570095 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				1DF103D42D75F0C500A5B23D /* GameViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -390,10 +408,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DF103D92D75F11800A5B23D /* BlockView.swift in Sources */,
+				1DF103D52D75F0C500A5B23D /* GameViewModel.swift in Sources */,
 				1DFDB83B2D7554DC0004D4B0 /* ContentView.swift in Sources */,
 				1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */,
+				1DF103D72D75F0E000A5B23D /* GridView.swift in Sources */,
 				1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */,
+				1DF103DB2D75F16600A5B23D /* Block.swift in Sources */,
+				1D61B2BB2D76DB8A00E8CA91 /* DraggableBlockView.swift in Sources */,
 				1D2DC4352D75A15A00F747F8 /* Color.swift in Sources */,
+				1D61B2B92D769E2400E8CA91 /* GameGridView.swift in Sources */,
 				1D2DC4372D75A34700F747F8 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -619,8 +643,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -655,8 +679,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "0" : {
+
+    },
     "Continue" : {
       "comment" : "继续",
       "extractionState" : "manual",
