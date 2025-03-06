@@ -9,11 +9,12 @@ import SwiftUI
 
 struct DraggableBlockView: View {
     let block: Block
-    let onDrop: (CGPoint) -> Void
+    let onDrop: (CGPoint,CGSize) -> Void
     @GestureState private var dragOffset: CGSize = .zero
     @State private var isMoving: Bool = false
-        
-        var body: some View {
+    
+    var body: some View {
+        GeometryReader { geo in
             BlockView(block: block)
                 .offset(dragOffset)
                 .scaleEffect(isMoving ? 1 :0.5)
@@ -28,12 +29,15 @@ struct DraggableBlockView: View {
                         }
                         .onEnded { value in
                             isMoving = false
-                            onDrop(value.location) // 用户松手时，触发放置
+                            let startPosition = value.startLocation
+                            let endTranslation = value.translation
+                            onDrop(startPosition,endTranslation) // 用户松手时，调用闭包
                         }
                 )
         }
+    }
 }
 
 #Preview {
-    DraggableBlockView(block: Block(shape: [[0,1,0],[1,1,1]]), onDrop: {_ in })
+    DraggableBlockView(block: Block(shape: [[0,1,0],[1,1,1]]), onDrop: { _, _ in })
 }

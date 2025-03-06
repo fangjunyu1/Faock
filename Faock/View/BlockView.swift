@@ -14,9 +14,9 @@ struct BlockView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(0..<block.shape.count, id: \.self) { row in
+            ForEach(0..<block.rows, id: \.self) { row in
                 HStack(spacing: 0) {
-                    ForEach(0..<block.shape[row].count, id: \.self) { col in
+                    ForEach(0..<block.cols, id: \.self) { col in
                         if block.shape[row][col] == 1 {
                             Image("block0")
                                 .resizable()
