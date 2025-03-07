@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct BlockView: View {
+    @Environment(\.colorScheme) var colorScheme
     let block: Block
     let blockSize: CGFloat = 40
     
@@ -18,7 +19,7 @@ struct BlockView: View {
                 HStack(spacing: 0) {
                     ForEach(0..<block.cols, id: \.self) { col in
                         if block.shape[row][col] == 1 {
-                            Image("block0")
+                            Image(colorScheme == .light ? "block0" : "block1")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: blockSize, height: blockSize)

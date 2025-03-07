@@ -14,35 +14,47 @@ struct DraggableBlockView: View {
     let onDrop: (CGPoint,CGSize,CGPoint) -> Void
     @GestureState private var dragOffset: CGSize = .zero
     @State private var isMoving: Bool = false
+    @State private var geoPosition: CGPoint = .zero // 存储 GeometryReader 位置
     
     var body: some View {
-        GeometryReader { geo in
-            
-                let geoPosition =  geo.frame(in: .global).origin
-            BlockView(block: block)
-                .offset(dragOffset)
-                .scaleEffect(isMoving ? 1 :0.5)
-                .gesture(
-                    DragGesture()
-                        .onChanged { _ in
-                            isMoving = true
+        BlockView(block: block)
+            .offset(dragOffset)
+            .scaleEffect(isMoving ? 1 : 0.5)
+            .background {
+                GeometryReader { geo in
+                    Color.clear.onAppear {
+                        DispatchQueue.main.async {
+                            geoPosition = geo.frame(in: .global).origin
                         }
-                        .updating($dragOffset) { value, status,_ in
-                            let startPosition = value.startLocation
-                            let endTranslation = value.translation
-                            status = value.translation
-                            status.height -= GestureOffset
-                            onDrag(startPosition,endTranslation,geoPosition) // 移动，调用闭包
+                    }
+                    
+                    .onChange(of: geo.frame(in: .global).origin) { newValue in
+                        DispatchQueue.main.async {
+                            geoPosition = newValue
                         }
-                        .onEnded { value in
-                            isMoving = false
-                            let startPosition = value.startLocation
-                            let endTranslation = value.translation
-                            onDrop(startPosition,endTranslation,geoPosition) // 用户松手时，调用闭包
-                        }
-                )
-                .frame(maxWidth: .infinity,maxHeight: .infinity)
-        }
+                    }
+                }
+            }
+            .gesture(
+                DragGesture()
+                    .onChanged { _ in
+                        isMoving = true
+                    }
+                    .updating($dragOffset) { value, status,_ in
+                        // 计算缩放前的点击点
+                        let startPosition = value.startLocation
+                        let endTranslation = value.translation
+                        status = value.translation
+                        status.height -= GestureOffset
+                        onDrag(startPosition,endTranslation,geoPosition) // 移动，调用闭包
+                    }
+                    .onEnded { value in
+                        isMoving = false
+                        let startPosition = value.startLocation
+                        let endTranslation = value.translation
+                        onDrop(startPosition,endTranslation,geoPosition) // 用户松手时，调用闭包
+                    }
+            )
     }
 }
 

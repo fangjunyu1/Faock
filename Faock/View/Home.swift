@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Home: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var viewStep: Int
     var body: some View {
         NavigationStack {
@@ -25,7 +26,7 @@ struct Home: View {
                         .fontWeight(.bold)
                         .frame(width: 280, height: 64)
                         .foregroundColor(.white)
-                        .background(Color(hex:"2F438D"))
+                        .background(colorScheme == .light ?  Color(hex:"2F438D") : .gray)
                         .cornerRadius(6)
                 })
             }
@@ -34,7 +35,7 @@ struct Home: View {
             .toolbar {
                 // 图标
                 ToolbarItem(placement: .topBarLeading) {
-                    Image("icon2")
+                    Image(colorScheme == .light ? "icon2" : "icon4")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
@@ -45,7 +46,7 @@ struct Home: View {
                         
                     }, label: {
                         Image(systemName: "gearshape")
-                            .foregroundColor(Color(hex:"2F438D"))
+                            .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                     })
                 }
             }

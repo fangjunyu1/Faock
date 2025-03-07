@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameGridView: View {
+    @Environment(\.colorScheme) var colorScheme
     var grid: [[Int]]
     var shadowPosition: (row: Int, col: Int)?
     var shadowBlock: Block?
@@ -37,7 +38,7 @@ struct GameGridView: View {
                                 .border(Color(hex: "C7CDDC"))
                                 .overlay {
                                     if grid[row][col] == 1  {
-                                        Image("block0")
+                                        Image(colorScheme == .light ? "block0" : "block1")
                                             .resizable()
                                             .scaledToFit()
                                     } else {
@@ -60,7 +61,12 @@ struct GameGridView: View {
                             ForEach(0..<colCount, id: \.self) { col in
                                 let inShadowArea = (row >= position.row && row < position.row + shadow.shape.count) &&
                                 (col >= position.col && col < position.col + shadow.shape[0].count)
-                                
+                                // 在阴影区域内，shadowRow和shadowCol则变成相对位置
+                                // 例如row和col为阴影区域的左上角，假设阴影区域为（3，4）
+                                // row和col也从（3，4）开始计算
+                                // 那么 shadowRow 和 shadowCol 就是 （0，0）
+                                // 所以 shadow.shape[shadowRow][shadowCol] = shadow.shape[0，0]
+                                // 如果为1，表示有方块
                                 let shadowRow = row - position.row
                                 let shadowCol = col - position.col
                                 let shouldDrawShadow = inShadowArea && shadow.shape[shadowRow][shadowCol] == 1
@@ -68,13 +74,12 @@ struct GameGridView: View {
                                 Rectangle()
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(.clear)
-                                    .border(Color(hex: "C7CDDC"))
                                     .overlay {
                                         if shouldDrawShadow {
-                                            Image("block0")
+                                            Image(colorScheme == .light ? "block0" : "block1")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .opacity(0.3)
+                                                .opacity(colorScheme == .light ? 0.3 : 0.5)
                                         }
                                     }
                             }
@@ -87,7 +92,7 @@ struct GameGridView: View {
             ZStack {
                 // 边框线
                 Rectangle()
-                    .stroke(Color(hex: "465963"),lineWidth: 4)
+                    .stroke(colorScheme == .light ? Color(hex: "465963") : .gray,lineWidth: 4)
                     .foregroundColor(.clear)
                 // 分割 - 横线
                 VStack {

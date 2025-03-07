@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Game: View {
+    
+    @Environment(\.colorScheme) var colorScheme
     // 定义网格的行列
     @State private var grid: [[Int]] = Array(repeating: Array(repeating: 0, count: 9), count: 9)
     @Binding var viewStep: Int
@@ -62,11 +64,16 @@ struct Game: View {
         print("end:\(end)")
         print("origins:\(origins)")
         print("gridOrigin:\(gridOrigin)")
+        // 计算用户实际触碰的相对位置
+        let touchOffsetX = start.x + origins.x
+        let touchOffsetY = start.y + origins.y
+        print("touchOffsetX:\(touchOffsetX)")
+        print("touchOffsetY:\(touchOffsetY)")
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = origins.y - gridOrigin.y - GestureOffset + end.height
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
         let row = Int(CalculateY / cellSize)
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = origins.x + end.width
+        let CalculateX = touchOffsetX + end.width
         let col = Int(CalculateX / cellSize)
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
@@ -101,11 +108,14 @@ struct Game: View {
     
     // 显示放置方块的阴影
     func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
+        
+        let touchOffsetX = start.x + origins.x
+        let touchOffsetY = start.y + origins.y
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = origins.y - gridOrigin.y - GestureOffset + end.height
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
         let row = Int(CalculateY / cellSize)
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = origins.x + end.width
+        let CalculateX = touchOffsetX + end.width
         let col = Int(CalculateX / cellSize)
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
@@ -158,7 +168,7 @@ struct Game: View {
                     Text("\(GameScore)")
                         .frame(width: 100, height: 36)
                         .foregroundColor(.white)
-                        .background(Color(hex: "2F438D"))
+                        .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
                         .cornerRadius(10)
                     Spacer().frame(height: 30)
                     // 背景网格
@@ -176,7 +186,7 @@ struct Game: View {
                         }
                     Spacer().frame(height: 30)
                     // 三个随机生成的方块
-                    HStack(alignment: .center,spacing: 0) {
+                    HStack(alignment: .center,spacing: 10) {
                         ForEach(0..<3,id: \.self) {item in
                             ZStack {
                                 if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
@@ -197,7 +207,7 @@ struct Game: View {
                                         .opacity(0)
                                 }
                             }
-                            .frame(width: 115,height: 115)
+                            .frame(width: 120,height: 120)
                         }
                     }
                     .frame(width: 360)
@@ -213,7 +223,7 @@ struct Game: View {
                     // 标题
                     ToolbarItem(placement: .principal) {
                         Text("Sinking elimination")
-                            .foregroundColor(Color(hex: "2F438D")) // 确保 Color(hex:) 已实现
+                            .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                             .font(.headline)
                     }
                     // 首页
@@ -224,7 +234,7 @@ struct Game: View {
                             Image(systemName: "house")
                                 .resizable()
                                 .scaledToFit()
-                                .foregroundColor(Color(hex: "2F438D"))
+                                .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                         })
                     }
                     // 设置
@@ -233,7 +243,7 @@ struct Game: View {
                             
                         }, label: {
                             Image(systemName: "gearshape")
-                                .foregroundColor(Color(hex:"2F438D"))
+                                .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                         })
                     }
                 }
