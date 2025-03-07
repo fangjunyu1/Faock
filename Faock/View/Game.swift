@@ -160,6 +160,65 @@ struct Game: View {
         return true
     }
     
+    // 消除整行/整列的方块
+    func clearFullRowsAndColumns() {
+        var newGrid = grid
+        // 找到需要消除的行
+            var rowsToClear: Set<Int> = []
+            for row in 0..<9 {
+                if newGrid[row].allSatisfy({ $0 == 1 }) {
+                    rowsToClear.insert(row)
+                }
+            }
+        // 找到需要消除的列
+            var colsToClear: Set<Int> = []
+            for col in 0..<9 {
+                if (0..<9).allSatisfy({ newGrid[$0][col] == 1 }) {
+                    colsToClear.insert(col)
+                }
+            }
+        
+        
+        print("需要清除的行: \(rowsToClear.sorted())")
+        
+        // 清除整行
+            for row in rowsToClear {
+                newGrid[row] = Array(repeating: 0, count: 9)
+            }
+
+            // 清除整列
+            for col in colsToClear {
+                for row in 0..<9 {
+                    newGrid[row][col] = 0
+                }
+            }
+        
+        
+        // 奖励消除积分
+        let EliminationRewards = rowsToClear.count * 10 + colsToClear.count * 10
+        // 更新积分
+        GameScore += EliminationRewards
+        
+        
+        // 处理方块下落：上面的行向下移动
+        // 例如rowsToClear为 [2,5,3],sorted()为[2,3,5], reversed()为[5,3,2]
+            for row in rowsToClear.sorted().reversed() { // 从下往上处理
+                print("row:\(row)")
+                // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
+                for r in (1...row).reversed() {
+                    print("r:\(r)")
+                    // newGrid[3] = newGrid[2]
+                    // newGrid[2] = newGrid[1]
+                    // newGrid[1] = newGrid[0]
+                    // 最好将第0行消除到第1行
+                    newGrid[r] = newGrid[r - 1] // 当前行变成上一行
+                }
+                // 新增空行填充到第0行。
+                newGrid[0] = Array(repeating: 0, count: 9) // 顶部填充空行
+            }
+
+            grid = newGrid
+    }
     var body: some View {
         NavigationStack {
             GeometryReader { globalGeo in
@@ -200,7 +259,8 @@ struct Game: View {
                                         // 放置方块
                                         shadowPosition = nil
                                         shadowBlock = nil
-                                        
+                                        // 消除行、列的方块
+                                        clearFullRowsAndColumns()
                                     })
                                 } else {
                                     Rectangle()
