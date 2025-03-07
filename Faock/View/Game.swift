@@ -10,13 +10,14 @@ import SwiftUI
 struct Game: View {
     // 定义网格的行列
     @State private var grid: [[Int]] = Array(repeating: Array(repeating: 0, count: 9), count: 9)
-    @State private var blockOrigins: [CGPoint] = [CGPoint](repeating: .zero, count: 3) // 存储3个方块的起始位置
     @Binding var viewStep: Int
     @State private var GameScore = 0
     @State private var CurrentBlock: [Block?] = []
     @State private var gridOrigin: CGPoint = .zero  // 记录视图左上角坐标
     @State private var locationText: CGPoint = .zero
     
+    
+    let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
     
     let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
@@ -54,16 +55,16 @@ struct Game: View {
         return blocks.shuffled().prefix(3).map { $0 }
     }
     
-    func placeBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ indices : Int) {
+    func placeBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("start:\(start)")
         print("end:\(end)")
-        print("blockOrigins[\(indices)]:\(blockOrigins[indices])")
+        print("origins:\(origins)")
         print("gridOrigin:\(gridOrigin)")
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = blockOrigins[indices].y - gridOrigin.y - 60 + end.height
+        let CalculateY = origins.y - gridOrigin.y - GestureOffset + end.height
         let row = Int(CalculateY / cellSize)
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = blockOrigins[indices].x + end.width
+        let CalculateX = origins.x + end.width
         let col = Int(CalculateX / cellSize)
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
@@ -112,7 +113,7 @@ struct Game: View {
                     // 判断网格的 1，5 是否超过 9 以及是否已经有方块，如果超过 9 或有方块，则返回 false，否则返回 true。
                     let targetRow = row + r
                     let targetCol = col + c
-                    if targetRow >= 9 || targetCol >= 9 || grid[targetRow][targetCol] == 1 {
+                    if targetRow < 0 || targetRow >= 9 || targetCol < 0 || targetCol >= 9 || grid[targetRow][targetCol] == 1 {
                         return false
                     }
                 }
@@ -138,11 +139,12 @@ struct Game: View {
                         .overlay {
                             GeometryReader { gridGeo in
                                 Color.clear.onAppear {
-                                    let gridPosition = gridGeo.frame(in: .global)
-                                    print("网格原点 gridPosition: \(gridPosition)")
                                     
-                                    gridOrigin = CGPoint(x: gridGeo.frame(in: .global).minX,
-                                                         y: gridGeo.frame(in: .global).minY)
+                                    DispatchQueue.main.async {
+                                        let gridPosition = gridGeo.frame(in: .global).origin
+                                        print("网格原点 gridPosition: \(gridPosition)")
+                                        gridOrigin = gridPosition
+                                    }
                                 }
                             }
                         }
@@ -152,34 +154,14 @@ struct Game: View {
                         ForEach(0..<3,id: \.self) {item in
                             ZStack {
                                 if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
-                                    DraggableBlockView(block: block) { start, end in
-                                        print("startPosition:\(start)")
-                                        print("endTranslation:\(end)")
-                                        placeBlock(block, start, end, item)
-                                        print("block:\(block)")
-                                    }
-                                    .overlay {
-                                        GeometryReader { geo in
-                                            Color.clear
-                                                .onAppear {
-                                                                                                        DispatchQueue.main.async {
-                                                    
-                                                        let geoPosition = geo.frame(in: .global).origin
-                                                    
-                                                        blockOrigins[item] = geoPosition
-                                                        
-                                                        print("方块 \(item) 的位置为:\(geoPosition)")
-                                                        print("blockOrigins[\(item)]:\(blockOrigins[item])")
-                                                    }
-                                                }
-                                        }
+                                    DraggableBlockView(block: block, GestureOffset: GestureOffset) { start, end, geo  in
+                                        placeBlock(block, start, end, geo, item)
                                     }
                                 } else {
                                     Rectangle()
                                         .opacity(0)
                                 }
                             }
-                            //                            .background(.red)
                             .frame(width: 115,height: 115)
                         }
                     }
