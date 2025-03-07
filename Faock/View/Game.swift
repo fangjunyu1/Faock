@@ -65,8 +65,8 @@ struct Game: View {
         print("origins:\(origins)")
         print("gridOrigin:\(gridOrigin)")
         // 计算用户实际触碰的相对位置
-        let touchOffsetX = start.x + origins.x
-        let touchOffsetY = start.y + origins.y
+        let touchOffsetX = start.x / 2 + origins.x
+        let touchOffsetY = start.y / 2 + origins.y
         print("touchOffsetX:\(touchOffsetX)")
         print("touchOffsetY:\(touchOffsetY)")
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
@@ -109,8 +109,8 @@ struct Game: View {
     // 显示放置方块的阴影
     func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         
-        let touchOffsetX = start.x + origins.x
-        let touchOffsetY = start.y + origins.y
+        let touchOffsetX = start.x / 2 + origins.x
+        let touchOffsetY = start.y / 2 + origins.y
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
         let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
         let row = Int(CalculateY / cellSize)
