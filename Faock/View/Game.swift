@@ -15,7 +15,8 @@ struct Game: View {
     @State private var CurrentBlock: [Block?] = []
     @State private var gridOrigin: CGPoint = .zero  // 记录视图左上角坐标
     @State private var locationText: CGPoint = .zero
-    
+    @State private var shadowPosition: (row: Int, col: Int)? = nil  // 阴影位置
+    @State private var shadowBlock: Block? = nil    // 阴影方块
     
     let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
@@ -55,6 +56,7 @@ struct Game: View {
         return blocks.shuffled().prefix(3).map { $0 }
     }
     
+    // 放置方块
     func placeBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("start:\(start)")
         print("end:\(end)")
@@ -97,6 +99,31 @@ struct Game: View {
         }
     }
     
+    // 显示放置方块的阴影
+    func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
+        // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
+        let CalculateY = origins.y - gridOrigin.y - GestureOffset + end.height
+        let row = Int(CalculateY / cellSize)
+        // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
+        let CalculateX = origins.x + end.width
+        let col = Int(CalculateX / cellSize)
+        print("row:\(row), col: \(col)")
+        // 检查 row 和 col 是否有效
+        guard row >= 0, col >= 0, row < 9, col < 9 else {
+            print("无法放置方块，超出网格边界")
+            return
+        }
+        // 检查是否可以放置
+        if canPlaceBlock(block, atRow: row, col: col) {
+            print("可以放置，绘制方块阴影")
+            shadowPosition = (row, col)
+            shadowBlock = block
+        } else {
+            shadowPosition = nil
+            shadowBlock = nil
+        }
+    }
+    
     // 检查方块是否可以放置
     func canPlaceBlock(_ block: Block, atRow row: Int, col: Int) -> Bool {
         // 遍历当前方块的行数
@@ -135,11 +162,10 @@ struct Game: View {
                         .cornerRadius(10)
                     Spacer().frame(height: 30)
                     // 背景网格
-                    GameGridView(grid:grid)
+                    GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock)
                         .overlay {
                             GeometryReader { gridGeo in
                                 Color.clear.onAppear {
-                                    
                                     DispatchQueue.main.async {
                                         let gridPosition = gridGeo.frame(in: .global).origin
                                         print("网格原点 gridPosition: \(gridPosition)")
@@ -154,9 +180,18 @@ struct Game: View {
                         ForEach(0..<3,id: \.self) {item in
                             ZStack {
                                 if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
-                                    DraggableBlockView(block: block, GestureOffset: GestureOffset) { start, end, geo  in
+                                    DraggableBlockView(block: block, GestureOffset: GestureOffset,
+                                                       onDrag :{ start, end, geo  in
+                                        print("移动中")
+                                        shadowBlock(block, start, end, geo, item)
+                                    },
+                                                       onDrop: {start, end, geo  in
                                         placeBlock(block, start, end, geo, item)
-                                    }
+                                        // 放置方块
+                                        shadowPosition = nil
+                                        shadowBlock = nil
+                                        
+                                    })
                                 } else {
                                     Rectangle()
                                         .opacity(0)

@@ -10,6 +10,7 @@ import SwiftUI
 struct DraggableBlockView: View {
     let block: Block
     let GestureOffset: CGFloat
+    let onDrag: (CGPoint, CGSize, CGPoint) -> Void // 新增闭包
     let onDrop: (CGPoint,CGSize,CGPoint) -> Void
     @GestureState private var dragOffset: CGSize = .zero
     @State private var isMoving: Bool = false
@@ -17,6 +18,7 @@ struct DraggableBlockView: View {
     var body: some View {
         GeometryReader { geo in
             
+                let geoPosition =  geo.frame(in: .global).origin
             BlockView(block: block)
                 .offset(dragOffset)
                 .scaleEffect(isMoving ? 1 :0.5)
@@ -26,11 +28,13 @@ struct DraggableBlockView: View {
                             isMoving = true
                         }
                         .updating($dragOffset) { value, status,_ in
+                            let startPosition = value.startLocation
+                            let endTranslation = value.translation
                             status = value.translation
                             status.height -= GestureOffset
+                            onDrag(startPosition,endTranslation,geoPosition) // 移动，调用闭包
                         }
                         .onEnded { value in
-                            let geoPosition =  geo.frame(in: .global).origin
                             isMoving = false
                             let startPosition = value.startLocation
                             let endTranslation = value.translation
@@ -43,5 +47,5 @@ struct DraggableBlockView: View {
 }
 
 #Preview {
-    DraggableBlockView(block: Block(shape: [[0,1,0],[1,1,1]]), GestureOffset: 80, onDrop: { _, _,_  in })
+    DraggableBlockView(block: Block(shape: [[0,1,0],[1,1,1]]), GestureOffset: 80, onDrag: {_,_,_ in }, onDrop: { _, _,_  in })
 }
