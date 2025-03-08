@@ -202,10 +202,14 @@ struct Game: View {
         
         // 处理方块下落：上面的行向下移动
         // 例如rowsToClear为 [2,5,3],sorted()为[2,3,5], reversed()为[5,3,2]
-            for row in rowsToClear.sorted().reversed() { // 从下往上处理
+        print("rowsToClear.sorted().reversed():\(Array(rowsToClear.sorted().reversed()))")
+        print("rowsToClear.sorted().enumerated():\(Array(rowsToClear.sorted().enumerated()))")
+        print("rowsToClear.sorted().reversed().enumerated():\(Array(rowsToClear.sorted().reversed().enumerated()))")
+            for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
+                let adjustedRow = row + index // 每次消除后，下面所有行的索引都会减少1
                 print("row:\(row)")
                 // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
-                for r in (1...row).reversed() {
+                for r in (1...adjustedRow).reversed() {
                     print("r:\(r)")
                     // newGrid[3] = newGrid[2]
                     // newGrid[2] = newGrid[1]
