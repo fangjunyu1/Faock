@@ -25,6 +25,9 @@ struct Game: View {
     @State private var testEnd: CGSize = .zero
     @State private var testGeo: CGPoint = .zero
 
+    // 分数更新动画
+    let incrementStep = 1  // 每次增加多少
+    let animationSpeed = 0.05  // 速度（秒）
     
     let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
@@ -99,7 +102,7 @@ struct Game: View {
                 }
             }
             // 计算得分
-            GameScore += block.score
+            increaseScore(to: GameScore + block.score)
             //  放置后，将对应的方块设为 nil
             CurrentBlock[indices] = nil
             // 如果方块列表没有方块，则刷新方块列表
@@ -224,8 +227,7 @@ struct Game: View {
         // 奖励消除积分
         let EliminationRewards = rowsToClear.count * 10 + colsToClear.count * 10
         // 更新积分
-        GameScore += EliminationRewards
-        
+        increaseScore(to: GameScore + EliminationRewards)
         
         // 处理方块下落：上面的行向下移动
         // 例如rowsToClear为 [2,5,3],sorted()为[2,3,5], reversed()为[5,3,2]
@@ -275,6 +277,17 @@ struct Game: View {
         print("没有方块可以放置，游戏结束。")
         return true
     }
+    
+    // 分数递增动画
+    func increaseScore(to newScore: Int) {
+           Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
+               if GameScore < newScore {
+                   GameScore += incrementStep
+               } else {
+                   timer.invalidate() // 目标值达到时停止
+               }
+           }
+       }
     
     var body: some View {
         NavigationView {
