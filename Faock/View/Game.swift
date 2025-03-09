@@ -20,11 +20,8 @@ struct Game: View {
     @State private var shadowPosition: (row: Int, col: Int)? = nil  // 阴影位置
     @State private var shadowBlock: Block? = nil    // 阴影方块
     @State private var GameOver = false
-    
-    @State private var testStart: CGPoint = .zero
-    @State private var testEnd: CGSize = .zero
-    @State private var testGeo: CGPoint = .zero
 
+    var sound = SoundManager.shared
     // 分数更新动画
     let incrementStep = 1  // 每次增加多少
     let animationSpeed = 0.05  // 速度（秒）
@@ -208,6 +205,9 @@ struct Game: View {
                 }
             }
         
+        if !rowsToClear.isEmpty || !colsToClear.isEmpty {
+            sound.playSound(named: "clearSoundeffects")
+        }
         
         print("需要清除的行: \(rowsToClear.sorted())")
         
@@ -235,21 +235,23 @@ struct Game: View {
         print("rowsToClear.sorted().enumerated():\(Array(rowsToClear.sorted().enumerated()))")
         print("rowsToClear.sorted().reversed().enumerated():\(Array(rowsToClear.sorted().reversed().enumerated()))")
             for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
-                let adjustedRow = row + index // 每次消除后，下面所有行的索引都会减少1
+                
+                let adjustedRow = max(0, row + index) // 确保不会小于 0
                 print("row:\(row)")
-                // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
-                for r in (1...adjustedRow).reversed() {
-                    print("r:\(r)")
-                    // newGrid[3] = newGrid[2]
-                    // newGrid[2] = newGrid[1]
-                    // newGrid[1] = newGrid[0]
-                    // 最好将第0行消除到第1行
-                    newGrid[r] = newGrid[r - 1] // 当前行变成上一行
+                if adjustedRow >= 1 {  // 只有 adjustedRow >= 1 时，才能进行下移操作
+                    // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
+                    for r in (1...adjustedRow).reversed() {
+                        print("r:\(r)")
+                        // newGrid[3] = newGrid[2]
+                        // newGrid[2] = newGrid[1]
+                        // newGrid[1] = newGrid[0]
+                        // 最好将第0行消除到第1行
+                        newGrid[r] = newGrid[r - 1] // 当前行变成上一行
+                    }
                 }
                 // 新增空行填充到第0行。
                 newGrid[0] = Array(repeating: 0, count: 9) // 顶部填充空行
             }
-
             grid = newGrid
     }
     
@@ -323,10 +325,6 @@ struct Game: View {
                                     DraggableBlockView(block: block, 
                                       GestureOffset: GestureOffset,
                                        onDrag :{ start, end, geo  in
-                                        
-                                        testStart = start
-                                        testEnd = end
-                                        testGeo = geo
                                         DispatchQueue.main.async {
                                             print("移动中")
                                             print("gridOrigin:\(gridOrigin)")
@@ -337,9 +335,7 @@ struct Game: View {
                                         print("放置方块")
                                         print("gridOrigin:\(gridOrigin)")
                                         placeBlock(block, start, end, geo, item)
-                                        testStart = start
-                                        testEnd = end
-                                        testGeo = geo
+                                        sound.playSound(named: "blockSound")
                                         // 放置方块
                                         shadowPosition = nil
                                         shadowBlock = nil
@@ -360,21 +356,6 @@ struct Game: View {
                     }
                     .frame(width: 360)
                     Spacer()
-                    // 测试显示的数据
-                    VStack {
-                        HStack {
-                            Text("start.x:\( testStart.x,format:.number.precision(.fractionLength(2)))")
-                            Text("start.y:\( testStart.y,format:.number.precision(.fractionLength(2)))")
-                        }
-                        HStack {
-                            Text("testEnd.width:\( testEnd.width,format:.number.precision(.fractionLength(2)))")
-                            Text("testEnd.height:\( testEnd.height,format:.number.precision(.fractionLength(2)))")
-                        }
-                        HStack {
-                            Text("testGeo.x:\( testGeo.x,format:.number.precision(.fractionLength(2)))")
-                            Text("testGeo.y:\( testGeo.y,format:.number.precision(.fractionLength(2)))")
-                        }
-                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .onAppear {
