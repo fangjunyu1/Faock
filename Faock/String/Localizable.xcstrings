@@ -28,6 +28,10 @@
         }
       }
     },
+    "Image by freepik" : {
+      "comment" : "Image by freepik",
+      "extractionState" : "manual"
+    },
     "New game" : {
       "comment" : "新游戏",
       "extractionState" : "manual",
@@ -63,6 +67,24 @@
           }
         }
       }
+    },
+    "start.x:%@" : {
+
+    },
+    "start.y:%@" : {
+
+    },
+    "testEnd.height:%@" : {
+
+    },
+    "testEnd.width:%@" : {
+
+    },
+    "testGeo.x:%@" : {
+
+    },
+    "testGeo.y:%@" : {
+
     }
   },
   "version" : "1.0"

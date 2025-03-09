@@ -19,6 +19,12 @@ struct Game: View {
     @State private var locationText: CGPoint = .zero
     @State private var shadowPosition: (row: Int, col: Int)? = nil  // 阴影位置
     @State private var shadowBlock: Block? = nil    // 阴影方块
+    @State private var GameOver = false
+    
+    @State private var testStart: CGPoint = .zero
+    @State private var testEnd: CGSize = .zero
+    @State private var testGeo: CGPoint = .zero
+
     
     let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
@@ -60,21 +66,22 @@ struct Game: View {
     
     // 放置方块
     func placeBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
+        print("进入placeBlock方法")
         print("start:\(start)")
         print("end:\(end)")
         print("origins:\(origins)")
         print("gridOrigin:\(gridOrigin)")
         // 计算用户实际触碰的相对位置
-        let touchOffsetX = start.x / 2 + origins.x
-        let touchOffsetY = start.y / 2 + origins.y
+        let touchOffsetX = origins.x
+        let touchOffsetY = origins.y
         print("touchOffsetX:\(touchOffsetX)")
         print("touchOffsetY:\(touchOffsetY)")
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
-        let row = Int(CalculateY / cellSize)
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height + 30
+        let row = Int(round(Double(CalculateY)) / cellSize)
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
         let CalculateX = touchOffsetX + end.width
-        let col = Int(CalculateX / cellSize)
+        let col = Int(round(Double(CalculateX))  / cellSize)
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < 9, col < 9 else {
@@ -100,6 +107,10 @@ struct Game: View {
                 print("当前列表为空，刷新列表")
                 CurrentBlock = generateNewBlocks()
                 print("CurrentBlock:\(CurrentBlock)")
+                // 判断游戏是否结束
+                if isGameOver() {
+                    GameOver = true
+                }
             }
         } else {
             print("无法放置方块")
@@ -108,15 +119,19 @@ struct Game: View {
     
     // 显示放置方块的阴影
     func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
-        
-        let touchOffsetX = start.x / 2 + origins.x
-        let touchOffsetY = start.y / 2 + origins.y
+        print("进入shadowBlock方法")
+        print("start:\(start)")
+        print("end:\(end)")
+        print("origins:\(origins)")
+        print("gridOrigin:\(gridOrigin)")
+        let touchOffsetX = origins.x
+        let touchOffsetY = origins.y
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
-        let row = Int(CalculateY / cellSize)
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height + 30
+        let row = Int(round(Double(CalculateY)) / cellSize)
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
         let CalculateX = touchOffsetX + end.width
-        let col = Int(CalculateX / cellSize)
+        let col = Int(round(Double(CalculateX))  / cellSize)
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < 9, col < 9 else {
@@ -124,11 +139,17 @@ struct Game: View {
             return
         }
         // 检查是否可以放置
-        if canPlaceBlock(block, atRow: row, col: col) {
-            print("可以放置，绘制方块阴影")
-            shadowPosition = (row, col)
-            shadowBlock = block
+        let canPlace = canPlaceBlock(block, atRow: row, col: col)
+        print("canPlaceBlock(row: \(row), col: \(col)) 返回值: \(canPlace)")
+        if canPlace {
+            print("进入 if 语句，canPlace 为 true")
+            self.shadowPosition = (row, col)
+            self.shadowBlock = block
+            print("阴影尝试放置位置：row:\(row), col:\(col)")
+            print("当前 shadowPosition：\(String(describing: shadowPosition))")
+            print("当前 shadowBlock：\(String(describing: shadowBlock))")
         } else {
+            print("进入 else 语句，canPlace 为 false")
             shadowPosition = nil
             shadowBlock = nil
         }
@@ -136,6 +157,8 @@ struct Game: View {
     
     // 检查方块是否可以放置
     func canPlaceBlock(_ block: Block, atRow row: Int, col: Int) -> Bool {
+        print("进入canPlaceBlock方法")
+            print("计算出的 row:\(row), col:\(col)")
         // 遍历当前方块的行数
         for r in 0..<block.shape.count {
             // 遍历当前方块的列数
@@ -151,12 +174,16 @@ struct Game: View {
                     let targetRow = row + r
                     let targetCol = col + c
                     if targetRow < 0 || targetRow >= 9 || targetCol < 0 || targetCol >= 9 || grid[targetRow][targetCol] == 1 {
+                        print("targetRow:\(targetRow)")
+                        print("targetCol:\(targetCol)")
+                        print("返回false")
                         return false
                     }
                 }
             }
         }
         // 返回 true
+        print("返回true")
         return true
     }
     
@@ -223,8 +250,34 @@ struct Game: View {
 
             grid = newGrid
     }
+    
+    /// 判断当前是否游戏结束
+    func isGameOver() -> Bool {
+        // 棋盘尺寸
+        let rows = grid.count
+        let cols = grid[0].count
+        // 遍历当前的方块
+        for block in CurrentBlock.compactMap({ $0 }) {
+            // 方块行列
+            let blockRows = block.shape.count
+            let blockCols = block.shape[0].count
+            
+            // 在棋盘的每个位置尝试放置方块
+            for startRow in 0...(rows - blockRows) {
+                for startCol in 0...(cols - blockCols) {
+                    if canPlaceBlock(block, atRow: startRow, col: startCol) {
+                        print("当前方块可以放置，游戏继续。")
+                        return false
+                    }
+                }
+            }
+        }
+        print("没有方块可以放置，游戏结束。")
+        return true
+    }
+    
     var body: some View {
-        NavigationStack {
+        NavigationView {
             GeometryReader { globalGeo in
                 VStack {
                     // 得分
@@ -236,13 +289,14 @@ struct Game: View {
                     Spacer().frame(height: 30)
                     // 背景网格
                     GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock)
-                        .overlay {
+                        .background {
                             GeometryReader { gridGeo in
-                                Color.clear.onAppear {
-                                    DispatchQueue.main.async {
-                                        let gridPosition = gridGeo.frame(in: .global).origin
-                                        print("网格原点 gridPosition: \(gridPosition)")
+                                Color.clear
+                                    .onAppear {
+                                        DispatchQueue.main.async {
+                                            let gridPosition = gridGeo.frame(in: .global).origin
                                         gridOrigin = gridPosition
+                                        print("使用延迟获取的网格原点 gridOrigin: \(gridOrigin)")
                                     }
                                 }
                             }
@@ -253,18 +307,35 @@ struct Game: View {
                         ForEach(0..<3,id: \.self) {item in
                             ZStack {
                                 if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
-                                    DraggableBlockView(block: block, GestureOffset: GestureOffset,
-                                                       onDrag :{ start, end, geo  in
-                                        print("移动中")
-                                        shadowBlock(block, start, end, geo, item)
+                                    DraggableBlockView(block: block, 
+                                      GestureOffset: GestureOffset,
+                                       onDrag :{ start, end, geo  in
+                                        
+                                        testStart = start
+                                        testEnd = end
+                                        testGeo = geo
+                                        DispatchQueue.main.async {
+                                            print("移动中")
+                                            print("gridOrigin:\(gridOrigin)")
+                                            shadowBlock(block, start, end, geo, item)
+                                        }
                                     },
-                                                       onDrop: {start, end, geo  in
+                                      onDrop: {start, end, geo  in
+                                        print("放置方块")
+                                        print("gridOrigin:\(gridOrigin)")
                                         placeBlock(block, start, end, geo, item)
+                                        testStart = start
+                                        testEnd = end
+                                        testGeo = geo
                                         // 放置方块
                                         shadowPosition = nil
                                         shadowBlock = nil
                                         // 消除行、列的方块
                                         clearFullRowsAndColumns()
+                                        // 判断游戏是否结束
+                                        if isGameOver() {
+                                            GameOver = true
+                                        }
                                     })
                                 } else {
                                     Rectangle()
@@ -276,6 +347,21 @@ struct Game: View {
                     }
                     .frame(width: 360)
                     Spacer()
+                    // 测试显示的数据
+                    VStack {
+                        HStack {
+                            Text("start.x:\( testStart.x,format:.number.precision(.fractionLength(2)))")
+                            Text("start.y:\( testStart.y,format:.number.precision(.fractionLength(2)))")
+                        }
+                        HStack {
+                            Text("testEnd.width:\( testEnd.width,format:.number.precision(.fractionLength(2)))")
+                            Text("testEnd.height:\( testEnd.height,format:.number.precision(.fractionLength(2)))")
+                        }
+                        HStack {
+                            Text("testGeo.x:\( testGeo.x,format:.number.precision(.fractionLength(2)))")
+                            Text("testGeo.y:\( testGeo.y,format:.number.precision(.fractionLength(2)))")
+                        }
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .onAppear {

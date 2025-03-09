@@ -11,13 +11,17 @@ struct Home: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var viewStep: Int
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
                 Image("3")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 380)
                     .shadow(radius: 10,x: 0,y: 10)
+                Spacer().frame(height: 20)
+                Text("Image by freepik")
+                    .foregroundColor(colorScheme == .light ?  Color(hex:"2F438D") : .gray)
+                    .font(.footnote)
                 Spacer().frame(height: 100)
                 Button(action: {
                     viewStep = 1

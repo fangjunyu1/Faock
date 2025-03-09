@@ -16,6 +16,19 @@ struct DraggableBlockView: View {
     @State private var isMoving: Bool = false
     @State private var geoPosition: CGPoint = .zero // 存储 GeometryReader 位置
     
+    /// **强制更新 geoPosition**
+    private func updateGeoPosition() {
+        DispatchQueue.main.async {
+            if let window = UIApplication.shared.connectedScenes
+                .compactMap({ ($0 as? UIWindowScene)?.windows.first })
+                .first {
+                let frame = window.convert(CGRect.zero, from: nil)
+                geoPosition = frame.origin
+                print("强制更新 geoPosition: \(String(describing: geoPosition))")
+            }
+        }
+    }
+    
     var body: some View {
         BlockView(block: block)
             .offset(dragOffset)
@@ -39,6 +52,9 @@ struct DraggableBlockView: View {
                 DragGesture()
                     .onChanged { _ in
                         isMoving = true
+                        if geoPosition == .zero {
+                            updateGeoPosition() // 手势开始时检查 geoPosition 是否有效
+                        }
                     }
                     .updating($dragOffset) { value, status,_ in
                         // 计算缩放前的点击点
