@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct Game: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -20,7 +21,7 @@ struct Game: View {
     @State private var shadowPosition: (row: Int, col: Int)? = nil  // 阴影位置
     @State private var shadowBlock: Block? = nil    // 阴影方块
     @State private var GameOver = false
-
+    @State private var shakeOffset: CGFloat = 0
     var sound = SoundManager.shared
     // 分数更新动画
     let incrementStep = 1  // 每次增加多少
@@ -98,6 +99,8 @@ struct Game: View {
                     }
                 }
             }
+            // 播放放置方块音效
+            sound.playSound(named: "blockSound")
             // 计算得分
             increaseScore(to: GameScore + block.score)
             //  放置后，将对应的方块设为 nil
@@ -183,6 +186,9 @@ struct Game: View {
             }
         }
         // 返回 true
+        print("当前可放置的方块为：\(block)")
+        print("可放置行数为：\(row)")
+        print("可放置列数为：\(col)")
         print("返回true")
         return true
     }
@@ -291,6 +297,16 @@ struct Game: View {
            }
        }
     
+    // 触发抖动的简单方法
+    private func triggerShake() {
+        withAnimation(Animation.linear(duration: 0.1).repeatCount(5, autoreverses: true)) {
+            shakeOffset = 10
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            shakeOffset = 0
+        }
+    }
+    
     var body: some View {
         NavigationView {
             GeometryReader { globalGeo in
@@ -335,7 +351,6 @@ struct Game: View {
                                         print("放置方块")
                                         print("gridOrigin:\(gridOrigin)")
                                         placeBlock(block, start, end, geo, item)
-                                        sound.playSound(named: "blockSound")
                                         // 放置方块
                                         shadowPosition = nil
                                         shadowBlock = nil
@@ -344,8 +359,10 @@ struct Game: View {
                                         // 判断游戏是否结束
                                         if isGameOver() {
                                             GameOver = true
+                                            triggerShake() // 触发抖动
                                         }
                                     })
+                                    .offset(x: shakeOffset) // 应用抖动偏移
                                 } else {
                                     Rectangle()
                                         .opacity(0)
