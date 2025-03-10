@@ -22,6 +22,7 @@ struct Game: View {
     @State private var shadowBlock: Block? = nil    // 阴影方块
     @State private var GameOver = false
     @State private var shakeOffset: CGFloat = 0
+    @State private var  GameOverZoomAnimation = false
     var sound = SoundManager.shared
     // 分数更新动画
     let incrementStep = 1  // 每次增加多少
@@ -30,10 +31,11 @@ struct Game: View {
     let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
     
-    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
+//    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
     
     @State private var windowSize: CGSize = .zero
-    
+    @State private var GameOverButton = false
+    @AppStorage("HighestScore") var HighestScore = 0
     func generateNewBlocks() -> [Block] {
         let blocks = [
             // 横向
@@ -114,7 +116,18 @@ struct Game: View {
                 print("CurrentBlock:\(CurrentBlock)")
                 // 判断游戏是否结束
                 if isGameOver() {
-                    GameOver = true
+                    withAnimation {
+                        GameOver = true
+                    }
+                    triggerShake() // 触发抖动
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        // 更新最高分数
+                        updateScore()
+                        withAnimation {
+                            GameOverZoomAnimation = true
+                            GameOverButton = true
+                        }
+                    }
                 }
             }
         } else {
@@ -291,14 +304,30 @@ struct Game: View {
     // 分数递增动画
     func increaseScore(to newScore: Int) {
            Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
-               if GameScore < newScore {
+               if GameScore < newScore{
                    GameScore += incrementStep
                } else {
                    timer.invalidate() // 目标值达到时停止
                }
            }
        }
+    // 最高分数递增动画
+    func increaseHighestScore(to newScore: Int) {
+           Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
+               if HighestScore < newScore{
+                   HighestScore += incrementStep
+               } else {
+                   timer.invalidate() // 目标值达到时停止
+               }
+           }
+       }
     
+    func updateScore() {
+        if GameScore > HighestScore {
+            print("更新最高得分")
+            increaseHighestScore(to: GameScore)
+        }
+    }
     // 触发抖动的简单方法
     private func triggerShake() {
         withAnimation(Animation.linear(duration: 0.1).repeatCount(5, autoreverses: true)) {
@@ -313,67 +342,141 @@ struct Game: View {
         NavigationView {
             GeometryReader { globalGeo in
                 VStack {
-                    // 得分
-                    Text("\(GameScore)")
-                        .frame(width: 100, height: 36)
-                        .foregroundColor(.white)
-                        .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
-                        .cornerRadius(10)
+                    VStack(spacing: 10) {
+                        // 本次得分
+                        HStack {
+                            if GameOver {
+                                Text("This time's score")
+                                Spacer().frame(width: 20)
+                            }
+                            Text("\(GameScore)")
+                        }
+                        // 最高得分
+                        
+                        if GameOver {
+                            HStack {
+                                Text("Highest score")
+                                Spacer().frame(width: 20)
+                                Text("\(HighestScore)")
+                            }
+                        }
+                    }
+                    .padding(.horizontal, GameOver ? 40 : 50)
+                    .padding(.vertical, GameOver ? 20 : 10)
+                    .foregroundColor(.white)
+                    .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
+                    .cornerRadius(10)
+                    
                     Spacer().frame(height: 30)
-                    // 背景网格
-                    GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock)
-                        .background {
-                            GeometryReader { gridGeo in
-                                Color.clear
-                                    .onAppear {
-                                        DispatchQueue.main.async {
-                                            let gridPosition = gridGeo.frame(in: .global).origin
-                                        gridOrigin = gridPosition
-                                        print("使用延迟获取的网格原点 gridOrigin: \(gridOrigin)")
+                    // 网格和方块，用于结束时缩放。
+                    VStack {
+                        // 背景网格
+                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock)
+                            .background {
+                                GeometryReader { gridGeo in
+                                    Color.clear
+                                        .onAppear {
+                                            DispatchQueue.main.async {
+                                                let gridPosition = gridGeo.frame(in: .global).origin
+                                            gridOrigin = gridPosition
+                                            print("使用延迟获取的网格原点 gridOrigin: \(gridOrigin)")
+                                        }
                                     }
                                 }
                             }
-                        }
-                    Spacer().frame(height: 30)
-                    // 三个随机生成的方块
-                    HStack(alignment: .center,spacing: 10) {
-                        ForEach(0..<3,id: \.self) {item in
-                            ZStack {
-                                if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
-                                    DraggableBlockView(block: block, 
-                                      GestureOffset: GestureOffset,
-                                       onDrag :{ start, end, geo  in
-                                        DispatchQueue.main.async {
-                                            print("移动中")
+                        Spacer().frame(height: 30)
+                        // 三个随机生成的方块
+                        HStack(alignment: .center,spacing: 10) {
+                            ForEach(0..<3,id: \.self) {item in
+                                ZStack {
+                                    if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
+                                        DraggableBlockView(block: block,
+                                          GestureOffset: GestureOffset,
+                                           onDrag :{ start, end, geo  in
+                                            DispatchQueue.main.async {
+                                                print("移动中")
+                                                print("gridOrigin:\(gridOrigin)")
+                                                shadowBlock(block, start, end, geo, item)
+                                            }
+                                        },
+                                          onDrop: {start, end, geo  in
+                                            print("放置方块")
                                             print("gridOrigin:\(gridOrigin)")
-                                            shadowBlock(block, start, end, geo, item)
-                                        }
-                                    },
-                                      onDrop: {start, end, geo  in
-                                        print("放置方块")
-                                        print("gridOrigin:\(gridOrigin)")
-                                        placeBlock(block, start, end, geo, item)
-                                        // 放置方块
-                                        shadowPosition = nil
-                                        shadowBlock = nil
-                                        // 消除行、列的方块
-                                        clearFullRowsAndColumns()
-                                        // 判断游戏是否结束
-                                        if isGameOver() {
-                                            GameOver = true
-                                            triggerShake() // 触发抖动
-                                        }
-                                    })
-                                    .offset(x: shakeOffset) // 应用抖动偏移
-                                } else {
-                                    Rectangle()
-                                        .opacity(0)
+                                            placeBlock(block, start, end, geo, item)
+                                            // 放置方块
+                                            shadowPosition = nil
+                                            shadowBlock = nil
+                                            // 消除行、列的方块
+                                            clearFullRowsAndColumns()
+                                            // 判断游戏是否结束
+                                            if isGameOver() {
+                                                withAnimation {
+                                                    GameOver = true
+                                                }
+                                                triggerShake() // 触发抖动
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                    // 更新最高分数
+                                                    updateScore()
+                                                        withAnimation {
+                                                            
+                                                            GameOverZoomAnimation = true
+                                                            GameOverButton = true
+                                                        }
+                                                }
+                                            }
+                                        })
+                                        .offset(x: shakeOffset) // 应用抖动偏移
+                                    } else {
+                                        Rectangle()
+                                            .opacity(0)
+                                    }
                                 }
+                                .frame(width: 120,height: 120)
                             }
-                            .frame(width: 120,height: 120)
                         }
+                        .frame(width: 360)
                     }
-                    .frame(width: 360)
+                    .frame(height: GameOverZoomAnimation ? 306 : 510)
+                    .scaleEffect(GameOverZoomAnimation ? 0.6 : 1)
+                    .animation(.easeInOut(duration: 0.3), value: GameOverZoomAnimation)
+                    Spacer().frame(height: 30)
+                    if GameOverButton {
+                        
+                            VStack {
+                                Button(action: {
+                                    // 结束标识改为false
+                                    GameOver = false
+                                    // 结束动画标识改为false
+                                    GameOverZoomAnimation = false
+                                    GameOverButton = false
+                                    // 重置分数
+                                    GameScore = 0
+                                    // 重置棋盘
+                                    grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
+                                    // 重置方块
+                                    CurrentBlock = generateNewBlocks()
+                                }, label: {
+                                    Text("Play again")
+                                        .font(.title3)
+                                        .frame(width: 300,height: 70)
+                                        .foregroundColor(.white)
+                                        .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
+                                        .cornerRadius(10)
+                                })
+                                Spacer().frame(height: 30)
+                                Button(action: {
+                                    viewStep = 0
+                                }, label: {
+                                    Text("Return")
+                                        .font(.title3)
+                                        .frame(width: 300,height: 70)
+                                        .foregroundColor(colorScheme == .light ?  Color(hex:"2F438D") : .white)
+                                        .background(colorScheme == .light ? .white : .black)
+                                        .cornerRadius(10)
+                                        .shadow(radius: 10)
+                                })
+                            }
+                    }
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
