@@ -32,6 +32,8 @@ struct Game: View {
     
     let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
     
+    @State private var windowSize: CGSize = .zero
+    
     func generateNewBlocks() -> [Block] {
         let blocks = [
             // 横向
@@ -78,11 +80,11 @@ struct Game: View {
         print("touchOffsetX:\(touchOffsetX)")
         print("touchOffsetY:\(touchOffsetY)")
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height + 30
-        let row = Int(round(Double(CalculateY)) / cellSize)
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
+        let row = Int(round(Double(CalculateY / cellSize)))
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = touchOffsetX + end.width
-        let col = Int(round(Double(CalculateX))  / cellSize)
+        let CalculateX = touchOffsetX + end.width - gridOrigin.x
+        let col = Int(round(Double(CalculateX / cellSize)))
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < 9, col < 9 else {
@@ -130,11 +132,11 @@ struct Game: View {
         let touchOffsetX = origins.x
         let touchOffsetY = origins.y
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height + 30
-        let row = Int(round(Double(CalculateY)) / cellSize)
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
+        let row = Int(round(Double(CalculateY / cellSize)))
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = touchOffsetX + end.width
-        let col = Int(round(Double(CalculateX))  / cellSize)
+        let CalculateX = touchOffsetX + end.width  - gridOrigin.x
+        let col = Int(round(Double(CalculateX / cellSize)))
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < 9, col < 9 else {
@@ -379,6 +381,16 @@ struct Game: View {
                     if CurrentBlock.isEmpty {
                         CurrentBlock = generateNewBlocks()
                     }
+                     
+                    DispatchQueue.main.async {
+                        windowSize = globalGeo.size
+                    }
+                }
+                .onChange(of: globalGeo.size) { newSize in
+                    DispatchQueue.main.async {
+                        windowSize = globalGeo.size
+                    }
+                    
                 }
                 .toolbar {
                     // 标题
@@ -410,6 +422,7 @@ struct Game: View {
                 }
             }
         }
+        .navigationViewStyle(.stack) // 让 macOS 也变成单个视图
     }
 }
 
