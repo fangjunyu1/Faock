@@ -1,0 +1,429 @@
+//
+//  SettingView.swift
+//  Faock
+//
+//  Created by 方君宇 on 2025/3/11.
+//
+
+import SwiftUI
+
+struct SettingView: View {
+    @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
+    
+    // 发生邮件
+    func sendEmail() {
+            let email = "fangjunyu.com@gmail.com"
+            let subject = "Faock"
+            let body = "Hi fangjunyu,\n\n"
+            
+            // URL 编码参数
+            let urlString = "mailto:\(email)?subject=\(subject)&body=\(body)"
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            
+            if let url = URL(string: urlString ?? "") {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url)
+                } else {
+                    // 处理无法打开邮件应用的情况
+                    print("Cannot open Mail app.")
+                }
+            }
+        }
+    
+    var body: some View {
+        NavigationView {
+            GeometryReader { geo in
+                var width = geo.frame(in: .global).width
+                var height = geo.frame(in: .global).height
+                ScrollView {
+                    // 留白
+                    Spacer().frame(height: 30)
+                    // 外层框架
+                    VStack(alignment: .center) {
+                        // 游戏会员
+                        NavigationLink(destination: {
+                            
+                        }, label: {
+                            HStack {
+                                // 图标
+                                Image("king2")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                Spacer().frame(width: 10)
+                                Text("Buy a game membership")
+                                    .font(.footnote)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 14)
+                            .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                            .cornerRadius(10)
+                            .tint(colorScheme == .light ? .black : .white)
+                        })
+                        
+                        // 分割 - 间距
+                        Spacer().frame(height: 16)
+                        
+                        // 音效
+                        HStack {
+                            // 图标
+                            Rectangle()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color(hex: "BD27B1"))
+                                .cornerRadius(4)
+                                .overlay {
+                                    Image(systemName: "music.note")
+                                        .foregroundColor(.white)
+                                        .font(.footnote)
+                                }
+                            Spacer().frame(width: 10)
+                            Text("Sound effects")
+                                .font(.footnote)
+                            Spacer()
+                            Toggle(isOn: $appStorage.Music){}
+                                .tint(.green)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 14)
+                        .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                        .cornerRadius(10)
+                        .tint(colorScheme == .light ? .black : .white)
+                        
+                        // 分割 - 间距
+                        Spacer().frame(height: 16)
+                        
+                        // 管理游戏数据、方块皮肤、棋盘皮肤
+                        VStack(spacing: 0) {
+                            // 管理游戏数据
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "277EBD"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "gamecontroller.fill")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Manage game data")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                            
+                            // 分割线
+                            Rectangle().frame(width: .infinity,height: 0.5)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal,20)
+                            
+                            // 方块皮肤
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "34BD27"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "stop.fill")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Block skins")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                            
+                            // 分割线
+                            Rectangle().frame(width: .infinity,height: 0.5)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal,20)
+                            
+                            // 棋盘皮肤
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "27BABD"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "rectangle.checkered")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Board skins")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                        }
+                        .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                        .cornerRadius(10)
+
+                        // 分割 - 间距
+                        Spacer().frame(height: 16)
+                        
+                        // 问题反馈、使用条款、隐私政策
+                        VStack(spacing: 0) {
+                            // 问题反馈
+                            Button(action: {
+                                sendEmail()
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "BD5F27"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "ladybug.fill")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Problem feedback")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                            
+                            // 分割线
+                            Rectangle().frame(width: .infinity,height: 0.5)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal,20)
+                            
+                            // 使用条款
+                            Link(destination: URL(string: "https://fangjunyu.com/2025/03/13/%e6%96%b9%e6%96%b9%e5%9d%97%e6%b8%b8%e6%88%8f%e4%bd%bf%e7%94%a8%e6%9d%a1%e6%ac%be/")!) {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "BDAD27"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "book.pages.fill")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Terms of use")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            }
+                            
+                            // 分割线
+                            Rectangle().frame(width: .infinity,height: 0.5)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal,20)
+                            
+                            // 隐私政策
+                            Link(destination: URL(string: "https://fangjunyu.com/2025/03/13/%e6%96%b9%e6%96%b9%e5%9d%97%e6%b8%b8%e6%88%8f%e9%9a%90%e7%a7%81%e6%94%bf%e7%ad%96/")!) {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "27BD47"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "eye.slash.fill")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Privacy policy")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            }
+                        }
+                        .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                        .cornerRadius(10)
+                        
+                        // 分割 - 间距
+                        Spacer().frame(height: 16)
+                        
+                        // 关于我们、鸣谢、开源
+                        VStack(spacing: 0) {
+                            // 关于我们
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "2730BD"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "figure.2")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("About us")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                            
+                            // 分割线
+                            Rectangle().frame(width: .infinity,height: 0.5)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal,20)
+                            
+                            // 鸣谢
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "B327BD"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "face.smiling.inverse")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Acknowledgements")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                            
+                            // 分割线
+                            Rectangle().frame(width: .infinity,height: 0.5)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal,20)
+                            
+                            // 开源
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Rectangle()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color(hex: "BD8527"))
+                                        .cornerRadius(4)
+                                        .overlay {
+                                            Image(systemName: "lock.open.fill")
+                                                .foregroundColor(.white)
+                                                .font(.footnote)
+                                        }
+                                    Spacer().frame(width: 10)
+                                    Text("Open source")
+                                        .font(.footnote)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                        }
+                        .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                        .cornerRadius(10)
+                    }
+                    .frame(width: width * 0.9)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Spacer().frame(height: 30)
+                    Text("\(Bundle.main.appVersion).\(Bundle.main.appBuild)")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
+                .frame(width: .infinity, height: .infinity,alignment: .center)
+                .navigationTitle("Settings")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(action: {
+                            dismiss()
+                        }, label: {
+                            Text("Return")
+                                .fontWeight(.bold)
+                                .foregroundColor(colorScheme == .light ? .black : .white)
+                        })
+                    }
+                }
+            }
+            .background(colorScheme == .light ? Color(hex: "E9E9E9") : .black)
+        }
+    }
+}
+
+#Preview {
+    @ObservedObject var appStorage = AppStorageManager.shared
+    return SettingView()
+        .environmentObject(appStorage)
+}

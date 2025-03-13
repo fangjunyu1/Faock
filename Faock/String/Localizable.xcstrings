@@ -1,8 +1,78 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@.%2$@"
+          }
+        }
+      }
+    },
     "%lld" : {
 
+    },
+    "About us" : {
+      "comment" : "关于我们",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于我们"
+          }
+        }
+      }
+    },
+    "Acknowledgements" : {
+      "comment" : "鸣谢",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鸣谢"
+          }
+        }
+      }
+    },
+    "Block skins" : {
+      "comment" : "方块皮肤",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方块皮肤"
+          }
+        }
+      }
+    },
+    "Board skins" : {
+      "comment" : "棋盘皮肤",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "棋盘皮肤"
+          }
+        }
+      }
+    },
+    "Buy a game membership" : {
+      "comment" : "购买游戏会员",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "购买游戏会员"
+          }
+        }
+      }
     },
     "Continue" : {
       "comment" : "继续",
@@ -28,6 +98,18 @@
         }
       }
     },
+    "Game membership" : {
+      "comment" : "游戏会员",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "游戏会员"
+          }
+        }
+      }
+    },
     "Highest score" : {
       "comment" : "最高得分",
       "extractionState" : "manual",
@@ -44,6 +126,18 @@
       "comment" : "Image by freepik",
       "extractionState" : "manual"
     },
+    "Manage game data" : {
+      "comment" : "管理游戏数据",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理游戏数据"
+          }
+        }
+      }
+    },
     "New game" : {
       "comment" : "新游戏",
       "extractionState" : "manual",
@@ -52,6 +146,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新游戏"
+          }
+        }
+      }
+    },
+    "Open source" : {
+      "comment" : "开源",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开源"
+          }
+        }
+      }
+    },
+    "Permanent" : {
+      "comment" : "永久",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "永久"
           }
         }
       }
@@ -68,6 +186,30 @@
         }
       }
     },
+    "Privacy policy" : {
+      "comment" : "隐私政策",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私政策"
+          }
+        }
+      }
+    },
+    "Problem feedback" : {
+      "comment" : "问题反馈",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "问题反馈"
+          }
+        }
+      }
+    },
     "Return" : {
       "comment" : "返回",
       "extractionState" : "manual",
@@ -76,6 +218,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "返回"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "comment" : "设置",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
           }
         }
       }
@@ -92,6 +246,18 @@
         }
       }
     },
+    "Sound effects" : {
+      "comment" : "音效",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音效"
+          }
+        }
+      }
+    },
     "Start the game" : {
       "comment" : "开始游戏",
       "extractionState" : "manual",
@@ -100,6 +266,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始游戏"
+          }
+        }
+      }
+    },
+    "Terms of use" : {
+      "comment" : "使用条款",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用条款"
           }
         }
       }

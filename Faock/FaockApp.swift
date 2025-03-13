@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FaockApp: App {
+    @StateObject private var appStorage = AppStorageManager.shared  // 共享实例
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(appStorage)
         }
     }
 }

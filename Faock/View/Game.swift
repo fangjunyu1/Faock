@@ -22,7 +22,8 @@ struct Game: View {
     @State private var shadowBlock: Block? = nil    // 阴影方块
     @State private var GameOver = false
     @State private var shakeOffset: CGFloat = 0
-    @State private var  GameOverZoomAnimation = false
+    @State private var GameOverZoomAnimation = false
+    @State private var isSettingView = false
     var sound = SoundManager.shared
     // 分数更新动画
     let incrementStep = 1  // 每次增加多少
@@ -31,10 +32,11 @@ struct Game: View {
     let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
     
-//    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
+    //    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
     
     @State private var windowSize: CGSize = .zero
     @State private var GameOverButton = false
+    @State private var ShowHighestScore = false
     @AppStorage("HighestScore") var HighestScore = 0
     func generateNewBlocks() -> [Block] {
         let blocks = [
@@ -176,7 +178,7 @@ struct Game: View {
     // 检查方块是否可以放置
     func canPlaceBlock(_ block: Block, atRow row: Int, col: Int) -> Bool {
         print("进入canPlaceBlock方法")
-            print("计算出的 row:\(row), col:\(col)")
+        print("计算出的 row:\(row), col:\(col)")
         // 遍历当前方块的行数
         for r in 0..<block.shape.count {
             // 遍历当前方块的列数
@@ -212,19 +214,19 @@ struct Game: View {
     func clearFullRowsAndColumns() {
         var newGrid = grid
         // 找到需要消除的行
-            var rowsToClear: Set<Int> = []
-            for row in 0..<9 {
-                if newGrid[row].allSatisfy({ $0 == 1 }) {
-                    rowsToClear.insert(row)
-                }
+        var rowsToClear: Set<Int> = []
+        for row in 0..<9 {
+            if newGrid[row].allSatisfy({ $0 == 1 }) {
+                rowsToClear.insert(row)
             }
+        }
         // 找到需要消除的列
-            var colsToClear: Set<Int> = []
-            for col in 0..<9 {
-                if (0..<9).allSatisfy({ newGrid[$0][col] == 1 }) {
-                    colsToClear.insert(col)
-                }
+        var colsToClear: Set<Int> = []
+        for col in 0..<9 {
+            if (0..<9).allSatisfy({ newGrid[$0][col] == 1 }) {
+                colsToClear.insert(col)
             }
+        }
         
         if !rowsToClear.isEmpty || !colsToClear.isEmpty {
             sound.playSound(named: "clearSoundeffects")
@@ -233,16 +235,16 @@ struct Game: View {
         print("需要清除的行: \(rowsToClear.sorted())")
         
         // 清除整行
-            for row in rowsToClear {
-                newGrid[row] = Array(repeating: 0, count: 9)
+        for row in rowsToClear {
+            newGrid[row] = Array(repeating: 0, count: 9)
+        }
+        
+        // 清除整列
+        for col in colsToClear {
+            for row in 0..<9 {
+                newGrid[row][col] = 0
             }
-
-            // 清除整列
-            for col in colsToClear {
-                for row in 0..<9 {
-                    newGrid[row][col] = 0
-                }
-            }
+        }
         
         
         // 奖励消除积分
@@ -255,25 +257,25 @@ struct Game: View {
         print("rowsToClear.sorted().reversed():\(Array(rowsToClear.sorted().reversed()))")
         print("rowsToClear.sorted().enumerated():\(Array(rowsToClear.sorted().enumerated()))")
         print("rowsToClear.sorted().reversed().enumerated():\(Array(rowsToClear.sorted().reversed().enumerated()))")
-            for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
-                
-                let adjustedRow = max(0, row + index) // 确保不会小于 0
-                print("row:\(row)")
-                if adjustedRow >= 1 {  // 只有 adjustedRow >= 1 时，才能进行下移操作
-                    // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
-                    for r in (1...adjustedRow).reversed() {
-                        print("r:\(r)")
-                        // newGrid[3] = newGrid[2]
-                        // newGrid[2] = newGrid[1]
-                        // newGrid[1] = newGrid[0]
-                        // 最好将第0行消除到第1行
-                        newGrid[r] = newGrid[r - 1] // 当前行变成上一行
-                    }
+        for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
+            
+            let adjustedRow = max(0, row + index) // 确保不会小于 0
+            print("row:\(row)")
+            if adjustedRow >= 1 {  // 只有 adjustedRow >= 1 时，才能进行下移操作
+                // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
+                for r in (1...adjustedRow).reversed() {
+                    print("r:\(r)")
+                    // newGrid[3] = newGrid[2]
+                    // newGrid[2] = newGrid[1]
+                    // newGrid[1] = newGrid[0]
+                    // 最好将第0行消除到第1行
+                    newGrid[r] = newGrid[r - 1] // 当前行变成上一行
                 }
-                // 新增空行填充到第0行。
-                newGrid[0] = Array(repeating: 0, count: 9) // 顶部填充空行
             }
-            grid = newGrid
+            // 新增空行填充到第0行。
+            newGrid[0] = Array(repeating: 0, count: 9) // 顶部填充空行
+        }
+        grid = newGrid
     }
     
     /// 判断当前是否游戏结束
@@ -303,24 +305,29 @@ struct Game: View {
     
     // 分数递增动画
     func increaseScore(to newScore: Int) {
-           Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
-               if GameScore < newScore{
-                   GameScore += incrementStep
-               } else {
-                   timer.invalidate() // 目标值达到时停止
-               }
-           }
-       }
+        Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
+            if GameScore < newScore{
+                GameScore += incrementStep
+            } else {
+                timer.invalidate() // 目标值达到时停止
+            }
+        }
+    }
     // 最高分数递增动画
     func increaseHighestScore(to newScore: Int) {
-           Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
-               if HighestScore < newScore{
-                   HighestScore += incrementStep
-               } else {
-                   timer.invalidate() // 目标值达到时停止
-               }
-           }
-       }
+        Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
+            if HighestScore < newScore{
+                HighestScore += incrementStep
+            } else {
+                timer.invalidate() // 目标值达到时停止
+                
+                /// 当更新最高得分时，显示最高得分
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    ShowHighestScore = true
+                }
+            }
+        }
+    }
     
     func updateScore() {
         if GameScore > HighestScore {
@@ -341,19 +348,20 @@ struct Game: View {
     var body: some View {
         NavigationView {
             GeometryReader { globalGeo in
+                // 棋盘和方块
                 VStack {
                     VStack(spacing: 10) {
                         // 本次得分
-                        HStack {
-                            if GameOver {
-                                Text("This time's score")
-                                Spacer().frame(width: 20)
+                        if !ShowHighestScore {
+                            HStack {
+                                if GameOver {
+                                    Text("This time's score")
+                                    Spacer().frame(width: 20)
+                                }
+                                Text("\(GameScore)")
                             }
-                            Text("\(GameScore)")
-                        }
-                        // 最高得分
-                        
-                        if GameOver {
+                        } else {
+                            // 最高得分
                             HStack {
                                 Text("Highest score")
                                 Spacer().frame(width: 20)
@@ -361,8 +369,8 @@ struct Game: View {
                             }
                         }
                     }
-                    .padding(.horizontal, GameOver ? 40 : 50)
-                    .padding(.vertical, GameOver ? 20 : 10)
+                    .padding(.horizontal, 50)
+                    .padding(.vertical, 10)
                     .foregroundColor(.white)
                     .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
                     .cornerRadius(10)
@@ -378,10 +386,10 @@ struct Game: View {
                                         .onAppear {
                                             DispatchQueue.main.async {
                                                 let gridPosition = gridGeo.frame(in: .global).origin
-                                            gridOrigin = gridPosition
-                                            print("使用延迟获取的网格原点 gridOrigin: \(gridOrigin)")
+                                                gridOrigin = gridPosition
+                                                print("使用延迟获取的网格原点 gridOrigin: \(gridOrigin)")
+                                            }
                                         }
-                                    }
                                 }
                             }
                         Spacer().frame(height: 30)
@@ -391,15 +399,15 @@ struct Game: View {
                                 ZStack {
                                     if CurrentBlock.indices.contains(item), let block = CurrentBlock[item] {
                                         DraggableBlockView(block: block,
-                                          GestureOffset: GestureOffset,
-                                           onDrag :{ start, end, geo  in
+                                                           GestureOffset: GestureOffset,
+                                                           onDrag :{ start, end, geo  in
                                             DispatchQueue.main.async {
                                                 print("移动中")
                                                 print("gridOrigin:\(gridOrigin)")
                                                 shadowBlock(block, start, end, geo, item)
                                             }
                                         },
-                                          onDrop: {start, end, geo  in
+                                                           onDrop: {start, end, geo  in
                                             print("放置方块")
                                             print("gridOrigin:\(gridOrigin)")
                                             placeBlock(block, start, end, geo, item)
@@ -417,11 +425,10 @@ struct Game: View {
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     // 更新最高分数
                                                     updateScore()
-                                                        withAnimation {
-                                                            
-                                                            GameOverZoomAnimation = true
-                                                            GameOverButton = true
-                                                        }
+                                                    withAnimation {
+                                                        GameOverZoomAnimation = true
+                                                        GameOverButton = true
+                                                    }
                                                 }
                                             }
                                         })
@@ -441,41 +448,44 @@ struct Game: View {
                     .animation(.easeInOut(duration: 0.3), value: GameOverZoomAnimation)
                     Spacer().frame(height: 30)
                     if GameOverButton {
-                        
-                            VStack {
-                                Button(action: {
-                                    // 结束标识改为false
-                                    GameOver = false
-                                    // 结束动画标识改为false
-                                    GameOverZoomAnimation = false
-                                    GameOverButton = false
-                                    // 重置分数
-                                    GameScore = 0
-                                    // 重置棋盘
-                                    grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
-                                    // 重置方块
-                                    CurrentBlock = generateNewBlocks()
-                                }, label: {
-                                    Text("Play again")
-                                        .font(.title3)
-                                        .frame(width: 300,height: 70)
-                                        .foregroundColor(.white)
-                                        .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
-                                        .cornerRadius(10)
-                                })
-                                Spacer().frame(height: 30)
-                                Button(action: {
-                                    viewStep = 0
-                                }, label: {
-                                    Text("Return")
-                                        .font(.title3)
-                                        .frame(width: 300,height: 70)
-                                        .foregroundColor(colorScheme == .light ?  Color(hex:"2F438D") : .white)
-                                        .background(colorScheme == .light ? .white : .black)
-                                        .cornerRadius(10)
-                                        .shadow(radius: 10)
-                                })
-                            }
+                        VStack {
+                            Button(action: {
+                                // 结束标识改为false
+                                GameOver = false
+                                // 结束动画标识改为false
+                                GameOverZoomAnimation = false
+                                GameOverButton = false
+                                // 重置分数
+                                GameScore = 0
+                                // 重置显示最高得分
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    ShowHighestScore = false
+                                }
+                                // 重置棋盘
+                                grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
+                                // 重置方块
+                                CurrentBlock = generateNewBlocks()
+                            }, label: {
+                                Text("Play again")
+                                    .fontWeight(.bold)
+                                    .frame(width: 240,height: 60)
+                                    .foregroundColor(.white)
+                                    .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
+                                    .cornerRadius(10)
+                            })
+                            Spacer().frame(height: 30)
+                            Button(action: {
+                                viewStep = 0
+                            }, label: {
+                                Text("Return")
+                                    .fontWeight(.bold)
+                                    .frame(width: 240,height: 60)
+                                    .foregroundColor(colorScheme == .light ?  Color(hex:"2F438D") : .white)
+                                    .background(colorScheme == .light ? .white : .black)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 10)
+                            })
+                        }
                     }
                     Spacer()
                 }
@@ -484,7 +494,7 @@ struct Game: View {
                     if CurrentBlock.isEmpty {
                         CurrentBlock = generateNewBlocks()
                     }
-                     
+                    
                     DispatchQueue.main.async {
                         windowSize = globalGeo.size
                     }
@@ -494,6 +504,18 @@ struct Game: View {
                         windowSize = globalGeo.size
                     }
                     
+                }
+                .overlay {
+                    if ShowHighestScore {
+                        VStack {
+                            LottieView(filename: "Fireworks2") // 替换为你的 Lottie 文件名
+                            .allowsHitTesting(false) // 让动画不阻挡点击
+                            .offset(y: -200)
+                        }
+                    }
+                }
+                .sheet(isPresented: $isSettingView) {
+                    SettingView()
                 }
                 .toolbar {
                     // 标题
@@ -516,7 +538,7 @@ struct Game: View {
                     // 设置
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
-                            
+                            isSettingView = true
                         }, label: {
                             Image(systemName: "gearshape")
                                 .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
@@ -530,5 +552,8 @@ struct Game: View {
 }
 
 #Preview {
-    Game(viewStep: .constant(1))
+    if let bundleID = Bundle.main.bundleIdentifier {
+        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+    }
+    return Game(viewStep: .constant(1))
 }

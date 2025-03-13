@@ -10,18 +10,15 @@ import SwiftUI
 struct Home: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var viewStep: Int
+    @State private var isSettingView = false
     var body: some View {
         NavigationView {
             VStack {
-                Image("3")
+                Image("1")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 380)
                     .shadow(radius: 10,x: 0,y: 10)
-                Spacer().frame(height: 20)
-                Text("Image by freepik")
-                    .foregroundColor(colorScheme == .light ?  Color(hex:"2F438D") : .gray)
-                    .font(.footnote)
                 Spacer().frame(height: 100)
                 Button(action: {
                     viewStep = 1
@@ -36,6 +33,9 @@ struct Home: View {
             }
             .navigationTitle("Faock")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $isSettingView) {
+                SettingView()
+            }
             .toolbar {
                 // 图标
                 ToolbarItem(placement: .topBarLeading) {
@@ -47,7 +47,7 @@ struct Home: View {
                 // 设置
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
-                        
+                            isSettingView = true
                     }, label: {
                         Image(systemName: "gearshape")
                             .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
