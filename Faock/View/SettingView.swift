@@ -44,7 +44,7 @@ struct SettingView: View {
                     VStack(alignment: .center) {
                         // 游戏会员
                         NavigationLink(destination: {
-                            
+                            GameMembershipView()
                         }, label: {
                             HStack {
                                 // 图标
@@ -52,14 +52,12 @@ struct SettingView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
-                                Spacer().frame(width: 10)
-                                Text("Buy a game membership")
-                                    .font(.footnote)
+                                Spacer().frame(width: 20)
+                                Text("Get game membership")
                                 Spacer()
                                 Image(systemName: "chevron.right")
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 14)
+                            .padding(10)
                             .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                             .cornerRadius(10)
                             .tint(colorScheme == .light ? .black : .white)
@@ -80,15 +78,13 @@ struct SettingView: View {
                                         .foregroundColor(.white)
                                         .font(.footnote)
                                 }
-                            Spacer().frame(width: 10)
+                            Spacer().frame(width: 20)
                             Text("Sound effects")
-                                .font(.footnote)
                             Spacer()
                             Toggle(isOn: $appStorage.Music){}
                                 .tint(.green)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 14)
+                        .padding(10)
                         .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                         .cornerRadius(10)
                         .tint(colorScheme == .light ? .black : .white)
@@ -113,14 +109,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Manage game data")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -146,14 +140,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Block skins")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -179,14 +171,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Board skins")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -215,14 +205,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Problem feedback")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -246,14 +234,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Terms of use")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -277,14 +263,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Privacy policy")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -313,14 +297,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("About us")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -344,16 +326,13 @@ struct SettingView: View {
                                         .overlay {
                                             Image(systemName: "face.smiling.inverse")
                                                 .foregroundColor(.white)
-                                                .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Acknowledgements")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -379,14 +358,12 @@ struct SettingView: View {
                                                 .foregroundColor(.white)
                                                 .font(.footnote)
                                         }
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 20)
                                     Text("Open source")
-                                        .font(.footnote)
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 14)
+                                .padding(10)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -401,6 +378,8 @@ struct SettingView: View {
                     Text("\(Bundle.main.appVersion).\(Bundle.main.appBuild)")
                         .font(.footnote)
                         .foregroundColor(.gray)
+                    // 底部留白
+                    Spacer().frame(height: 100)
                 }
                 .frame(width: .infinity, height: .infinity,alignment: .center)
                 .navigationTitle("Settings")

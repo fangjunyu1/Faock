@@ -20,5 +20,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    @ObservedObject var appStorage = AppStorageManager.shared
+    return ContentView()
+        .environmentObject(appStorage)
 }

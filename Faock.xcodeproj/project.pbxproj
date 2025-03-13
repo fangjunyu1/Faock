@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D0B48882D82782F00413E4A /* GameMembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0B48872D82782F00413E4A /* GameMembershipView.swift */; };
 		1D2DC4352D75A15A00F747F8 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DC4342D75A15A00F747F8 /* Color.swift */; };
 		1D2DC4372D75A34700F747F8 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DC4362D75A34700F747F8 /* Game.swift */; };
 		1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2DC4382D75AAD800F747F8 /* Home.swift */; };
@@ -18,6 +19,7 @@
 		1D93B80E2D81D9DE002AB831 /* appVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D93B80D2D81D9DE002AB831 /* appVersion.swift */; };
 		1D93B8102D81DA51002AB831 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D93B80F2D81DA51002AB831 /* AppStorageManager.swift */; };
 		1DA4AEA62D7FE0A500B0BB03 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */; };
+		1DC681192D82AB8600B7C19E /* ManageGameDataViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC681182D82AB8600B7C19E /* ManageGameDataViews.swift */; };
 		1DC8E89A2D7D429000EC9AA0 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC8E8992D7D429000EC9AA0 /* SoundManager.swift */; };
 		1DC8E89D2D7D43A400EC9AA0 /* blockSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1DC8E89C2D7D43A400EC9AA0 /* blockSound.mp3 */; };
 		1DC8E8A12D7D467200EC9AA0 /* clearSoundeffects.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1DC8E8A02D7D467200EC9AA0 /* clearSoundeffects.mp3 */; };
@@ -56,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D0B48872D82782F00413E4A /* GameMembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMembershipView.swift; sourceTree = "<group>"; };
 		1D2DC4342D75A15A00F747F8 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		1D2DC4362D75A34700F747F8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		1D2DC4382D75AAD800F747F8 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 		1D93B80F2D81DA51002AB831 /* AppStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageManager.swift; sourceTree = "<group>"; };
 		1D93B8112D81DCD7002AB831 /* Faock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Faock.entitlements; sourceTree = "<group>"; };
 		1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		1DC681182D82AB8600B7C19E /* ManageGameDataViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageGameDataViews.swift; sourceTree = "<group>"; };
 		1DC8E8992D7D429000EC9AA0 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		1DC8E89C2D7D43A400EC9AA0 /* blockSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blockSound.mp3; sourceTree = "<group>"; };
 		1DC8E8A02D7D467200EC9AA0 /* clearSoundeffects.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clearSoundeffects.mp3; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 				1D61B2B82D769E2400E8CA91 /* GameGridView.swift */,
 				1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */,
 				1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */,
+				1D0B48872D82782F00413E4A /* GameMembershipView.swift */,
+				1DC681182D82AB8600B7C19E /* ManageGameDataViews.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -473,8 +479,10 @@
 				1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */,
 				1DF103D72D75F0E000A5B23D /* GridView.swift in Sources */,
 				1DC8E89A2D7D429000EC9AA0 /* SoundManager.swift in Sources */,
+				1D0B48882D82782F00413E4A /* GameMembershipView.swift in Sources */,
 				1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */,
 				1D93B80E2D81D9DE002AB831 /* appVersion.swift in Sources */,
+				1DC681192D82AB8600B7C19E /* ManageGameDataViews.swift in Sources */,
 				1DF103DB2D75F16600A5B23D /* Block.swift in Sources */,
 				1DE77FE92D7FC708000450E9 /* LottieView.swift in Sources */,
 				1D61B2BB2D76DB8A00E8CA91 /* DraggableBlockView.swift in Sources */,

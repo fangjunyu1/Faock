@@ -38,6 +38,18 @@
         }
       }
     },
+    "Apple will adjust the specific amount of in-app purchases based on the exchange rate/tax of the national currency." : {
+      "comment" : "Apple会根据国家货币的汇率/税费调整内购商品的具体金额。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple会根据国家货币的汇率/税费调整内购商品的具体金额。"
+          }
+        }
+      }
+    },
     "Block skins" : {
       "comment" : "方块皮肤",
       "extractionState" : "manual",
@@ -62,18 +74,6 @@
         }
       }
     },
-    "Buy a game membership" : {
-      "comment" : "购买游戏会员",
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "购买游戏会员"
-          }
-        }
-      }
-    },
     "Continue" : {
       "comment" : "继续",
       "extractionState" : "manual",
@@ -82,6 +82,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "继续"
+          }
+        }
+      }
+    },
+    "Enjoy all game skins" : {
+      "comment" : "享用所有游戏皮肤",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "享用所有游戏皮肤"
+          }
+        }
+      }
+    },
+    "Enjoy the charm of the game cube" : {
+      "comment" : "享受游戏方块的魅力",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "享受游戏方块的魅力"
           }
         }
       }
@@ -110,6 +134,54 @@
         }
       }
     },
+    "Game membership is permanent and is a non-consumable item." : {
+      "comment" : "游戏会员为永久期限，属于非消耗型项目。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "游戏会员为永久期限，属于非消耗型项目。"
+          }
+        }
+      }
+    },
+    "Game times" : {
+      "comment" : "游戏场次",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "游戏场次"
+          }
+        }
+      }
+    },
+    "Get all the rights of the game" : {
+      "comment" : "获取游戏的全部权益",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "获取游戏的全部权益"
+          }
+        }
+      }
+    },
+    "Get game membership" : {
+      "comment" : "获取游戏会员",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "获取游戏会员"
+          }
+        }
+      }
+    },
     "Highest score" : {
       "comment" : "最高得分",
       "extractionState" : "manual",
@@ -118,6 +190,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最高得分"
+          }
+        }
+      }
+    },
+    "If you are satisfied with our game, we hope you can sponsor us through in-app purchases to help us develop more and better games." : {
+      "comment" : "如果您对我们的游戏满意，希望您通过内购的形式赞助我们，以帮助我们开发更多更好的游戏。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果您对我们的游戏满意，希望您通过内购的形式赞助我们，以帮助我们开发更多更好的游戏。"
           }
         }
       }
@@ -146,6 +230,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新游戏"
+          }
+        }
+      }
+    },
+    "No pop-up ads" : {
+      "comment" : "无广告弹窗",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无广告弹窗"
+          }
+        }
+      }
+    },
+    "Non-consumable items" : {
+      "comment" : "非消耗型项目",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非消耗型项目"
           }
         }
       }
@@ -186,6 +294,18 @@
         }
       }
     },
+    "Play all game modes" : {
+      "comment" : "畅玩所有游戏模式",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "畅玩所有游戏模式"
+          }
+        }
+      }
+    },
     "Privacy policy" : {
       "comment" : "隐私政策",
       "extractionState" : "manual",
@@ -206,6 +326,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "问题反馈"
+          }
+        }
+      }
+    },
+    "Reset all game data" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置所有游戏数据"
           }
         }
       }

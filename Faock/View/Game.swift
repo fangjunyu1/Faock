@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct Game: View {
-    
+    @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     // 定义网格的行列
     @State private var grid: [[Int]] = Array(repeating: Array(repeating: 0, count: 9), count: 9)
@@ -106,7 +106,9 @@ struct Game: View {
                 }
             }
             // 播放放置方块音效
-            sound.playSound(named: "blockSound")
+            if appStorage.Music {
+                sound.playSound(named: "blockSound")
+            }
             // 计算得分
             increaseScore(to: GameScore + block.score)
             //  放置后，将对应的方块设为 nil
@@ -229,7 +231,9 @@ struct Game: View {
         }
         
         if !rowsToClear.isEmpty || !colsToClear.isEmpty {
-            sound.playSound(named: "clearSoundeffects")
+            if appStorage.Music {
+                sound.playSound(named: "clearSoundeffects")
+            }
         }
         
         print("需要清除的行: \(rowsToClear.sorted())")
@@ -320,11 +324,7 @@ struct Game: View {
                 HighestScore += incrementStep
             } else {
                 timer.invalidate() // 目标值达到时停止
-                
-                /// 当更新最高得分时，显示最高得分
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    ShowHighestScore = true
-                }
+                ShowHighestScore = true
             }
         }
     }
@@ -552,8 +552,11 @@ struct Game: View {
 }
 
 #Preview {
+    
+    @ObservedObject var appStorage = AppStorageManager.shared
     if let bundleID = Bundle.main.bundleIdentifier {
         UserDefaults.standard.removePersistentDomain(forName: bundleID)
     }
     return Game(viewStep: .constant(1))
+        .environmentObject(appStorage)
 }
