@@ -36,9 +36,52 @@ class AppStorageManager:ObservableObject {
         }
     }
     
+    // 最高得分
+    @Published var HighestScore: Int = 0 {
+        didSet {
+            if HighestScore != oldValue {
+                UserDefaults.standard.set(HighestScore, forKey: "HighestScore")
+                syncToiCloud()
+            }
+        }
+    }
+    
+    // 游戏场次
+    @Published var GameSessions: Int = 0 {
+        didSet {
+            if GameSessions != oldValue {
+                UserDefaults.standard.set(GameSessions, forKey: "GameSessions")
+                syncToiCloud()
+            }
+        }
+    }
+    
+    // 方块皮肤
+    @Published var BlockSkins: String = "block0" {
+        didSet {
+            if BlockSkins != oldValue {
+                UserDefaults.standard.set(BlockSkins, forKey: "BlockSkins")
+                syncToiCloud()
+            }
+        }
+    }
+    
+    @Published var RequestRating: Bool = false {
+        didSet {
+            if RequestRating != oldValue {
+                UserDefaults.standard.set(RequestRating, forKey: "RequestRating")
+                syncToiCloud()
+            }
+        }
+    }
+    
     // 从UserDefaults加载数据
     private func loadUserDefault() {
         Music = UserDefaults.standard.bool(forKey: "Music")  // 视图步骤
+        HighestScore = UserDefaults.standard.integer(forKey: "HighestScore")  // 最高得分
+        GameSessions = UserDefaults.standard.integer(forKey: "GameSessions")  // 游戏场次
+        BlockSkins = UserDefaults.standard.string(forKey: "BlockSkins") ?? "block0"  // 方块皮肤
+        RequestRating = UserDefaults.standard.bool(forKey: "RequestRating")  // 视图步骤
     }
     
     /// 从 iCloud 读取数据
@@ -52,14 +95,44 @@ class AppStorageManager:ObservableObject {
         } else {
             store.set(Music, forKey: "Music")
         }
+        
+        if store.object(forKey: "RequestRating") != nil {
+            RequestRating = store.bool(forKey: "RequestRating")
+        } else {
+            store.set(RequestRating, forKey: "RequestRating")
+        }
+        
+        // 读取整数值
+        if let storeHighestScore = store.object(forKey: "HighestScore") as? Int {
+            HighestScore = storeHighestScore
+        } else {
+            store.set(HighestScore, forKey: "HighestScore")
+        }
+        
+        if let storeGameSessions = store.object(forKey: "GameSessions") as? Int {
+            GameSessions = storeGameSessions
+        } else {
+            store.set(HighestScore, forKey: "GameSessions")
+        }
+        
+        // 读取字符串值
+        if let storeBlockSkins = store.string(forKey: "BlockSkins"){
+            BlockSkins = storeBlockSkins
+        } else {
+            store.set(BlockSkins, forKey: "BlockSkins")
+        }
+        
         store.synchronize() // 强制触发数据同步
-
     }
     
     /// 数据变化时，**同步到 iCloud**
     private func syncToiCloud() {
         let store = NSUbiquitousKeyValueStore.default
         store.set(Music, forKey: "Music")
+        store.set(HighestScore, forKey: "HighestScore")
+        store.set(GameSessions, forKey: "GameSessions")
+        store.set(BlockSkins, forKey: "BlockSkins")
+        store.set(RequestRating, forKey: "RequestRating")
         store.synchronize() // 强制触发数据同步
     }
     

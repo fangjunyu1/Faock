@@ -14,6 +14,9 @@
     "%lld" : {
 
     },
+    "$4" : {
+
+    },
     "About us" : {
       "comment" : "关于我们",
       "extractionState" : "manual",
@@ -50,6 +53,18 @@
         }
       }
     },
+    "Because I liked playing Blockdoku very much before, the gameplay is simple, so I came up with the idea of ​​developing a similar game." : {
+      "comment" : "因为之前非常喜欢玩Blockdoku，玩法简单，从而萌生出开发类似的游戏想法。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "因为之前非常喜欢玩Blockdoku，玩法简单，从而萌生出开发类似的游戏想法。"
+          }
+        }
+      }
+    },
     "Block skins" : {
       "comment" : "方块皮肤",
       "extractionState" : "manual",
@@ -70,6 +85,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "棋盘皮肤"
+          }
+        }
+      }
+    },
+    "Confirm" : {
+      "comment" : "确认",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认"
           }
         }
       }
@@ -118,6 +145,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "方方块"
+          }
+        }
+      }
+    },
+    "Finally, I hope this game can bring you enough fun, and I also hope that you can support us through in-app purchases." : {
+      "comment" : "最后，希望这款游戏可以给你带来足够的乐趣，也希望能够通过内购方式支持我们。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最后，希望这款游戏可以给你带来足够的乐趣，也希望能够通过内购方式支持我们。"
+          }
+        }
+      }
+    },
+    "for providing free images, animations and sound effects." : {
+      "comment" : "提供的免费图片、动画和音效素材。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供的免费图片、动画和音效素材。"
+          }
+        }
+      }
+    },
+    "for providing game ideas" : {
+      "comment" : "提供的游戏思路",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供的游戏思路"
           }
         }
       }
@@ -182,6 +245,18 @@
         }
       }
     },
+    "Hello, I am Fang Junyu, from Rizhao, Shandong Province, China." : {
+      "comment" : "大家好，我是方君宇，来自中国山东省日照市。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大家好，我是方君宇，来自中国山东省日照市。"
+          }
+        }
+      }
+    },
     "Highest score" : {
       "comment" : "最高得分",
       "extractionState" : "manual",
@@ -209,6 +284,30 @@
     "Image by freepik" : {
       "comment" : "Image by freepik",
       "extractionState" : "manual"
+    },
+    "In order to further demonstrate our protection of user privacy, we decided to host the game code as an open source project on GitHub." : {
+      "comment" : "为了进一步显示我们对于用户隐私的保护，我们决定将游戏代码作为开源项目托管在GitHub上。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为了进一步显示我们对于用户隐私的保护，我们决定将游戏代码作为开源项目托管在GitHub上。"
+          }
+        }
+      }
+    },
+    "Let the code be exposed to the sun" : {
+      "comment" : "让代码展现在阳光下",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让代码展现在阳光下"
+          }
+        }
+      }
     },
     "Manage game data" : {
       "comment" : "管理游戏数据",
@@ -330,7 +429,20 @@
         }
       }
     },
+    "Project address" : {
+      "comment" : "项目地址",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目地址"
+          }
+        }
+      }
+    },
     "Reset all game data" : {
+      "comment" : "重置所有游戏数据",
       "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
@@ -401,6 +513,17 @@
         }
       }
     },
+    "Sure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确定"
+          }
+        }
+      }
+    },
     "Terms of use" : {
       "comment" : "使用条款",
       "extractionState" : "manual",
@@ -413,6 +536,66 @@
         }
       }
     },
+    "Thank you for reading and playing." : {
+      "comment" : "感谢您的阅读和游玩。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感谢您的阅读和游玩。"
+          }
+        }
+      }
+    },
+    "Thanks to Easybrain" : {
+      "comment" : "感谢Easybrain",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感谢Easybrain"
+          }
+        }
+      }
+    },
+    "Thanks to Freepik, LottieFile and px" : {
+      "comment" : "感谢Freepik、LottieFile和px",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感谢Freepik、LottieFile和px"
+          }
+        }
+      }
+    },
+    "The gameplay of this game is Tetris + Sudoku board. The existing gameplay is to eliminate the blocks downwards when eliminating rows and columns, and there are also ways to expand the existing gameplay and add skins." : {
+      "comment" : "本游戏的玩法为俄罗斯方块+数独棋盘，现有的玩法为消除行列时，方块整体向下消除，还有扩展现有的玩法，添加皮肤等玩法。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本游戏的玩法为俄罗斯方块+数独棋盘，现有的玩法为消除行列时，方块整体向下消除，还有扩展现有的玩法，添加皮肤等玩法。"
+          }
+        }
+      }
+    },
+    "This is the second application I developed, or to be more precise, the first game. The idea of ​​this game comes from Blockdoku of Easybrain." : {
+      "comment" : "这是我开发的第二个应用，准确来说是第一个游戏，这个游戏的思路来源于Easybrain的Blockdoku。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是我开发的第二个应用，准确来说是第一个游戏，这个游戏的思路来源于Easybrain的Blockdoku。"
+          }
+        }
+      }
+    },
     "This time's score" : {
       "comment" : "本次得分",
       "extractionState" : "manual",
@@ -421,6 +604,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本次得分"
+          }
+        }
+      }
+    },
+    "Who are we?" : {
+      "comment" : "我们是谁？",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们是谁？"
           }
         }
       }

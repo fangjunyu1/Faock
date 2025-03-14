@@ -20,6 +20,10 @@
 		1D93B8102D81DA51002AB831 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D93B80F2D81DA51002AB831 /* AppStorageManager.swift */; };
 		1DA4AEA62D7FE0A500B0BB03 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */; };
 		1DC681192D82AB8600B7C19E /* ManageGameDataViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC681182D82AB8600B7C19E /* ManageGameDataViews.swift */; };
+		1DC6811B2D82B8A000B7C19E /* BlockSkinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC6811A2D82B8A000B7C19E /* BlockSkinView.swift */; };
+		1DC6811D2D82B8C500B7C19E /* ChessboardSkinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC6811C2D82B8C500B7C19E /* ChessboardSkinView.swift */; };
+		1DC6811F2D82B90900B7C19E /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC6811E2D82B90900B7C19E /* AboutUsView.swift */; };
+		1DC681212D82B9A800B7C19E /* AcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC681202D82B9A800B7C19E /* AcknowledgementsView.swift */; };
 		1DC8E89A2D7D429000EC9AA0 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC8E8992D7D429000EC9AA0 /* SoundManager.swift */; };
 		1DC8E89D2D7D43A400EC9AA0 /* blockSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1DC8E89C2D7D43A400EC9AA0 /* blockSound.mp3 */; };
 		1DC8E8A12D7D467200EC9AA0 /* clearSoundeffects.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1DC8E8A02D7D467200EC9AA0 /* clearSoundeffects.mp3 */; };
@@ -112,6 +116,10 @@
 		1D93B8112D81DCD7002AB831 /* Faock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Faock.entitlements; sourceTree = "<group>"; };
 		1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		1DC681182D82AB8600B7C19E /* ManageGameDataViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageGameDataViews.swift; sourceTree = "<group>"; };
+		1DC6811A2D82B8A000B7C19E /* BlockSkinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockSkinView.swift; sourceTree = "<group>"; };
+		1DC6811C2D82B8C500B7C19E /* ChessboardSkinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardSkinView.swift; sourceTree = "<group>"; };
+		1DC6811E2D82B90900B7C19E /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
+		1DC681202D82B9A800B7C19E /* AcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsView.swift; sourceTree = "<group>"; };
 		1DC8E8992D7D429000EC9AA0 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		1DC8E89C2D7D43A400EC9AA0 /* blockSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blockSound.mp3; sourceTree = "<group>"; };
 		1DC8E8A02D7D467200EC9AA0 /* clearSoundeffects.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clearSoundeffects.mp3; sourceTree = "<group>"; };
@@ -172,6 +180,10 @@
 				1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */,
 				1D0B48872D82782F00413E4A /* GameMembershipView.swift */,
 				1DC681182D82AB8600B7C19E /* ManageGameDataViews.swift */,
+				1DC6811A2D82B8A000B7C19E /* BlockSkinView.swift */,
+				1DC6811C2D82B8C500B7C19E /* ChessboardSkinView.swift */,
+				1DC6811E2D82B90900B7C19E /* AboutUsView.swift */,
+				1DC681202D82B9A800B7C19E /* AcknowledgementsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -472,6 +484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DF103D92D75F11800A5B23D /* BlockView.swift in Sources */,
+				1DC6811D2D82B8C500B7C19E /* ChessboardSkinView.swift in Sources */,
 				1DF103D52D75F0C500A5B23D /* GameViewModel.swift in Sources */,
 				1DFDB83B2D7554DC0004D4B0 /* ContentView.swift in Sources */,
 				1D93B8102D81DA51002AB831 /* AppStorageManager.swift in Sources */,
@@ -483,7 +496,10 @@
 				1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */,
 				1D93B80E2D81D9DE002AB831 /* appVersion.swift in Sources */,
 				1DC681192D82AB8600B7C19E /* ManageGameDataViews.swift in Sources */,
+				1DC681212D82B9A800B7C19E /* AcknowledgementsView.swift in Sources */,
+				1DC6811F2D82B90900B7C19E /* AboutUsView.swift in Sources */,
 				1DF103DB2D75F16600A5B23D /* Block.swift in Sources */,
+				1DC6811B2D82B8A000B7C19E /* BlockSkinView.swift in Sources */,
 				1DE77FE92D7FC708000450E9 /* LottieView.swift in Sources */,
 				1D61B2BB2D76DB8A00E8CA91 /* DraggableBlockView.swift in Sources */,
 				1D2DC4352D75A15A00F747F8 /* Color.swift in Sources */,

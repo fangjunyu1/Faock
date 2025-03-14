@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Home: View {
+    @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     @Binding var viewStep: Int
     @State private var isSettingView = false
@@ -21,7 +22,10 @@ struct Home: View {
                     .shadow(radius: 10,x: 0,y: 10)
                 Spacer().frame(height: 100)
                 Button(action: {
+                    // 跳转到游戏视图
                     viewStep = 1
+                    // 增加游戏场次
+                    appStorage.GameSessions += 1
                 }, label: {
                     Text("Start the game")
                         .fontWeight(.bold)
@@ -60,5 +64,7 @@ struct Home: View {
 }
 
 #Preview {
-    Home(viewStep: .constant(1))
+    @ObservedObject var appStorage = AppStorageManager.shared
+    return Home(viewStep: .constant(1))
+        .environmentObject(appStorage)
 }

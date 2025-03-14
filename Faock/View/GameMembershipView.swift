@@ -16,15 +16,13 @@ struct GameMembershipView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                // 顶部留白
-                Spacer().frame(height: 30)
                 Image("king3")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200)
                 Text("Enjoy the charm of the game cube")
                     .fontWeight(.bold)
-                    .font(.title3)
+                    .font(.title)
                     .padding()
                 Text("If you are satisfied with our game, we hope you can sponsor us through in-app purchases to help us develop more and better games.")
                     .font(.footnote)
@@ -103,22 +101,10 @@ struct GameMembershipView: View {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .navigationTitle("Game membership")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Text("Return")
-                            .fontWeight(.bold)
-                            .foregroundColor(colorScheme == .light ? .black : .white)
-                    })
-                }
-            }
             .background(colorScheme == .light ? Color(hex: "E9E9E9") : .black)
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle("Game membership")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

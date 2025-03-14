@@ -12,6 +12,7 @@ struct ManageGameDataViews: View {
     @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+    @State private var showAlert: Bool = false
     var body: some View {
         
         NavigationView {
@@ -38,7 +39,8 @@ struct ManageGameDataViews: View {
                         Spacer().frame(width: 20)
                         Text("Highest score")
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Text("\(appStorage.HighestScore)")
+                        Spacer().frame(width: 20)
                     }
                     .padding(10)
                     .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
@@ -62,7 +64,8 @@ struct ManageGameDataViews: View {
                         Spacer().frame(width: 20)
                         Text("Game times")
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Text("\(appStorage.GameSessions)")
+                        Spacer().frame(width: 20)
                     }
                     .padding(10)
                     .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
@@ -72,37 +75,33 @@ struct ManageGameDataViews: View {
                     Spacer().frame(height: 16)
                     
                     Button(action: {
-                        
+                        showAlert = true
                     }, label: {
                         Text("Reset all game data")
                             .font(.footnote)
                             .foregroundColor(.gray)
                     })
+                    .alert("Reset all game data",isPresented: $showAlert) {
+                        Button("Confirm",role: .destructive) {
+                            appStorage.HighestScore = 0
+                            appStorage.GameSessions = 0
+                        }
+                    }
                     // 底部留白
                     Spacer().frame(height: 100)
                 }
                 .frame(width: width * 0.9)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle("Manage game data")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }, label: {
-                            Text("Return")
-                                .fontWeight(.bold)
-                                .foregroundColor(colorScheme == .light ? .black : .white)
-                        })
-                    }
-                }
                 .background(colorScheme == .light ? Color(hex: "E9E9E9") : .black)
             }
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle("Manage game data")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    ManageGameDataViews()
+    @ObservedObject var appStorage = AppStorageManager.shared
+    return ManageGameDataViews()
+        .environmentObject(appStorage)
 }

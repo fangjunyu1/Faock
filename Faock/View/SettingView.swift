@@ -35,8 +35,8 @@ struct SettingView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geo in
-                var width = geo.frame(in: .global).width
-                var height = geo.frame(in: .global).height
+                let width = geo.frame(in: .global).width
+                let height = geo.frame(in: .global).height
                 ScrollView {
                     // 留白
                     Spacer().frame(height: 30)
@@ -57,7 +57,8 @@ struct SettingView: View {
                                 Spacer()
                                 Image(systemName: "chevron.right")
                             }
-                            .padding(10)
+                            .padding(.vertical,10)
+                            .padding(.horizontal,14)
                             .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                             .cornerRadius(10)
                             .tint(colorScheme == .light ? .black : .white)
@@ -76,7 +77,6 @@ struct SettingView: View {
                                 .overlay {
                                     Image(systemName: "music.note")
                                         .foregroundColor(.white)
-                                        .font(.footnote)
                                 }
                             Spacer().frame(width: 20)
                             Text("Sound effects")
@@ -84,7 +84,8 @@ struct SettingView: View {
                             Toggle(isOn: $appStorage.Music){}
                                 .tint(.green)
                         }
-                        .padding(10)
+                        .padding(.vertical,10)
+                        .padding(.horizontal,14)
                         .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                         .cornerRadius(10)
                         .tint(colorScheme == .light ? .black : .white)
@@ -96,7 +97,7 @@ struct SettingView: View {
                         VStack(spacing: 0) {
                             // 管理游戏数据
                             NavigationLink(destination: {
-                                
+                                ManageGameDataViews()
                             }, label: {
                                 HStack {
                                     // 图标
@@ -114,7 +115,8 @@ struct SettingView: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -123,7 +125,7 @@ struct SettingView: View {
                             // 分割线
                             Rectangle().frame(width: .infinity,height: 0.5)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal,20)
+                                .padding(.leading,60)
                             
                             // 方块皮肤
                             NavigationLink(destination: {
@@ -138,23 +140,24 @@ struct SettingView: View {
                                         .overlay {
                                             Image(systemName: "stop.fill")
                                                 .foregroundColor(.white)
-                                                .font(.footnote)
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Block skins")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
                             })
                             
+                            
                             // 分割线
                             Rectangle().frame(width: .infinity,height: 0.5)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal,20)
+                                .padding(.leading,60)
                             
                             // 棋盘皮肤
                             NavigationLink(destination: {
@@ -176,7 +179,8 @@ struct SettingView: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -203,23 +207,24 @@ struct SettingView: View {
                                         .overlay {
                                             Image(systemName: "ladybug.fill")
                                                 .foregroundColor(.white)
-                                                .font(.footnote)
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Problem feedback")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
                             })
                             
+                            
                             // 分割线
                             Rectangle().frame(width: .infinity,height: 0.5)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal,20)
+                                .padding(.leading,60)
                             
                             // 使用条款
                             Link(destination: URL(string: "https://fangjunyu.com/2025/03/13/%e6%96%b9%e6%96%b9%e5%9d%97%e6%b8%b8%e6%88%8f%e4%bd%bf%e7%94%a8%e6%9d%a1%e6%ac%be/")!) {
@@ -232,23 +237,24 @@ struct SettingView: View {
                                         .overlay {
                                             Image(systemName: "book.pages.fill")
                                                 .foregroundColor(.white)
-                                                .font(.footnote)
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Terms of use")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
                             }
                             
+                            
                             // 分割线
                             Rectangle().frame(width: .infinity,height: 0.5)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal,20)
+                                .padding(.leading,60)
                             
                             // 隐私政策
                             Link(destination: URL(string: "https://fangjunyu.com/2025/03/13/%e6%96%b9%e6%96%b9%e5%9d%97%e6%b8%b8%e6%88%8f%e9%9a%90%e7%a7%81%e6%94%bf%e7%ad%96/")!) {
@@ -268,7 +274,8 @@ struct SettingView: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
@@ -302,16 +309,18 @@ struct SettingView: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
                             })
                             
+                            
                             // 分割线
                             Rectangle().frame(width: .infinity,height: 0.5)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal,20)
+                                .padding(.leading,60)
                             
                             // 鸣谢
                             NavigationLink(destination: {
@@ -332,16 +341,18 @@ struct SettingView: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
                             })
                             
+                            
                             // 分割线
                             Rectangle().frame(width: .infinity,height: 0.5)
                                 .foregroundColor(.gray)
-                                .padding(.horizontal,20)
+                                .padding(.leading,60)
                             
                             // 开源
                             NavigationLink(destination: {
@@ -356,14 +367,14 @@ struct SettingView: View {
                                         .overlay {
                                             Image(systemName: "lock.open.fill")
                                                 .foregroundColor(.white)
-                                                .font(.footnote)
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Open source")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
-                                .padding(10)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)

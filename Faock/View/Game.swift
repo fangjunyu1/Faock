@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-
+import StoreKit
 
 struct Game: View {
+    
     @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     // 定义网格的行列
@@ -37,7 +38,6 @@ struct Game: View {
     @State private var windowSize: CGSize = .zero
     @State private var GameOverButton = false
     @State private var ShowHighestScore = false
-    @AppStorage("HighestScore") var HighestScore = 0
     func generateNewBlocks() -> [Block] {
         let blocks = [
             // 横向
@@ -320,8 +320,8 @@ struct Game: View {
     // 最高分数递增动画
     func increaseHighestScore(to newScore: Int) {
         Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
-            if HighestScore < newScore{
-                HighestScore += incrementStep
+            if appStorage.HighestScore < newScore{
+                appStorage.HighestScore += incrementStep
             } else {
                 timer.invalidate() // 目标值达到时停止
                 ShowHighestScore = true
@@ -330,7 +330,7 @@ struct Game: View {
     }
     
     func updateScore() {
-        if GameScore > HighestScore {
+        if GameScore > appStorage.HighestScore {
             print("更新最高得分")
             increaseHighestScore(to: GameScore)
         }
@@ -365,7 +365,7 @@ struct Game: View {
                             HStack {
                                 Text("Highest score")
                                 Spacer().frame(width: 20)
-                                Text("\(HighestScore)")
+                                Text("\(appStorage.HighestScore)")
                             }
                         }
                     }
@@ -450,6 +450,10 @@ struct Game: View {
                     if GameOverButton {
                         VStack {
                             Button(action: {
+                                if !appStorage.RequestRating {
+                                    appStorage.RequestRating = true
+                                    SKStoreReviewController.requestReview()
+                                }
                                 // 结束标识改为false
                                 GameOver = false
                                 // 结束动画标识改为false
@@ -465,6 +469,7 @@ struct Game: View {
                                 grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
                                 // 重置方块
                                 CurrentBlock = generateNewBlocks()
+                                appStorage.GameSessions += 1
                             }, label: {
                                 Text("Play again")
                                     .fontWeight(.bold)
@@ -554,9 +559,9 @@ struct Game: View {
 #Preview {
     
     @ObservedObject var appStorage = AppStorageManager.shared
-    if let bundleID = Bundle.main.bundleIdentifier {
-        UserDefaults.standard.removePersistentDomain(forName: bundleID)
-    }
+//    if let bundleID = Bundle.main.bundleIdentifier {
+//        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+//    }
     return Game(viewStep: .constant(1))
         .environmentObject(appStorage)
 }

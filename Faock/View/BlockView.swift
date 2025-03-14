@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct BlockView: View {
+    @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     let block: Block
     let blockSize: CGFloat = 40
@@ -19,7 +20,7 @@ struct BlockView: View {
                 HStack(spacing: 0) {
                     ForEach(0..<block.cols, id: \.self) { col in
                         if block.shape[row][col] == 1 {
-                            Image(colorScheme == .light ? "block0" : "block1")
+                            Image(colorScheme == .light ? appStorage.BlockSkins : "block1")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: blockSize, height: blockSize)
@@ -36,5 +37,7 @@ struct BlockView: View {
 }
 
 #Preview {
-    BlockView(block: Block(shape: [[0,1,0],[1,1,1]]))
+    @ObservedObject var appStorage = AppStorageManager.shared
+    return BlockView(block: Block(shape: [[0,1,0],[1,1,1]]))
+        .environmentObject(appStorage)
 }
