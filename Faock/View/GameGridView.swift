@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameGridView: View {
+    @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     var grid: [[Int]]
     var shadowPosition: (row: Int, col: Int)?
@@ -38,7 +39,7 @@ struct GameGridView: View {
                                 .border(Color(hex: "C7CDDC"))
                                 .overlay {
                                     if grid[row][col] == 1  {
-                                        Image(colorScheme == .light ? "block0" : "block1")
+                                        Image(colorScheme == .light ? appStorage.BlockSkins : "block1")
                                             .resizable()
                                             .scaledToFit()
                                     } else {
@@ -76,7 +77,7 @@ struct GameGridView: View {
                                     .foregroundColor(.clear)
                                     .overlay {
                                         if shouldDrawShadow {
-                                            Image(colorScheme == .light ? "block0" : "block1")
+                                            Image(colorScheme == .light ? appStorage.BlockSkins : "block1")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .opacity(colorScheme == .light ? 0.3 : 0.5)

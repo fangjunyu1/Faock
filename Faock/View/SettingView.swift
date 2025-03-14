@@ -129,7 +129,7 @@ struct SettingView: View {
                             
                             // 方块皮肤
                             NavigationLink(destination: {
-                                
+                                BlockSkinView()
                             }, label: {
                                 HStack {
                                     // 图标
@@ -161,7 +161,7 @@ struct SettingView: View {
                             
                             // 棋盘皮肤
                             NavigationLink(destination: {
-                                
+                                ChessboardSkinView()
                             }, label: {
                                 HStack {
                                     // 图标

@@ -66,10 +66,30 @@ class AppStorageManager:ObservableObject {
         }
     }
     
+    // 棋盘皮肤
+    @Published var ChessboardSkin: String = "bg0" {
+        didSet {
+            if ChessboardSkin != oldValue {
+                UserDefaults.standard.set(ChessboardSkin, forKey: "ChessboardSkin")
+                syncToiCloud()
+            }
+        }
+    }
+    
+    // 评分
     @Published var RequestRating: Bool = false {
         didSet {
             if RequestRating != oldValue {
                 UserDefaults.standard.set(RequestRating, forKey: "RequestRating")
+                syncToiCloud()
+            }
+        }
+    }
+    
+    @Published   var isInAppPurchase = false {
+        didSet {
+            if isInAppPurchase != oldValue {
+                UserDefaults.standard.set(isInAppPurchase, forKey: "isInAppPurchase")
                 syncToiCloud()
             }
         }
@@ -81,7 +101,9 @@ class AppStorageManager:ObservableObject {
         HighestScore = UserDefaults.standard.integer(forKey: "HighestScore")  // 最高得分
         GameSessions = UserDefaults.standard.integer(forKey: "GameSessions")  // 游戏场次
         BlockSkins = UserDefaults.standard.string(forKey: "BlockSkins") ?? "block0"  // 方块皮肤
+        ChessboardSkin = UserDefaults.standard.string(forKey: "ChessboardSkin") ?? "block0"  // 棋盘皮肤
         RequestRating = UserDefaults.standard.bool(forKey: "RequestRating")  // 视图步骤
+        isInAppPurchase = UserDefaults.standard.bool(forKey: "isInAppPurchase")  // 商品内购
     }
     
     /// 从 iCloud 读取数据
@@ -100,6 +122,12 @@ class AppStorageManager:ObservableObject {
             RequestRating = store.bool(forKey: "RequestRating")
         } else {
             store.set(RequestRating, forKey: "RequestRating")
+        }
+        
+        if store.object(forKey: "isInAppPurchase") != nil {
+            isInAppPurchase = store.bool(forKey: "isInAppPurchase")
+        } else {
+            store.set(isInAppPurchase, forKey: "isInAppPurchase")
         }
         
         // 读取整数值
@@ -122,6 +150,12 @@ class AppStorageManager:ObservableObject {
             store.set(BlockSkins, forKey: "BlockSkins")
         }
         
+        if let storeChessboardSkin = store.string(forKey: "ChessboardSkin"){
+            ChessboardSkin = storeChessboardSkin
+        } else {
+            store.set(ChessboardSkin, forKey: "ChessboardSkin")
+        }
+        
         store.synchronize() // 强制触发数据同步
     }
     
@@ -132,7 +166,9 @@ class AppStorageManager:ObservableObject {
         store.set(HighestScore, forKey: "HighestScore")
         store.set(GameSessions, forKey: "GameSessions")
         store.set(BlockSkins, forKey: "BlockSkins")
+        store.set(ChessboardSkin, forKey: "ChessboardSkin")
         store.set(RequestRating, forKey: "RequestRating")
+        store.set(isInAppPurchase, forKey: "isInAppPurchase")
         store.synchronize() // 强制触发数据同步
     }
     
