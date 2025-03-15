@@ -291,7 +291,7 @@ struct SettingView: View {
                         VStack(spacing: 0) {
                             // 关于我们
                             NavigationLink(destination: {
-                                
+                                AboutUsView()
                             }, label: {
                                 HStack {
                                     // 图标
@@ -324,7 +324,7 @@ struct SettingView: View {
                             
                             // 鸣谢
                             NavigationLink(destination: {
-                                
+                                AcknowledgementsView()
                             }, label: {
                                 HStack {
                                     // 图标
@@ -356,7 +356,7 @@ struct SettingView: View {
                             
                             // 开源
                             NavigationLink(destination: {
-                                
+                                OpenSourceView()
                             }, label: {
                                 HStack {
                                     // 图标

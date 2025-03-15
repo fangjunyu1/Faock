@@ -27,12 +27,13 @@
 		1DC8E89A2D7D429000EC9AA0 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC8E8992D7D429000EC9AA0 /* SoundManager.swift */; };
 		1DC8E89D2D7D43A400EC9AA0 /* blockSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1DC8E89C2D7D43A400EC9AA0 /* blockSound.mp3 */; };
 		1DC8E8A12D7D467200EC9AA0 /* clearSoundeffects.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1DC8E8A02D7D467200EC9AA0 /* clearSoundeffects.mp3 */; };
+		1DCCD7102D857476007B8565 /* OpenSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCD70F2D857476007B8565 /* OpenSourceView.swift */; };
+		1DCCD7142D857554007B8565 /* developer.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DCCD7132D857554007B8565 /* developer.json */; };
 		1DE77FDF2D7FC691000450E9 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 1DE77FDE2D7FC691000450E9 /* Lottie */; };
 		1DE77FE62D7FC6F1000450E9 /* Fireworks1.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DE77FE42D7FC6F1000450E9 /* Fireworks1.json */; };
 		1DE77FE72D7FC6F1000450E9 /* Fireworks2.json in Resources */ = {isa = PBXBuildFile; fileRef = 1DE77FE52D7FC6F1000450E9 /* Fireworks2.json */; };
 		1DE77FE92D7FC708000450E9 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE77FE82D7FC708000450E9 /* LottieView.swift */; };
 		1DF103D52D75F0C500A5B23D /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103D42D75F0C500A5B23D /* GameViewModel.swift */; };
-		1DF103D72D75F0E000A5B23D /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103D62D75F0E000A5B23D /* GridView.swift */; };
 		1DF103D92D75F11800A5B23D /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103D82D75F11800A5B23D /* BlockView.swift */; };
 		1DF103DB2D75F16600A5B23D /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF103DA2D75F16600A5B23D /* Block.swift */; };
 		1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDB8382D7554DC0004D4B0 /* FaockApp.swift */; };
@@ -123,11 +124,12 @@
 		1DC8E8992D7D429000EC9AA0 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		1DC8E89C2D7D43A400EC9AA0 /* blockSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blockSound.mp3; sourceTree = "<group>"; };
 		1DC8E8A02D7D467200EC9AA0 /* clearSoundeffects.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clearSoundeffects.mp3; sourceTree = "<group>"; };
+		1DCCD70F2D857476007B8565 /* OpenSourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceView.swift; sourceTree = "<group>"; };
+		1DCCD7132D857554007B8565 /* developer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = developer.json; sourceTree = "<group>"; };
 		1DE77FE42D7FC6F1000450E9 /* Fireworks1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fireworks1.json; sourceTree = "<group>"; };
 		1DE77FE52D7FC6F1000450E9 /* Fireworks2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Fireworks2.json; sourceTree = "<group>"; };
 		1DE77FE82D7FC708000450E9 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		1DF103D42D75F0C500A5B23D /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
-		1DF103D62D75F0E000A5B23D /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		1DF103D82D75F11800A5B23D /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		1DF103DA2D75F16600A5B23D /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		1DFDB8352D7554DC0004D4B0 /* Faock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,7 +175,6 @@
 			children = (
 				1D2DC4362D75A34700F747F8 /* Game.swift */,
 				1D2DC4382D75AAD800F747F8 /* Home.swift */,
-				1DF103D62D75F0E000A5B23D /* GridView.swift */,
 				1DF103D82D75F11800A5B23D /* BlockView.swift */,
 				1D61B2B82D769E2400E8CA91 /* GameGridView.swift */,
 				1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */,
@@ -184,6 +185,7 @@
 				1DC6811C2D82B8C500B7C19E /* ChessboardSkinView.swift */,
 				1DC6811E2D82B90900B7C19E /* AboutUsView.swift */,
 				1DC681202D82B9A800B7C19E /* AcknowledgementsView.swift */,
+				1DCCD70F2D857476007B8565 /* OpenSourceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				1DE77FE42D7FC6F1000450E9 /* Fireworks1.json */,
+				1DCCD7132D857554007B8565 /* developer.json */,
 				1DE77FE52D7FC6F1000450E9 /* Fireworks2.json */,
 			);
 			path = Animation;
@@ -450,6 +453,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DCCD7142D857554007B8565 /* developer.json in Resources */,
 				1D6165B32D75607000570095 /* Launch Screen.storyboard in Resources */,
 				1DFDB8402D7554DE0004D4B0 /* Preview Assets.xcassets in Resources */,
 				1D6165BC2D756AE000570095 /* Localizable.xcstrings in Resources */,
@@ -490,7 +494,7 @@
 				1D93B8102D81DA51002AB831 /* AppStorageManager.swift in Sources */,
 				1DA4AEA62D7FE0A500B0BB03 /* SettingView.swift in Sources */,
 				1DFDB8392D7554DC0004D4B0 /* FaockApp.swift in Sources */,
-				1DF103D72D75F0E000A5B23D /* GridView.swift in Sources */,
+				1DCCD7102D857476007B8565 /* OpenSourceView.swift in Sources */,
 				1DC8E89A2D7D429000EC9AA0 /* SoundManager.swift in Sources */,
 				1D0B48882D82782F00413E4A /* GameMembershipView.swift in Sources */,
 				1D2DC4392D75AAD800F747F8 /* Home.swift in Sources */,

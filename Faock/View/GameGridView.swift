@@ -50,6 +50,8 @@ struct GameGridView: View {
                     }
                 }
             }
+            .background(Image("\(appStorage.ChessboardSkin)"))
+            .clipped()
             
             // 绘制阴影
             
@@ -121,5 +123,7 @@ struct GameGridView: View {
 }
 
 #Preview {
-    GameGridView(grid: Array(repeating: Array(repeating: 0, count: 9), count: 9),shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]))
+    @ObservedObject var appStorage = AppStorageManager.shared
+    return GameGridView(grid: Array(repeating: Array(repeating: 0, count: 9), count: 9),shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]))
+        .environmentObject(appStorage)
 }
