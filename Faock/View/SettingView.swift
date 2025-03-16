@@ -66,7 +66,7 @@ struct SettingView: View {
                                 .background(colorScheme == .light ? Color(hex: "2F438D") : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
-                            }
+                            })
                         } else {
                             
                             NavigationLink(destination: {

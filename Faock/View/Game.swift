@@ -11,6 +11,7 @@ import StoreKit
 struct Game: View {
     
     @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
+    @EnvironmentObject var sound: SoundManager  // 通过 Sound 注入
     @Environment(\.colorScheme) var colorScheme
     // 定义网格的行列
     @State private var grid: [[Int]] = Array(repeating: Array(repeating: 0, count: 9), count: 9)
@@ -25,7 +26,6 @@ struct Game: View {
     @State private var shakeOffset: CGFloat = 0
     @State private var GameOverZoomAnimation = false
     @State private var isSettingView = false
-    var sound = SoundManager.shared
     // 分数更新动画
     let incrementStep = 1  // 每次增加多少
     let animationSpeed = 0.05  // 速度（秒）
@@ -71,6 +71,7 @@ struct Game: View {
         return blocks.shuffled().prefix(3).map { $0 }
     }
     
+    
     // 放置方块
     func placeBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("进入placeBlock方法")
@@ -97,7 +98,11 @@ struct Game: View {
         }
         
         // 检查是否可以放置
-        if canPlaceBlock(block, atRow: row, col: col) {
+        print("进入canPlaceBlock方法")
+        let isCanPlaceBlock =  canPlaceBlock(block, atRow: row, col: col)
+        print("当canPlaceBlock方法为true时，执行棋盘遍历")
+        if isCanPlaceBlock{
+            print("进入棋盘遍历")
             for r in 0..<block.rows {
                 for c in 0..<block.shape[r].count {
                     if block.shape[r][c] == 1 {
@@ -105,16 +110,22 @@ struct Game: View {
                     }
                 }
             }
+            print("棋盘遍历完成")
             // 播放放置方块音效
+            print("播放音效")
             if appStorage.Music {
                 sound.playSound(named: "blockSound")
             }
             // 计算得分
+            print("计算得分")
             increaseScore(to: GameScore + block.score)
             //  放置后，将对应的方块设为 nil
+            print("设置CurrentBlock[indices]为nil")
             CurrentBlock[indices] = nil
             // 如果方块列表没有方块，则刷新方块列表
-            if CurrentBlock.allSatisfy ({ $0 == nil}) {
+            print("判断当前方块列表有无方块")
+            let isCurrentBlock = CurrentBlock.allSatisfy ({ $0 == nil})
+            if isCurrentBlock {
                 print("当前列表为空，刷新列表")
                 CurrentBlock = generateNewBlocks()
                 print("CurrentBlock:\(CurrentBlock)")
@@ -126,10 +137,12 @@ struct Game: View {
                     triggerShake() // 触发抖动
                         // 更新最高分数
                         updateScore()
-                        withAnimation {
-                            GameOverZoomAnimation = true
-                            GameOverButton = true
-                        }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            withAnimation {
+                                GameOverZoomAnimation = true
+                                GameOverButton = true
+                            }
+                    }
                 }
             }
         } else {
@@ -177,6 +190,10 @@ struct Game: View {
     
     // 检查方块是否可以放置
     func canPlaceBlock(_ block: Block, atRow row: Int, col: Int) -> Bool {
+        // 提前检查边界（避免循环内过多判断）
+            if row + block.shape.count > 9 || col + block.shape[0].count > 9 {
+                return false
+            }
         print("进入canPlaceBlock方法")
         print("计算出的 row:\(row), col:\(col)")
         // 遍历当前方块的行数
@@ -212,15 +229,20 @@ struct Game: View {
     
     // 消除整行/整列的方块
     func clearFullRowsAndColumns() {
+        print("进入clearFullRowsAndColumns方法")
         var newGrid = grid
+        print("创建newGrid")
         // 找到需要消除的行
         var rowsToClear: Set<Int> = []
+        print("新增rowsToClear方法")
         for row in 0..<9 {
             if newGrid[row].allSatisfy({ $0 == 1 }) {
                 rowsToClear.insert(row)
             }
         }
+        print("补充rowsToClear方法")
         // 找到需要消除的列
+        print("新增colsToClear方法")
         var colsToClear: Set<Int> = []
         for col in 0..<9 {
             if (0..<9).allSatisfy({ newGrid[$0][col] == 1 }) {
@@ -228,6 +250,7 @@ struct Game: View {
             }
         }
         
+        print("补充colsToClear方法")
         if !rowsToClear.isEmpty || !colsToClear.isEmpty {
             if appStorage.Music {
                 sound.playSound(named: "clearSoundeffects")
@@ -247,7 +270,6 @@ struct Game: View {
                 newGrid[row][col] = 0
             }
         }
-        
         
         // 奖励消除积分
         let EliminationRewards = rowsToClear.count * 10 + colsToClear.count * 10
@@ -290,11 +312,13 @@ struct Game: View {
             // 方块行列
             let blockRows = block.shape.count
             let blockCols = block.shape[0].count
-            
             // 在棋盘的每个位置尝试放置方块
             for startRow in 0...(rows - blockRows) {
                 for startCol in 0...(cols - blockCols) {
-                    if canPlaceBlock(block, atRow: startRow, col: startCol) {
+                    let isCanPlaceBlock = canPlaceBlock(block, atRow: startRow, col: startCol)
+                    print("isCanPlaceBlock:\(isCanPlaceBlock)")
+                    print("进入判断")
+                    if isCanPlaceBlock {
                         print("当前方块可以放置，游戏继续。")
                         return false
                     }
@@ -410,9 +434,11 @@ struct Game: View {
                                             print("gridOrigin:\(gridOrigin)")
                                             placeBlock(block, start, end, geo, item)
                                             // 放置方块
+                                            print("设置shadowPosition和shadowBlock为nil")
                                             shadowPosition = nil
                                             shadowBlock = nil
                                             // 消除行、列的方块
+                                            print("进入clearFullRowsAndColumns方法")
                                             clearFullRowsAndColumns()
                                             // 判断游戏是否结束
                                             if isGameOver() {
@@ -422,10 +448,13 @@ struct Game: View {
                                                 triggerShake() // 触发抖动
                                                     // 更新最高分数
                                                     updateScore()
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     withAnimation {
                                                         GameOverZoomAnimation = true
                                                         GameOverButton = true
                                                     }
+                                                }
                                             }
                                         })
                                         .offset(x: shakeOffset) // 应用抖动偏移
@@ -551,11 +580,10 @@ struct Game: View {
 }
 
 #Preview {
-    
-    @ObservedObject var appStorage = AppStorageManager.shared
 //    if let bundleID = Bundle.main.bundleIdentifier {
 //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
 //    }
     return Game(viewStep: .constant(1))
-        .environmentObject(appStorage)
+        .environmentObject(AppStorageManager.shared)
+        .environmentObject(SoundManager.shared)
 }

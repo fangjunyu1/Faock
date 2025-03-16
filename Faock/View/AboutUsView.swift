@@ -48,7 +48,7 @@ struct AboutUsView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.leading)
-                    Spacer()
+                    Spacer().frame(height: 30)
                 }
                 .frame(width: width * 0.9)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

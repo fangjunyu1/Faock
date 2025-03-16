@@ -11,6 +11,7 @@ import SwiftUI
 struct FaockApp: App {
     @StateObject var iapManager = IAPManager.shared
     @StateObject private var appStorage = AppStorageManager.shared  // 共享实例
+    @StateObject private var sound = SoundManager.shared
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -21,6 +22,7 @@ struct FaockApp: App {
                 }
                 .environmentObject(appStorage)
                 .environmentObject(iapManager)
+                .environmentObject(sound)
         }
     }
 }

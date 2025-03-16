@@ -51,7 +51,6 @@ struct GameGridView: View {
                 }
             }
             .background(Image("\(appStorage.ChessboardSkin)"))
-            .clipped()
             
             // 绘制阴影
             
