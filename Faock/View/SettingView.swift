@@ -37,32 +37,59 @@ struct SettingView: View {
             GeometryReader { geo in
                 let width = geo.frame(in: .global).width
                 let height = geo.frame(in: .global).height
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     // 留白
-                    Spacer().frame(height: 30)
+                    Spacer().frame(height: 10)
                     // 外层框架
                     VStack(alignment: .center) {
                         // 游戏会员
-                        NavigationLink(destination: {
-                            GameMembershipView()
-                        }, label: {
-                            HStack {
-                                // 图标
-                                Image("king2")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                Spacer().frame(width: 20)
-                                Text("Get game membership")
-                                Spacer()
-                                Image(systemName: "chevron.right")
+                        if appStorage.isInAppPurchase {
+                            NavigationLink(destination: {
+                                GameMembershipView()
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Image("king")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                    Spacer().frame(width: 20)
+                                    Text("Game membership")
+                                    Spacer()
+                                    Text("Permanent")
+                                        .fontWeight(.bold)
+                                        .font(.caption)
+                                }
+                                .foregroundColor(.white)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
+                                .background(colorScheme == .light ? Color(hex: "2F438D") : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
                             }
-                            .padding(.vertical,10)
-                            .padding(.horizontal,14)
-                            .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
-                            .cornerRadius(10)
-                            .tint(colorScheme == .light ? .black : .white)
-                        })
+                        } else {
+                            
+                            NavigationLink(destination: {
+                                GameMembershipView()
+                            }, label: {
+                                HStack {
+                                    // 图标
+                                    Image("king2")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                    Spacer().frame(width: 20)
+                                    Text("Get game membership")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.vertical,10)
+                                .padding(.horizontal,14)
+                                .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
+                                .cornerRadius(10)
+                                .tint(colorScheme == .light ? .black : .white)
+                            })
+                        }
                         
                         // 分割 - 间距
                         Spacer().frame(height: 16)
@@ -413,7 +440,7 @@ struct SettingView: View {
 }
 
 #Preview {
-    @ObservedObject var appStorage = AppStorageManager.shared
     return SettingView()
-        .environmentObject(appStorage)
+        .environmentObject(AppStorageManager.shared)
+        .environmentObject(IAPManager.shared)
 }

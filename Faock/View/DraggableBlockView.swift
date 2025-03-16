@@ -75,5 +75,7 @@ struct DraggableBlockView: View {
 }
 
 #Preview {
-    DraggableBlockView(block: Block(shape: [[0,1,0],[1,1,1]]), GestureOffset: 80, onDrag: {_,_,_ in }, onDrop: { _, _,_  in })
+    let appStorage = AppStorageManager.shared
+    return DraggableBlockView(block: Block(shape: [[0,1,0],[1,1,1]]), GestureOffset: 80, onDrag: {_,_,_ in }, onDrop: { _, _,_  in })
+        .environmentObject(appStorage) // 确保环境对象存在
 }

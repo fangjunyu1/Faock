@@ -124,14 +124,12 @@ struct Game: View {
                         GameOver = true
                     }
                     triggerShake() // 触发抖动
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         // 更新最高分数
                         updateScore()
                         withAnimation {
                             GameOverZoomAnimation = true
                             GameOverButton = true
                         }
-                    }
                 }
             }
         } else {
@@ -422,14 +420,12 @@ struct Game: View {
                                                     GameOver = true
                                                 }
                                                 triggerShake() // 触发抖动
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     // 更新最高分数
                                                     updateScore()
                                                     withAnimation {
                                                         GameOverZoomAnimation = true
                                                         GameOverButton = true
                                                     }
-                                                }
                                             }
                                         })
                                         .offset(x: shakeOffset) // 应用抖动偏移
@@ -462,9 +458,7 @@ struct Game: View {
                                 // 重置分数
                                 GameScore = 0
                                 // 重置显示最高得分
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     ShowHighestScore = false
-                                }
                                 // 重置棋盘
                                 grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
                                 // 重置方块

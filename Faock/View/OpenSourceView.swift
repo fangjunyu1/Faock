@@ -18,7 +18,7 @@ struct OpenSourceView: View {
             GeometryReader { geo in
                 var width = geo.frame(in: .global).width
                 var height = geo.frame(in: .global).height
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     Spacer().frame(height: 30)
                     Text("Let the code be exposed to the sun")
                         .fontWeight(.bold)
@@ -47,8 +47,8 @@ struct OpenSourceView: View {
                         Text("GitHub")
                             .fontWeight(.bold)
                             .frame(width: 180,height: 60)
-                            .foregroundColor(.white)
-                            .background(.black)
+                            .foregroundColor(colorScheme == .light ? .white : .black)
+                            .background(colorScheme == .light ? .black : .white)
                             .cornerRadius(10)
                     }
                     Spacer()

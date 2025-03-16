@@ -19,7 +19,7 @@ struct AcknowledgementsView: View {
             GeometryReader { geo in
                 var width = geo.frame(in: .global).width
                 var height = geo.frame(in: .global).height
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     Spacer().frame(height: 30)
                     Text("Thanks to Freepik, LottieFile and px")
                         .fontWeight(.bold)

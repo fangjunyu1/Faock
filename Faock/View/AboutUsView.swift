@@ -18,7 +18,7 @@ struct AboutUsView: View {
             GeometryReader { geo in
                 var width = geo.frame(in: .global).width
                 var height = geo.frame(in: .global).height
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     LottieView(filename: "developer")
                         .frame(width: 300,height: 300)
                     Text("Who are we?")
