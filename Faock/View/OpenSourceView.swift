@@ -60,6 +60,7 @@ struct OpenSourceView: View {
         }
         .navigationTitle("Open source")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationViewStyle(.stack) // 让 macOS 也变成单个视图
     }
 }
 

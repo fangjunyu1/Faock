@@ -57,6 +57,7 @@ struct AboutUsView: View {
         }
         .navigationTitle("About us")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationViewStyle(.stack) // 让 macOS 也变成单个视图
     }
 }
 
