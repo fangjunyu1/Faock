@@ -21,6 +21,7 @@ struct AboutUsView: View {
                 ScrollView(showsIndicators: false) {
                     LottieView(filename: "developer")
                         .frame(width: 300,height: 300)
+                        .padding(.top, -50)
                     Text("Who are we?")
                         .fontWeight(.bold)
                         .font(.title)
@@ -48,7 +49,7 @@ struct AboutUsView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.leading)
-                    Spacer().frame(height: 30)
+                    Spacer().frame(height: 50)
                 }
                 .frame(width: width * 0.9)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -63,5 +64,5 @@ struct AboutUsView: View {
 
 #Preview {
     AboutUsView()
-//        .environment(\.locale, .init(identifier: "ar")) // 设置为阿拉伯语
+        .environment(\.locale, .init(identifier: "ar")) // 设置为阿拉伯语
 }

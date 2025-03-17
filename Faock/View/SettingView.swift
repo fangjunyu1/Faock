@@ -66,6 +66,8 @@ struct SettingView: View {
                                 .background(colorScheme == .light ? Color(hex: "2F438D") : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.3) // 最小缩放比例
                             })
                         } else {
                             
@@ -88,6 +90,8 @@ struct SettingView: View {
                                 .background(colorScheme == .light ? .white : Color(hex:"1F1F1F"))
                                 .cornerRadius(10)
                                 .tint(colorScheme == .light ? .black : .white)
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.3) // 最小缩放比例
                             })
                         }
                         
@@ -107,6 +111,8 @@ struct SettingView: View {
                                 }
                             Spacer().frame(width: 20)
                             Text("Sound effects")
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                             Spacer()
                             Toggle(isOn: $appStorage.Music){}
                                 .tint(.green)
@@ -139,6 +145,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Manage game data")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -170,6 +178,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Block skins")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -203,6 +213,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Board skins")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -237,6 +249,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Problem feedback")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -267,6 +281,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Terms of use")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -298,6 +314,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Privacy policy")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -333,6 +351,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("About us")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -365,6 +385,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Acknowledgements")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -397,6 +419,8 @@ struct SettingView: View {
                                         }
                                     Spacer().frame(width: 20)
                                     Text("Open source")
+                                        .lineLimit(1) // 限制文本为一行
+                                        .minimumScaleFactor(0.5) // 最小缩放比例
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -443,4 +467,5 @@ struct SettingView: View {
     return SettingView()
         .environmentObject(AppStorageManager.shared)
         .environmentObject(IAPManager.shared)
+        .environment(\.locale, .init(identifier: "de")) // 设置其他语言
 }

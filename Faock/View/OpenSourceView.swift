@@ -66,4 +66,5 @@ struct OpenSourceView: View {
 
 #Preview {
     OpenSourceView()
+        .environment(\.locale, .init(identifier: "de")) // 设置为阿拉伯语
 }

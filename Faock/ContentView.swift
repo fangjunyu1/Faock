@@ -20,10 +20,12 @@ struct ContentView: View {
 }
 
 #Preview {
-    @ObservedObject var appStorage = AppStorageManager.shared
 //        if let bundleID = Bundle.main.bundleIdentifier {
 //            UserDefaults.standard.removePersistentDomain(forName: bundleID)
 //        }
-    return ContentView()
-        .environmentObject(appStorage)
+    ContentView()
+        .environmentObject(IAPManager.shared)
+        .environmentObject(AppStorageManager.shared)
+        .environmentObject(SoundManager.shared)
+        .environment(\.locale, .init(identifier: "de")) // 设置其他语言
 }

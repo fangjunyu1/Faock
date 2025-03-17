@@ -24,10 +24,12 @@ struct AcknowledgementsView: View {
                     Text("Thanks to Freepik, LottieFile and px")
                         .fontWeight(.bold)
                         .font(.title3)
+                        .multilineTextAlignment(.center)
                     Spacer().frame(height: 10)
                     Text("for providing free images, animations and sound effects.")
                         .font(.footnote)
                         .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
                     Spacer().frame(height: 20)
                     Image("freepik")
                         .resizable()
@@ -75,4 +77,5 @@ struct AcknowledgementsView: View {
 
 #Preview {
     AcknowledgementsView()
+        .environment(\.locale, .init(identifier: "de")) // 设置为阿拉伯语
 }

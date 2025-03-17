@@ -26,6 +26,7 @@ struct GameMembershipView: View {
                     .fontWeight(.bold)
                     .font(.title)
                     .padding()
+                    .multilineTextAlignment(.center)
                 Text("If you are satisfied with our game, we hope you can sponsor us through in-app purchases to help us develop more and better games.")
                     .font(.footnote)
                     .foregroundColor(.gray)
@@ -38,21 +39,33 @@ struct GameMembershipView: View {
                         Text("Game membership")
                             .font(.title3)
                             .fontWeight(.bold)
+                            .lineLimit(1) // 限制文本为一行
+                            .minimumScaleFactor(0.5) // 最小缩放比例
                         Spacer()
                         Text("Non-consumable items")
                             .font(.footnote)
+                            .lineLimit(1) // 限制文本为一行
+                            .minimumScaleFactor(0.5) // 最小缩放比例
                     }
                     Spacer().frame(height: 20)
                     HStack {
                         VStack(alignment: .leading,spacing: 5) {
                             Text("Play all game modes")
                                 .fontWeight(.bold)
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                             Text("No pop-up ads")
                                 .fontWeight(.bold)
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                             Text("Enjoy all game skins")
                             .fontWeight(.bold)
+                            .lineLimit(1) // 限制文本为一行
+                            .minimumScaleFactor(0.5) // 最小缩放比例
                             Text("Get all the rights of the game")
                             .fontWeight(.bold)
+                            .lineLimit(1) // 限制文本为一行
+                            .minimumScaleFactor(0.5) // 最小缩放比例
                         }
                         .font(.footnote)
                         Spacer()
@@ -179,4 +192,5 @@ struct GameMembershipView: View {
     return GameMembershipView()
         .environmentObject(IAPManager.shared)
         .environmentObject(AppStorageManager.shared)
+        .environment(\.locale, .init(identifier: "de")) // 设置其他语言
 }

@@ -11350,6 +11350,12 @@
             "value" : "хто ми"
           }
         },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chúng tôi là ai?"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
