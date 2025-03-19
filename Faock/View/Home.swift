@@ -11,15 +11,27 @@ struct Home: View {
     @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     @Binding var viewStep: Int
+    @Binding var selectedTab: Int
     @State private var isSettingView = false
     var body: some View {
         NavigationView {
             VStack {
-                Image("1")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 380)
-                    .shadow(radius: 10,x: 0,y: 10)
+                TabView(selection: $selectedTab) {
+                    Image("0")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 380)
+                        .shadow(radius: 10,x: 0,y: 10)
+                        .tag(0) // 给每个选项卡一个标记
+                    
+                    Image("1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 380)
+                        .shadow(radius: 10,x: 0,y: 10)
+                        .tag(1) // 给每个选项卡一个标记
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                 Spacer().frame(height: 100)
                 Button(action: {
                     // 跳转到游戏视图
@@ -64,7 +76,6 @@ struct Home: View {
 }
 
 #Preview {
-    @ObservedObject var appStorage = AppStorageManager.shared
-    return Home(viewStep: .constant(1))
-        .environmentObject(appStorage)
+    Home(viewStep: .constant(1), selectedTab: .constant(0))
+        .environmentObject(AppStorageManager.shared)
 }

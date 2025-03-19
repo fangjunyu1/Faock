@@ -14,8 +14,11 @@ struct Game: View {
     @EnvironmentObject var sound: SoundManager  // 通过 Sound 注入
     @Environment(\.colorScheme) var colorScheme
     // 定义网格的行列
-    @State private var grid: [[Int]] = Array(repeating: Array(repeating: 0, count: 9), count: 9)
+    @State private var grid: [[Int]]
+    
     @Binding var viewStep: Int
+    @Binding var selectedTab: Int
+    
     @State private var GameScore = 0
     @State private var CurrentBlock: [Block?] = []
     @State private var gridOrigin: CGPoint = .zero  // 记录视图左上角坐标
@@ -33,11 +36,21 @@ struct Game: View {
     let GestureOffset: CGFloat = 80
     let cellSize: CGFloat = 40  // 需要与网格大小一致
     
+    let rowCount:Int    //  行
+    let colCount:Int    // 列
     //    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
     
     @State private var windowSize: CGSize = .zero
     @State private var GameOverButton = false
     @State private var ShowHighestScore = false
+    
+    init(viewStep: Binding<Int>,selectedTab:Binding<Int>, rowCount: Int = 10, colCount: Int = 8) {
+        self._viewStep = viewStep
+        self._selectedTab = selectedTab
+        self.rowCount = rowCount
+        self.colCount = colCount
+        _grid = State(initialValue: Array(repeating: Array(repeating: 0, count: colCount), count: rowCount))
+    }
     func generateNewBlocks() -> [Block] {
         let blocks = [
             // 横向
@@ -68,7 +81,18 @@ struct Game: View {
             Block(shape: [[1],[1],[1]]), // 三点竖
             Block(shape: [[1],[1],[1],[1]]), // 四点竖
         ]
-        return blocks.shuffled().prefix(3).map { $0 }
+        if selectedTab == 0 {
+            return blocks.shuffled().prefix(3).map { $0 }
+        } else if selectedTab == 1 {
+            // 生成3个相同方块
+            if let block = blocks.randomElement() {
+                return Array(repeating: block, count: 3)  // 重复3次
+            } else {
+                return []
+            }
+        } else {
+            return blocks.shuffled().prefix(3).map { $0 }
+        }
     }
     
     
@@ -92,7 +116,7 @@ struct Game: View {
         let col = Int(round(Double(CalculateX / cellSize)))
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
-        guard row >= 0, col >= 0, row < 9, col < 9 else {
+        guard row >= 0, col >= 0, row < rowCount, col < colCount else {
             print("无法放置方块，超出网格边界")
             return
         }
@@ -135,13 +159,13 @@ struct Game: View {
                         GameOver = true
                     }
                     triggerShake() // 触发抖动
-                        // 更新最高分数
-                        updateScore()
+                    // 更新最高分数
+                    updateScore()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            withAnimation {
-                                GameOverZoomAnimation = true
-                                GameOverButton = true
-                            }
+                        withAnimation {
+                            GameOverZoomAnimation = true
+                            GameOverButton = true
+                        }
                     }
                 }
             }
@@ -167,7 +191,7 @@ struct Game: View {
         let col = Int(round(Double(CalculateX / cellSize)))
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
-        guard row >= 0, col >= 0, row < 9, col < 9 else {
+        guard row >= 0, col >= 0, row < rowCount, col < colCount else {
             print("无法放置方块，超出网格边界")
             return
         }
@@ -191,9 +215,9 @@ struct Game: View {
     // 检查方块是否可以放置
     func canPlaceBlock(_ block: Block, atRow row: Int, col: Int) -> Bool {
         // 提前检查边界（避免循环内过多判断）
-            if row + block.shape.count > 9 || col + block.shape[0].count > 9 {
-                return false
-            }
+        if row + block.shape.count > rowCount || col + block.shape[0].count > colCount {
+            return false
+        }
         print("进入canPlaceBlock方法")
         print("计算出的 row:\(row), col:\(col)")
         // 遍历当前方块的行数
@@ -210,7 +234,7 @@ struct Game: View {
                     // 判断网格的 1，5 是否超过 9 以及是否已经有方块，如果超过 9 或有方块，则返回 false，否则返回 true。
                     let targetRow = row + r
                     let targetCol = col + c
-                    if targetRow < 0 || targetRow >= 9 || targetCol < 0 || targetCol >= 9 || grid[targetRow][targetCol] == 1 {
+                    if targetRow < 0 || targetRow >= rowCount || targetCol < 0 || targetCol >= colCount || grid[targetRow][targetCol] == 1 {
                         print("targetRow:\(targetRow)")
                         print("targetCol:\(targetCol)")
                         print("返回false")
@@ -235,7 +259,7 @@ struct Game: View {
         // 找到需要消除的行
         var rowsToClear: Set<Int> = []
         print("新增rowsToClear方法")
-        for row in 0..<9 {
+        for row in 0..<rowCount {
             if newGrid[row].allSatisfy({ $0 == 1 }) {
                 rowsToClear.insert(row)
             }
@@ -244,8 +268,8 @@ struct Game: View {
         // 找到需要消除的列
         print("新增colsToClear方法")
         var colsToClear: Set<Int> = []
-        for col in 0..<9 {
-            if (0..<9).allSatisfy({ newGrid[$0][col] == 1 }) {
+        for col in 0..<colCount {
+            if (0..<colCount).allSatisfy({ newGrid[$0][col] == 1 }) {
                 colsToClear.insert(col)
             }
         }
@@ -261,12 +285,12 @@ struct Game: View {
         
         // 清除整行
         for row in rowsToClear {
-            newGrid[row] = Array(repeating: 0, count: 9)
+            newGrid[row] = Array(repeating: 0, count: rowCount)
         }
         
         // 清除整列
         for col in colsToClear {
-            for row in 0..<9 {
+            for row in 0..<colCount {
                 newGrid[row][col] = 0
             }
         }
@@ -297,7 +321,7 @@ struct Game: View {
                 }
             }
             // 新增空行填充到第0行。
-            newGrid[0] = Array(repeating: 0, count: 9) // 顶部填充空行
+            newGrid[0] = Array(repeating: 0, count: colCount) // 顶部填充空行
         }
         grid = newGrid
     }
@@ -396,12 +420,11 @@ struct Game: View {
                     .foregroundColor(.white)
                     .background(colorScheme == .light ? Color(hex: "2F438D") : .gray)
                     .cornerRadius(10)
-                    
-                    Spacer().frame(height: 30)
+                    Spacer().frame(height: 50)
                     // 网格和方块，用于结束时缩放。
                     VStack {
                         // 背景网格
-                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock)
+                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock,cellSize: cellSize)
                             .background {
                                 GeometryReader { gridGeo in
                                     Color.clear
@@ -446,8 +469,8 @@ struct Game: View {
                                                     GameOver = true
                                                 }
                                                 triggerShake() // 触发抖动
-                                                    // 更新最高分数
-                                                    updateScore()
+                                                // 更新最高分数
+                                                updateScore()
                                                 
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     withAnimation {
@@ -471,8 +494,8 @@ struct Game: View {
                     .frame(height: GameOverZoomAnimation ? 306 : 510)
                     .scaleEffect(GameOverZoomAnimation ? 0.6 : 1)
                     .animation(.easeInOut(duration: 0.3), value: GameOverZoomAnimation)
-                    Spacer().frame(height: 30)
                     if GameOverButton {
+                        Spacer().frame(height: 30)
                         VStack {
                             Button(action: {
                                 if !appStorage.RequestRating {
@@ -487,9 +510,9 @@ struct Game: View {
                                 // 重置分数
                                 GameScore = 0
                                 // 重置显示最高得分
-                                    ShowHighestScore = false
+                                ShowHighestScore = false
                                 // 重置棋盘
-                                grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
+                                grid = Array(repeating: Array(repeating: 0, count: colCount), count: rowCount)
                                 // 重置方块
                                 CurrentBlock = generateNewBlocks()
                                 appStorage.GameSessions += 1
@@ -537,8 +560,8 @@ struct Game: View {
                     if ShowHighestScore {
                         VStack {
                             LottieView(filename: "Fireworks2") // 替换为你的 Lottie 文件名
-                            .allowsHitTesting(false) // 让动画不阻挡点击
-                            .offset(y: -200)
+                                .allowsHitTesting(false) // 让动画不阻挡点击
+                                .offset(y: -200)
                         }
                     }
                 }
@@ -548,7 +571,7 @@ struct Game: View {
                 .toolbar {
                     // 标题
                     ToolbarItem(placement: .principal) {
-                        Text("Sinking elimination")
+                        Text(selectedTab == 0 ? String(localized: "Sinking elimination") : String(localized: "Three Identical Blocks"))
                             .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                             .font(.headline)
                     }
@@ -580,10 +603,10 @@ struct Game: View {
 }
 
 #Preview {
-//    if let bundleID = Bundle.main.bundleIdentifier {
-//        UserDefaults.standard.removePersistentDomain(forName: bundleID)
-//    }
-    return Game(viewStep: .constant(1))
+    //    if let bundleID = Bundle.main.bundleIdentifier {
+    //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+    //    }
+    Game(viewStep: .constant(1),selectedTab: .constant(1))
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
 }

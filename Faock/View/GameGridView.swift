@@ -15,13 +15,15 @@ struct GameGridView: View {
     var shadowBlock: Block?
     var rowCount = 0
     var colCount = 0
+    var cellSize: CGFloat
     
-    init(grid: [[Int]],shadowPosition: (row: Int, col: Int)?,shadowBlock: Block?) {
+    init(grid: [[Int]],shadowPosition: (row: Int, col: Int)?,shadowBlock: Block?,cellSize: CGFloat) {
         self.grid = grid
         self.shadowPosition = shadowPosition
         self.shadowBlock = shadowBlock
         self.rowCount = grid.count
         self.colCount = grid.first?.count ?? 0
+        self.cellSize = cellSize
     }
     
     var body: some View {
@@ -34,7 +36,7 @@ struct GameGridView: View {
                         ForEach(0..<colCount, id: \.self) { col in
                             // 方格
                             Rectangle()
-                                .frame(width: 40, height: 40)
+                                .frame(width: cellSize, height: cellSize)
                                 .foregroundColor(.clear)
                                 .border(Color(hex: "C7CDDC"))
                                 .overlay {
@@ -50,7 +52,13 @@ struct GameGridView: View {
                     }
                 }
             }
-            .background(Image("\(appStorage.ChessboardSkin)"))
+            .background {
+                Image("\(appStorage.ChessboardSkin)")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                    .clipped()
+            }
             
             // 绘制阴影
             
@@ -74,7 +82,7 @@ struct GameGridView: View {
                                 let shouldDrawShadow = inShadowArea && shadow.shape[shadowRow][shadowCol] == 1
                                 
                                 Rectangle()
-                                    .frame(width: 40, height: 40)
+                                    .frame(width: cellSize, height: cellSize)
                                     .foregroundColor(.clear)
                                     .overlay {
                                         if shouldDrawShadow {
@@ -98,7 +106,7 @@ struct GameGridView: View {
                     .foregroundColor(.clear)
                 // 分割 - 横线
                 VStack {
-                    ForEach(0..<2) { item in
+                    ForEach(0..<1) { item in
                         if item == 0 { Spacer() }
                         Rectangle()
                             .foregroundColor(Color(hex: "61727A"))
@@ -108,7 +116,7 @@ struct GameGridView: View {
                 }
                 // 分割 - 竖线
                 HStack {
-                    ForEach(0..<2) { item in
+                    ForEach(0..<1) { item in
                         if item == 0 { Spacer() }
                         Rectangle()
                             .foregroundColor(Color(hex: "61727A"))
@@ -123,6 +131,6 @@ struct GameGridView: View {
 
 #Preview {
     @ObservedObject var appStorage = AppStorageManager.shared
-    return GameGridView(grid: Array(repeating: Array(repeating: 0, count: 9), count: 9),shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]))
+    return GameGridView(grid: Array(repeating: Array(repeating: 0, count: 8), count: 12),shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]),cellSize: 36)
         .environmentObject(appStorage)
 }

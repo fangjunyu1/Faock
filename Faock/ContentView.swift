@@ -10,11 +10,12 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var viewStep = 0
+    @State private var selectedTab = 0
     var body: some View {
         if viewStep == 0 {
-            Home(viewStep: $viewStep)
+            Home(viewStep: $viewStep,selectedTab: $selectedTab)
         } else if viewStep == 1 {
-            Game(viewStep: $viewStep)
+            Game(viewStep: $viewStep,selectedTab: $selectedTab)
         }
     }
 }
@@ -27,5 +28,5 @@ struct ContentView: View {
         .environmentObject(IAPManager.shared)
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
-        .environment(\.locale, .init(identifier: "ru")) // 设置其他语言
+        .environment(\.locale, .init(identifier: "en")) // 设置其他语言
 }

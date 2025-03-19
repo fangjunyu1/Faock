@@ -12,7 +12,7 @@ struct BlockView: View {
     @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @Environment(\.colorScheme) var colorScheme
     let block: Block
-    let blockSize: CGFloat = 40
+    let blockSize: CGFloat = 36
     
     var body: some View {
         VStack(spacing: 0) {
