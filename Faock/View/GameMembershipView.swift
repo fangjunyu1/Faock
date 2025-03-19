@@ -82,8 +82,12 @@ struct GameMembershipView: View {
                         if !iapManager.products.isEmpty {
                             
                             Text("\(iapManager.products.first?.displayPrice ?? "N/A")")
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                         } else {
                             Text("$ --")
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                         }
                         Spacer()
                         if appStorage.isInAppPurchase {

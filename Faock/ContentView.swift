@@ -27,5 +27,5 @@ struct ContentView: View {
         .environmentObject(IAPManager.shared)
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
-        .environment(\.locale, .init(identifier: "de")) // 设置其他语言
+        .environment(\.locale, .init(identifier: "ru")) // 设置其他语言
 }
