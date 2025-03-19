@@ -32,6 +32,12 @@ struct Home: View {
                         .tag(1) // 给每个选项卡一个标记
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                .onAppear {
+                    if colorScheme == .light {
+                        UIPageControl.appearance().currentPageIndicatorTintColor = .black // 当前页指示器为黑色
+                        UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.3) // 其他页指示器半透明黑色
+                    }
+                }
                 Spacer().frame(height: 100)
                 Button(action: {
                     // 跳转到游戏视图
@@ -46,6 +52,7 @@ struct Home: View {
                         .background(colorScheme == .light ?  Color(hex:"2F438D") : .gray)
                         .cornerRadius(6)
                 })
+                Spacer()
             }
             .navigationTitle("Faock")
             .navigationBarTitleDisplayMode(.inline)
