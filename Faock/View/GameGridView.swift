@@ -52,13 +52,6 @@ struct GameGridView: View {
                     }
                 }
             }
-            .background {
-                Image("\(appStorage.ChessboardSkin)")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
-                    .clipped()
-            }
             
             // 绘制阴影
             

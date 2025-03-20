@@ -13,8 +13,11 @@ struct Game: View {
     @EnvironmentObject var appStorage: AppStorageManager  // 通过 EnvironmentObject 注入
     @EnvironmentObject var sound: SoundManager  // 通过 Sound 注入
     @Environment(\.colorScheme) var colorScheme
+    
     // 定义网格的行列
     @State private var grid: [[Int]]
+    // 定义“世界名画”模式的名画
+    @State private var masterpieceGrid: [[Int]]
     
     @Binding var viewStep: Int
     @Binding var selectedTab: Int
@@ -29,6 +32,7 @@ struct Game: View {
     @State private var shakeOffset: CGFloat = 0
     @State private var GameOverZoomAnimation = false
     @State private var isSettingView = false
+    @State private var CompletedFamousPainting = false
     // 分数更新动画
     let incrementStep = 1  // 每次增加多少
     let animationSpeed = 0.05  // 速度（秒）
@@ -40,16 +44,24 @@ struct Game: View {
     let colCount:Int    // 列
     //    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
     
+    let modelName = ["Sinking elimination","Three Identical Blocks","World famous paintings"]
+    // 仅用于标记“世界名画”名称
+    let paintingNameList = ["蒙娜丽莎","呐喊","向日葵","戴珍珠耳环的少女","星空","最后的晚餐","拾穗者","梵高自画像","记忆的永恒","睡莲","抱银貂的女子"]
+    @State private var paintingNumber = Int.random(in: 0..<11)
     @State private var windowSize: CGSize = .zero
     @State private var GameOverButton = false
     @State private var ShowHighestScore = false
-    
     init(viewStep: Binding<Int>,selectedTab:Binding<Int>, rowCount: Int = 10, colCount: Int = 8) {
         self._viewStep = viewStep
         self._selectedTab = selectedTab
         self.rowCount = rowCount
         self.colCount = colCount
         _grid = State(initialValue: Array(repeating: Array(repeating: 0, count: colCount), count: rowCount))
+        
+        // 设置画作
+        paintingNumber = Int.random(in: 0..<11)
+        // 设置名画
+        _masterpieceGrid = State(initialValue: Array(repeating: Array(repeating: 0, count: colCount), count: rowCount))
     }
     func generateNewBlocks() -> [Block] {
         let blocks = [
@@ -131,6 +143,9 @@ struct Game: View {
                 for c in 0..<block.shape[r].count {
                     if block.shape[r][c] == 1 {
                         grid[row + r][col + c] = 1
+                        if selectedTab == 2 {
+                            masterpieceGrid[row + r][col + c] = 1
+                        }
                     }
                 }
             }
@@ -156,12 +171,29 @@ struct Game: View {
                 // 判断游戏是否结束
                 if isGameOver() {
                     withAnimation {
+                        print("placeBlock方法，GameOver改为true")
                         GameOver = true
                     }
                     triggerShake() // 触发抖动
                     // 更新最高分数
                     updateScore()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        withAnimation {
+                            print("placeBlock方法，GameOverZoomAnimation和GameOverButton改为true")
+                            GameOverZoomAnimation = true
+                            GameOverButton = true
+                        }
+                    }
+                } else if isMasterpieceGameOver() {
+                    withAnimation {
+                        print("当放置方块后，检测isGameOver，GameOver改为true")
+                        GameOver = true
+                    }
+                    triggerShake() // 触发抖动
+                    // 更新最高分数
+                    updateScore()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         withAnimation {
                             GameOverZoomAnimation = true
                             GameOverButton = true
@@ -282,15 +314,19 @@ struct Game: View {
         }
         
         print("需要清除的行: \(rowsToClear.sorted())")
+        print("需要清除的列: \(colsToClear.sorted())")
         
         // 清除整行
         for row in rowsToClear {
+            print("清理第\(row)行")
             newGrid[row] = Array(repeating: 0, count: rowCount)
         }
         
         // 清除整列
         for col in colsToClear {
-            for row in 0..<colCount {
+            print("清理第\(col)列")
+            for row in 0..<rowCount {
+                print("将第\(col)列的第\(row)设置为0")
                 newGrid[row][col] = 0
             }
         }
@@ -353,6 +389,25 @@ struct Game: View {
         return true
     }
     
+    func isMasterpieceGameOver() -> Bool{
+        // 如果是“世界名画”模式，判断selectedTab
+        if selectedTab == 2 {
+            for rows in masterpieceGrid {
+                for col in rows {
+                    // 当存在未填满的方块时，判断为false
+                    if col == 0 {
+                        return false
+                    }
+                }
+            }
+            // 如果遍历后，没有未填满的方块，返回true
+            withAnimation(.easeIn(duration: 1)) {
+                CompletedFamousPainting = true
+            }
+            return true
+        }
+        return false
+    }
     // 分数递增动画
     func increaseScore(to newScore: Int) {
         Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
@@ -391,6 +446,24 @@ struct Game: View {
         }
     }
     
+    //  生成蒙版，显示已占据的部分
+        func maskView() -> some View {
+            VStack(spacing: 0) {
+                ForEach(0..<rowCount, id: \.self) { row in
+                    HStack(spacing: 0) {
+                        ForEach(0..<colCount, id: \.self) { col in
+                            if masterpieceGrid[row][col] == 1 {
+                                Rectangle()
+                                    .fill(Color.white) // 显示占据部分
+                            } else {
+                                Rectangle()
+                                    .opacity(0)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     var body: some View {
         NavigationView {
             GeometryReader { globalGeo in
@@ -436,6 +509,42 @@ struct Game: View {
                                             }
                                         }
                                 }
+                                if selectedTab != 2 {
+                                    Image("\(appStorage.ChessboardSkin)")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                        .clipped()
+                                } else {
+                                    ZStack {
+                                        // 虚化背景
+                                            Image("masterpiece\(paintingNumber)")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                                .clipped()
+                                                .opacity(0.3)
+                                        // 放置背景
+                                            Image("masterpiece\(paintingNumber)")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                                .clipped()
+                                                .opacity(0.8)
+                                                .mask(maskView()) // 使用 mask 实现显示占据的部分
+                                    }
+                                }
+                                
+                            }
+                            .overlay {
+                                if CompletedFamousPainting {
+                                        Image("masterpiece\(paintingNumber)")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                            .clipped()
+                                            .opacity(CompletedFamousPainting ? 1 : 0)
+                                }
                             }
                         Spacer().frame(height: 30)
                         // 三个随机生成的方块
@@ -461,11 +570,26 @@ struct Game: View {
                                             shadowPosition = nil
                                             shadowBlock = nil
                                             // 消除行、列的方块
-                                            print("进入clearFullRowsAndColumns方法")
                                             clearFullRowsAndColumns()
                                             // 判断游戏是否结束
                                             if isGameOver() {
                                                 withAnimation {
+                                                    print("当放置方块后，检测isGameOver，GameOver改为true")
+                                                    GameOver = true
+                                                }
+                                                triggerShake() // 触发抖动
+                                                // 更新最高分数
+                                                updateScore()
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                    withAnimation {
+                                                        GameOverZoomAnimation = true
+                                                        GameOverButton = true
+                                                    }
+                                                }
+                                            } else if isMasterpieceGameOver() {
+                                                withAnimation {
+                                                    print("当放置方块后，检测isGameOver，GameOver改为true")
                                                     GameOver = true
                                                 }
                                                 triggerShake() // 触发抖动
@@ -498,24 +622,36 @@ struct Game: View {
                         Spacer().frame(height: 30)
                         VStack {
                             Button(action: {
+                                print("点击了重新开始按钮")
                                 if !appStorage.RequestRating {
                                     appStorage.RequestRating = true
                                     SKStoreReviewController.requestReview()
                                 }
-                                // 结束标识改为false
-                                GameOver = false
-                                // 结束动画标识改为false
-                                GameOverZoomAnimation = false
-                                GameOverButton = false
-                                // 重置分数
-                                GameScore = 0
-                                // 重置显示最高得分
-                                ShowHighestScore = false
-                                // 重置棋盘
-                                grid = Array(repeating: Array(repeating: 0, count: colCount), count: rowCount)
-                                // 重置方块
-                                CurrentBlock = generateNewBlocks()
-                                appStorage.GameSessions += 1
+                                
+                                withAnimation {
+                                    print("结束标识改为false")
+                                    // 结束标识改为false
+                                    GameOver = false
+                                    // 结束动画标识改为false
+                                    GameOverZoomAnimation = false
+                                    GameOverButton = false
+                                    // 重置分数
+                                    GameScore = 0
+                                    // 重置显示最高得分
+                                    ShowHighestScore = false
+                                    // 重置棋盘
+                                    grid = Array(repeating: Array(repeating: 0, count: colCount), count: rowCount)
+                                    // 重制名画棋盘
+                                    masterpieceGrid = Array(repeating: Array(repeating: 0, count: colCount), count: rowCount)
+                                    // 重置方块
+                                    CurrentBlock = generateNewBlocks()
+                                    appStorage.GameSessions += 1
+                                    // 设置完成名画为false
+                                    CompletedFamousPainting = false
+                                    
+                                    // 重新设置世界名画的内容
+                                    paintingNumber = Int.random(in: 0..<11)
+                                }
                             }, label: {
                                 Text("Play again")
                                     .fontWeight(.bold)
@@ -545,7 +681,6 @@ struct Game: View {
                     if CurrentBlock.isEmpty {
                         CurrentBlock = generateNewBlocks()
                     }
-                    
                     DispatchQueue.main.async {
                         windowSize = globalGeo.size
                     }
@@ -557,7 +692,8 @@ struct Game: View {
                     
                 }
                 .overlay {
-                    if ShowHighestScore {
+                    // 当达到最高分或者完成“世界名画”时，播放烟花
+                    if ShowHighestScore || CompletedFamousPainting {
                         VStack {
                             LottieView(filename: "Fireworks2") // 替换为你的 Lottie 文件名
                                 .allowsHitTesting(false) // 让动画不阻挡点击
@@ -571,7 +707,7 @@ struct Game: View {
                 .toolbar {
                     // 标题
                     ToolbarItem(placement: .principal) {
-                        Text(selectedTab == 0 ? String(localized: "Sinking elimination") : String(localized: "Three Identical Blocks"))
+                        Text(LocalizedStringKey(modelName[selectedTab]))
                             .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                             .font(.headline)
                     }
@@ -606,7 +742,7 @@ struct Game: View {
     //    if let bundleID = Bundle.main.bundleIdentifier {
     //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
     //    }
-    Game(viewStep: .constant(1),selectedTab: .constant(1))
+    Game(viewStep: .constant(1),selectedTab: .constant(2))
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
 }

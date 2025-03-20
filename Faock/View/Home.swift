@@ -28,6 +28,7 @@ struct Home: View {
                                 .tag(item) // 给每个选项卡一个标记
                             Spacer().frame(height: 30)
                             Text(LocalizedStringKey(modelName[item]))
+                                .font(.footnote)
                                 .foregroundColor(.white)
                                 .padding(.vertical,5)
                                 .padding(.horizontal,10)
