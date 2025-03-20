@@ -11597,6 +11597,17 @@
           }
         }
       }
+    },
+    "World famous paintings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "世界名画"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

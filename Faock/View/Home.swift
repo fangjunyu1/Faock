@@ -13,23 +13,28 @@ struct Home: View {
     @Binding var viewStep: Int
     @Binding var selectedTab: Int
     @State private var isSettingView = false
+    let modelName = ["Sinking elimination","Three Identical Blocks","World famous paintings"]
     var body: some View {
         NavigationView {
             VStack {
                 TabView(selection: $selectedTab) {
-                    Image("0")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 380)
-                        .shadow(radius: 10,x: 0,y: 10)
-                        .tag(0) // 给每个选项卡一个标记
-                    
-                    Image("1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 380)
-                        .shadow(radius: 10,x: 0,y: 10)
-                        .tag(1) // 给每个选项卡一个标记
+                    ForEach(0..<3) {item in
+                        VStack {
+                            Image("\(item)")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 380)
+                                .shadow(radius: 10,x: 0,y: 10)
+                                .tag(item) // 给每个选项卡一个标记
+                            Spacer().frame(height: 30)
+                            Text(LocalizedStringKey(modelName[item]))
+                                .foregroundColor(.white)
+                                .padding(.vertical,5)
+                                .padding(.horizontal,10)
+                                .background(.gray)
+                                .cornerRadius(10)
+                        }
+                    }
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                 .onAppear {
@@ -38,7 +43,8 @@ struct Home: View {
                         UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.3) // 其他页指示器半透明黑色
                     }
                 }
-                Spacer().frame(height: 100)
+                .frame(height: 550)
+                Spacer().frame(height: 30)
                 Button(action: {
                     // 跳转到游戏视图
                     viewStep = 1
