@@ -301,7 +301,7 @@ struct Game: View {
         print("新增colsToClear方法")
         var colsToClear: Set<Int> = []
         for col in 0..<colCount {
-            if (0..<colCount).allSatisfy({ newGrid[$0][col] == 1 }) {
+            if (0..<rowCount).allSatisfy({ newGrid[$0][col] == 1 }) {
                 colsToClear.insert(col)
             }
         }
