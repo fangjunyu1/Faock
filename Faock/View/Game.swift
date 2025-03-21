@@ -364,6 +364,8 @@ struct Game: View {
     
     /// 判断当前是否游戏结束
     func isGameOver() -> Bool {
+        print("当前棋盘grid为:\(grid)")
+        print("CurrentBlock:\(CurrentBlock)")
         // 棋盘尺寸
         let rows = grid.count
         let cols = grid[0].count
@@ -425,7 +427,6 @@ struct Game: View {
                 appStorage.HighestScore += incrementStep
             } else {
                 timer.invalidate() // 目标值达到时停止
-                ShowHighestScore = true
             }
         }
     }
@@ -433,6 +434,7 @@ struct Game: View {
     func updateScore() {
         if GameScore > appStorage.HighestScore {
             print("更新最高得分")
+            ShowHighestScore = true
             increaseHighestScore(to: GameScore)
         }
     }
