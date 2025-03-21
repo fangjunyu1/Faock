@@ -59,13 +59,13 @@ struct GameMembershipView: View {
                                 .lineLimit(1) // 限制文本为一行
                                 .minimumScaleFactor(0.5) // 最小缩放比例
                             Text("Enjoy all game skins")
-                            .fontWeight(.bold)
-                            .lineLimit(1) // 限制文本为一行
-                            .minimumScaleFactor(0.5) // 最小缩放比例
+                                .fontWeight(.bold)
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                             Text("Get all the rights of the game")
-                            .fontWeight(.bold)
-                            .lineLimit(1) // 限制文本为一行
-                            .minimumScaleFactor(0.5) // 最小缩放比例
+                                .fontWeight(.bold)
+                                .lineLimit(1) // 限制文本为一行
+                                .minimumScaleFactor(0.5) // 最小缩放比例
                         }
                         .font(.footnote)
                         Spacer()
@@ -102,23 +102,23 @@ struct GameMembershipView: View {
                                 .cornerRadius(10)
                         } else {
                             Button(action: {
-                                    if !iapManager.products.isEmpty {
-                                        iapManager.loadPurchased = true // 显示加载动画
-                                        // 将商品分配给一个变量
-                                        let productToPurchase = iapManager.products[0]
-                                        // 分开调用购买操作
-                                        iapManager.purchaseProduct(productToPurchase)
-                                        // 当等待时间超过20秒时，显示结束按钮
-                                        Task {
-                                            try? await Task.sleep(nanoseconds: 20_000_000_000) // 延迟 20 秒
-                                            endOfWait = true
-                                        }
-                                    } else {
-                                        print("products为空")
-                                        Task {
-                                            await iapManager.loadProduct()   // 加载产品信息
-                                        }
+                                if !iapManager.products.isEmpty {
+                                    iapManager.loadPurchased = true // 显示加载动画
+                                    // 将商品分配给一个变量
+                                    let productToPurchase = iapManager.products[0]
+                                    // 分开调用购买操作
+                                    iapManager.purchaseProduct(productToPurchase)
+                                    // 当等待时间超过20秒时，显示结束按钮
+                                    Task {
+                                        try? await Task.sleep(nanoseconds: 20_000_000_000) // 延迟 20 秒
+                                        endOfWait = true
                                     }
+                                } else {
+                                    print("products为空")
+                                    Task {
+                                        await iapManager.loadProduct()   // 加载产品信息
+                                    }
+                                }
                             }, label: {
                                 Text("Get game membership")
                                     .font(.footnote)
@@ -149,6 +149,31 @@ struct GameMembershipView: View {
                 .foregroundColor(.gray)
                 .font(.footnote)
                 .padding(.horizontal,18)
+                Spacer().frame(height: 20)
+                // 恢复内购按钮
+                Button(action: {
+                    // 调用恢复内购代码
+                    Task {
+                        await iapManager.restorePurchases()
+                        
+                        // ✅ 主线程更新 loadPurchased 和 endOfWait
+                        DispatchQueue.main.async {
+                            iapManager.loadPurchased = false // 结束加载动画
+                        }
+                        
+                        try? await Task.sleep(nanoseconds: 20_000_000_000) // 延迟 20 秒
+                        DispatchQueue.main.async {
+                            endOfWait = true // ✅ 主线程更新 endOfWait
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        iapManager.loadPurchased = true // ✅ 显示加载动画
+                    }
+                }, label: {
+                    Text("Restore purchases")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                })
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -196,5 +221,5 @@ struct GameMembershipView: View {
     return GameMembershipView()
         .environmentObject(IAPManager.shared)
         .environmentObject(AppStorageManager.shared)
-        .environment(\.locale, .init(identifier: "de")) // 设置其他语言
+    //        .environment(\.locale, .init(identifier: "de")) // 设置其他语言
 }

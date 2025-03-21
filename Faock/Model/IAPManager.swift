@@ -109,7 +109,7 @@ class IAPManager:ObservableObject {
         print("开始检查所有交易记录...")
         let allTransactions = Transaction.all
         var latestTransactions: [String: Transaction] = [:]
-
+        
         for await transaction in allTransactions {
             do {
                 let verifiedTransaction = try checkVerified(transaction)
@@ -126,7 +126,7 @@ class IAPManager:ObservableObject {
                 print("交易验证失败：\(error)")
             }
         }
-
+        
         var validPurchasedProducts: Set<String> = []
         
         // 处理最新的交易
@@ -139,11 +139,11 @@ class IAPManager:ObservableObject {
                 savePurchasedState(for: productID)
             }
         }
-
+        
         // **移除所有未在最新交易中的商品**
         let allPossibleProductIDs: Set<String> = Set(productID) // 所有可能的商品 ID
         let productsToRemove = allPossibleProductIDs.subtracting(validPurchasedProducts)
-
+        
         for id in productsToRemove {
             removePurchasedState(for: id)
         }
@@ -170,6 +170,41 @@ class IAPManager:ObservableObject {
         let isPurchased = AppStorageManager.shared.isInAppPurchase    // UserDefaults读取购买状态
         print("Purchased state loaded for product: \(productID) - \(isPurchased)")
         return isPurchased    // 返回购买状态
+    }
+    
+    // 调用恢复购买的函数
+    func restorePurchases() async {
+        let entitlements = Transaction.currentEntitlements
+        var hasTransactions = false
+        print("开始等待 Transaction.currentEntitlements")
+        for await result in entitlements {
+            hasTransactions = true
+            print("发现交易：\(result)")
+            switch result {
+            case .verified(let transaction):
+                print("处理已验证的交易")
+                // 处理已验证的交易
+                await handleVerifiedTransaction(transaction)
+            case .unverified(_, let error):
+                print("交易未验证，错误：\(error.localizedDescription)")
+            }
+        }
+        
+        if !hasTransactions {
+            print("没有找到任何有效的交易，可能是用户没有购买过任何项目")
+        }
+    }
+    
+    // 处理已验证的交易
+    func handleVerifiedTransaction(_ transaction: Transaction) async {
+        print("transaction:\(transaction)")
+        switch transaction.productType {
+        case .nonConsumable, .autoRenewable, .nonRenewable:
+            print("已恢复商品：\(transaction.productID)")
+            savePurchasedState(for: transaction.productID)
+        default:
+            print("其他类型商品无需恢复")
+        }
     }
 }
 // 定义 throws 报错
