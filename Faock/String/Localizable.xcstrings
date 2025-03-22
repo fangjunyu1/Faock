@@ -2697,6 +2697,12 @@
             "value" : "方方块"
           }
         },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "方方塊"
+          }
+        },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3367,6 +3373,228 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提供的遊戲思路"
+          }
+        }
+      }
+    },
+    "Gallery" : {
+      "comment" : "画廊",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "معرض فني"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "معرض فني"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galleri"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πινακοθήκη"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galería"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galería"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galleria"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "גלריה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गैलरी"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerija"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galéria"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeri"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galleria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ギャラリー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "갤러리"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeri"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galleri"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeria"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeria"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeria"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Галерея"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galéria"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galleri"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แกลเลอรี"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Галерея"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phòng trưng bày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画廊"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "畫廊"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "畫廊"
           }
         }
       }
@@ -9156,6 +9384,228 @@
         }
       }
     },
+    "Slope Blocks" : {
+      "comment" : "斜不压正/斜坡方块",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كتل مائلة"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocs inclinats"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Šikmé bloky"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrå blokke"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schräge Blöcke"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Κεκλιμένα μπλοκ"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloques inclinados"
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloques inclinados"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaltevien lohkojen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocs inclinés"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocs inclinés"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בלוקים משופעים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ढलान वाले ब्लॉक"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nagnuti blokovi"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lejtős blokkok"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blok Miring"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocchi inclinati"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傾斜ブロック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "경사 블록"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blok Condong"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrå blokker"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schuine blokken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloki nachylone"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocos inclinados"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocos inclinados"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocuri înclinate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наклонные блоки"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Šikmé bloky"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lutande block"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "บล็อกเอียง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Eğimli bloklar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нахилені блоки"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khối nghiêng"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜不压正"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜坡方塊"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜坡方塊"
+          }
+        }
+      }
+    },
     "Sound effects" : {
       "comment" : "音效",
       "extractionState" : "manual",
@@ -10706,6 +11156,228 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "感謝Freepik、LottieFile和px"
+          }
+        }
+      }
+    },
+    "The artwork is cropped to fit the chessboard size, which may differ from the original content and dimensions." : {
+      "comment" : "画作按照棋盘尺寸裁剪，与实际画作的内容、尺寸均存在出入。",
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يتم قص العمل الفني ليتناسب مع حجم لوحة الشطرنج، مما قد يختلف عن المحتوى والأبعاد الأصلية."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " L’obra es retalla per ajustar-se a la mida del tauler d’escacs, cosa que pot diferir del contingut i les dimensions originals."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umělecké dílo je oříznuto tak, aby odpovídalo velikosti šachovnice, což se může lišit od původního obsahu a rozměrů."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunstværket beskæres, så det passer til skakbrættets størrelse, hvilket kan afvige fra det originale indhold og dimensioner."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’œuvre est recadrée pour s’adapter à la taille de l’échiquier, ce qui peut différer du contenu et des dimensions d’origine."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το έργο τέχνης περικόπτεται ώστε να ταιριάζει στο μέγεθος της σκακιέρας, γεγονός που μπορεί να διαφέρει από το αρχικό περιεχόμενο και τις διαστάσεις."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La obra se recorta para ajustarse al tamaño del tablero de ajedrez, lo que puede diferir del contenido y dimensiones originales."
+          }
+        },
+        "es-419" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La obra se recorta para ajustarse al tamaño del tablero de ajedrez, lo que puede diferir del contenido y dimensiones originales."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "eos on rajattu sopimaan shakkilaudan kokoon, mikä voi poiketa alkuperäisestä sisällöstä ja mitoista."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’œuvre est recadrée pour s’adapter à la taille de l’échiquier, ce qui peut différer du contenu et des dimensions d’origine."
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’œuvre est recadrée pour s’adapter à la taille de l’échiquier, ce qui peut différer du contenu et des dimensions d’origine."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "היצירה נחתכת כך שתתאים לגודל לוח השחמט, מה שעשוי להיות שונה מהתוכן והמידות המקוריים."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कलाकृति को शतरंज की बिसात के आकार में फिट करने के लिए काटा जाता है, जिससे इसकी मूल सामग्री और आयामों में अंतर हो सकता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umjetničko djelo je izrezano kako bi odgovaralo veličini šahovske ploče, što može odstupati od izvornog sadržaja i dimenzija."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A műalkotás a sakktábla méretéhez van igazítva, ami eltérhet az eredeti tartalomtól és méretektől."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karya seni dipotong agar sesuai dengan ukuran papan catur, yang mungkin berbeda dari konten dan dimensi aslinya."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karya seni dipotong agar sesuai dengan ukuran papan catur, yang mungkin berbeda dari konten dan dimensi aslinya."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作品はチェスボードのサイズに合わせてトリミングされており、元の内容やサイズとは異なる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작품은 체스판 크기에 맞게 잘려 있으며, 원래 내용과 크기와 다를 수 있습니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karya seni dipotong agar sesuai dengan saiz papan catur, yang mungkin berbeza daripada kandungan dan dimensi asal."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunstverket er beskåret for å passe sjakkbrettets størrelse, noe som kan avvike fra det opprinnelige innholdet og dimensjonene."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het kunstwerk is bijgesneden om in de grootte van het schaakbord te passen, wat kan afwijken van de oorspronkelijke inhoud en afmetingen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dzieło sztuki jest przycięte do rozmiaru szachownicy, co może różnić się od oryginalnej treści i wymiarów."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A obra de arte é cortada para se ajustar ao tamanho do tabuleiro de xadrez, o que pode diferir do conteúdo e das dimensões originais."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A obra de arte é cortada para se ajustar ao tamanho do tabuleiro de xadrez, o que pode diferir do conteúdo e das dimensões originais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucrarea este decupată pentru a se potrivi dimensiunilor tablei de șah, ceea ce poate diferi de conținutul și dimensiunile originale."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произведение искусства обрезано, чтобы соответствовать размеру шахматной доски, что может отличаться от оригинального содержимого и размеров."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umelecké dielo je orezané, aby sa prispôsobilo veľkosti šachovnice, čo sa môže líšiť od pôvodného obsahu a rozmerov."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konstverket beskärs för att passa schackbrädets storlek, vilket kan skilja sig från det ursprungliga innehållet och måtten."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "งานศิลปะถูกตัดแต่งให้พอดีกับขนาดของกระดานหมากรุก ซึ่งอาจแตกต่างจากเนื้อหาและขนาดเดิม"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sanat eseri, satranç tahtasının boyutuna uyacak şekilde kırpılır, bu da orijinal içerik ve boyutlardan farklı olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Твір мистецтва обрізано, щоб відповідати розміру шахівниці, що може відрізнятися від оригінального вмісту та розмірів."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tác phẩm nghệ thuật được cắt để phù hợp với kích thước bàn cờ, có thể khác so với nội dung và kích thước ban đầu."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画作按照棋盘尺寸裁剪，与实际画作的内容、尺寸均存在出入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "畫作按照棋盤尺寸裁剪，與實際畫作的內容、尺寸均存在出入。"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "畫作按照棋盤尺寸裁剪，與實際畫作的內容、尺寸均存在出入。"
           }
         }
       }

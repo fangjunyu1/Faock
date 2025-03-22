@@ -45,14 +45,14 @@ struct Game: View {
     let colCount:Int    // 列
     //    let block = Block(shape: [[1, 1, 1], [0, 1, 0]])
     
-    let modelName = ["Sinking elimination","Three Identical Blocks","World famous paintings"]
+    let paintingMaxNum: Int     // 最大画作数量
+    let modelNames:[String]
     // 仅用于标记“世界名画”名称
-    let paintingNameList = ["蒙娜丽莎","呐喊","向日葵","戴珍珠耳环的少女","星空","最后的晚餐","拾穗者","梵高自画像","记忆的永恒","睡莲","抱银貂的女子"]
-    @State private var paintingNumber = Int.random(in: 0..<11)
+    @State private var paintingNumber = 0
     @State private var windowSize: CGSize = .zero
     @State private var GameOverButton = false
     @State private var ShowHighestScore = false
-    init(viewStep: Binding<Int>,selectedTab:Binding<Int>, rowCount: Int = 10, colCount: Int = 8) {
+    init(viewStep: Binding<Int>,selectedTab:Binding<Int>, rowCount: Int = 10, colCount: Int = 8,paintingMaxNum: Int,modelNames: [String]) {
         self._viewStep = viewStep
         self._selectedTab = selectedTab
         self.rowCount = rowCount
@@ -60,9 +60,12 @@ struct Game: View {
         _grid = State(initialValue: Array(repeating: Array(repeating: 0, count: colCount), count: rowCount))
         
         // 设置画作
-        paintingNumber = Int.random(in: 0..<11)
+        paintingNumber = Int.random(in: 0..<paintingMaxNum)
         // 设置名画
         _masterpieceGrid = State(initialValue: Array(repeating: Array(repeating: 0, count: colCount), count: rowCount))
+        // 画作数量
+        self.paintingMaxNum = paintingMaxNum
+        self.modelNames = modelNames
     }
     func generateNewBlocks() -> [Block] {
         let blocks = [
@@ -94,6 +97,33 @@ struct Game: View {
             Block(shape: [[1],[1],[1]]), // 三点竖
             Block(shape: [[1],[1],[1],[1]]), // 四点竖
         ]
+        let slopeBlocks = [
+            // 单点
+            Block(shape: [[1]]),
+            // 两行方格
+            Block(shape: [[0,1],[1,0]]),
+            Block(shape: [[1,0],[0,1]]),
+            Block(shape: [[0,1,0],[1,0,1]]),
+            Block(shape: [[1,0,1],[0,1,0]]),
+            Block(shape: [[1,0,1,0],[0,1,0,1]]),
+            Block(shape: [[0,1,0,1],[1,0,1,0]]),
+            // 三行方格
+            Block(shape: [[1,0,0],[0,1,0],[0,0,1]]),
+            Block(shape: [[1,0],[0,1],[1,0]]),
+            Block(shape: [[0,0,1],[0,1,0],[1,0,0]]),
+            Block(shape: [[0,1],[1,0],[0,1]]),
+            Block(shape: [[0,1,0],[1,0,1],[0,1,0]]),
+            Block(shape: [[1,0,1],[0,1,0],[1,0,1]]),
+            Block(shape: [[1,0,1],[0,1,0],[1,0,0]]),
+            Block(shape: [[1,0,1],[0,1,0],[0,0,1]]),
+            Block(shape: [[0,0,1],[0,1,0],[1,0,1]]),
+            Block(shape: [[1,0,0],[0,1,0],[1,0,1]]),
+            // 四行方格
+            Block(shape: [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]),
+            Block(shape: [[0,0,0,1],[0,0,1,0],[0,1,0,0],[1,0,0,0]]),
+            // 复杂方格
+
+        ]
         if selectedTab == 0 {
             return blocks.shuffled().prefix(3).map { $0 }
         } else if selectedTab == 1 {
@@ -103,6 +133,9 @@ struct Game: View {
             } else {
                 return []
             }
+        } else if selectedTab == 3 {
+            // 生成3个相同方块
+            return slopeBlocks.shuffled().prefix(3).map { $0 }
         } else {
             return blocks.shuffled().prefix(3).map { $0 }
         }
@@ -694,7 +727,7 @@ struct Game: View {
                                     CompletedFamousPainting = false
                                     
                                     // 重新设置世界名画的内容
-                                    paintingNumber = Int.random(in: 0..<11)
+                                    paintingNumber = Int.random(in: 0..<paintingMaxNum)
                                 }
                             }, label: {
                                 Text("Play again")
@@ -751,7 +784,7 @@ struct Game: View {
                 .toolbar {
                     // 标题
                     ToolbarItem(placement: .principal) {
-                        Text(LocalizedStringKey(modelName[selectedTab]))
+                        Text(LocalizedStringKey(modelNames[selectedTab]))
                             .foregroundColor(colorScheme == .light ? Color(hex:"2F438D") : .white)
                             .font(.headline)
                     }
@@ -786,7 +819,7 @@ struct Game: View {
     //    if let bundleID = Bundle.main.bundleIdentifier {
     //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
     //    }
-    Game(viewStep: .constant(1),selectedTab: .constant(2))
+    Game(viewStep: .constant(1),selectedTab: .constant(3), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"])
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
 }

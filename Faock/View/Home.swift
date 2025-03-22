@@ -13,12 +13,16 @@ struct Home: View {
     @Binding var viewStep: Int
     @Binding var selectedTab: Int
     @State private var isSettingView = false
-    let modelName = ["Sinking elimination","Three Identical Blocks","World famous paintings"]
+    @State private var isMasterpieceView = false
+    
+    let paintingMaxNum: Int     // 最大画作数量
+    let modelNames:[String]
+    
     var body: some View {
         NavigationView {
             VStack {
                 TabView(selection: $selectedTab) {
-                    ForEach(0..<3) {item in
+                    ForEach(0..<modelNames.count) {item in
                         VStack {
                             Image("\(item)")
                                 .resizable()
@@ -27,13 +31,26 @@ struct Home: View {
                                 .shadow(radius: 10,x: 0,y: 10)
                                 .tag(item) // 给每个选项卡一个标记
                             Spacer().frame(height: 30)
-                            Text(LocalizedStringKey(modelName[item]))
+                            Text(LocalizedStringKey(modelNames[item]))
                                 .font(.footnote)
                                 .foregroundColor(.white)
                                 .padding(.vertical,5)
                                 .padding(.horizontal,10)
                                 .background(.gray)
                                 .cornerRadius(10)
+                                .background {
+                                    // 世界名画模式，新增画廊
+                                    if item == 2 {
+                                        Button(action: {
+                                            isMasterpieceView = true
+                                            print("点击了画廊按钮")
+                                        }, label: {
+                                            Image(systemName: "paintpalette.fill")
+                                                .foregroundColor(Color(hex: "2F438D"))
+                                                .padding(.leading, 250)
+                                        })
+                                    }
+                                }
                         }
                     }
                 }
@@ -66,6 +83,9 @@ struct Home: View {
             .sheet(isPresented: $isSettingView) {
                 SettingView()
             }
+            .sheet(isPresented: $isMasterpieceView, content: {
+                MasterpieceView(paintingMaxNum:paintingMaxNum)
+            })
             .toolbar {
                 // 图标
                 ToolbarItem(placement: .topBarLeading) {
@@ -90,6 +110,6 @@ struct Home: View {
 }
 
 #Preview {
-    Home(viewStep: .constant(1), selectedTab: .constant(0))
+    Home(viewStep: .constant(1), selectedTab: .constant(0), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"])
         .environmentObject(AppStorageManager.shared)
 }

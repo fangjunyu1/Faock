@@ -16,6 +16,7 @@
 		1D6165BF2D756AE800570095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6165BD2D756AE800570095 /* InfoPlist.strings */; };
 		1D61B2B92D769E2400E8CA91 /* GameGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D61B2B82D769E2400E8CA91 /* GameGridView.swift */; };
 		1D61B2BB2D76DB8A00E8CA91 /* DraggableBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */; };
+		1D91C4C82D8E6C31000C80C5 /* MasterpieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D91C4C72D8E6C31000C80C5 /* MasterpieceView.swift */; };
 		1D93B80E2D81D9DE002AB831 /* appVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D93B80D2D81D9DE002AB831 /* appVersion.swift */; };
 		1D93B8102D81DA51002AB831 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D93B80F2D81DA51002AB831 /* AppStorageManager.swift */; };
 		1DA4AEA62D7FE0A500B0BB03 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA4AEA52D7FE0A500B0BB03 /* SettingView.swift */; };
@@ -113,6 +114,7 @@
 		1D6165E92D756E6500570095 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1D61B2B82D769E2400E8CA91 /* GameGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGridView.swift; sourceTree = "<group>"; };
 		1D61B2BA2D76DB8A00E8CA91 /* DraggableBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableBlockView.swift; sourceTree = "<group>"; };
+		1D91C4C72D8E6C31000C80C5 /* MasterpieceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterpieceView.swift; sourceTree = "<group>"; };
 		1D93B80D2D81D9DE002AB831 /* appVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appVersion.swift; sourceTree = "<group>"; };
 		1D93B80F2D81DA51002AB831 /* AppStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageManager.swift; sourceTree = "<group>"; };
 		1D93B8112D81DCD7002AB831 /* Faock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Faock.entitlements; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				1DC6811E2D82B90900B7C19E /* AboutUsView.swift */,
 				1DC681202D82B9A800B7C19E /* AcknowledgementsView.swift */,
 				1DCCD70F2D857476007B8565 /* OpenSourceView.swift */,
+				1D91C4C72D8E6C31000C80C5 /* MasterpieceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				1DE77FE92D7FC708000450E9 /* LottieView.swift in Sources */,
 				1D61B2BB2D76DB8A00E8CA91 /* DraggableBlockView.swift in Sources */,
 				1D2DC4352D75A15A00F747F8 /* Color.swift in Sources */,
+				1D91C4C82D8E6C31000C80C5 /* MasterpieceView.swift in Sources */,
 				1D61B2B92D769E2400E8CA91 /* GameGridView.swift in Sources */,
 				1D2DC4372D75A34700F747F8 /* Game.swift in Sources */,
 			);
