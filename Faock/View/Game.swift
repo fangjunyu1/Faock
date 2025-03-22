@@ -23,7 +23,8 @@ struct Game: View {
     @Binding var selectedTab: Int
     
     @State private var GameScore = 0
-    @State private var CurrentBlock: [Block?] = []
+    @State private var CurrentBlock: [Block?] = []  // 当前方块
+    @State private var CurrentBlockStatus: [Bool] = Array(repeating: true, count: 3)   // 方块透明度
     @State private var gridOrigin: CGPoint = .zero  // 记录视图左上角坐标
     @State private var locationText: CGPoint = .zero
     @State private var shadowPosition: (row: Int, col: Int)? = nil  // 阴影位置
@@ -167,6 +168,8 @@ struct Game: View {
             if isCurrentBlock {
                 print("当前列表为空，刷新列表")
                 CurrentBlock = generateNewBlocks()
+                // 重新判断刷新的方块能否放置
+                isBlockPlaced()
                 print("CurrentBlock:\(CurrentBlock)")
                 // 判断游戏是否结束
                 if isGameOver() {
@@ -449,23 +452,54 @@ struct Game: View {
     }
     
     //  生成蒙版，显示已占据的部分
-        func maskView() -> some View {
-            VStack(spacing: 0) {
-                ForEach(0..<rowCount, id: \.self) { row in
-                    HStack(spacing: 0) {
-                        ForEach(0..<colCount, id: \.self) { col in
-                            if masterpieceGrid[row][col] == 1 {
-                                Rectangle()
-                                    .fill(Color.white) // 显示占据部分
-                            } else {
-                                Rectangle()
-                                    .opacity(0)
-                            }
+    func maskView() -> some View {
+        VStack(spacing: 0) {
+            ForEach(0..<rowCount, id: \.self) { row in
+                HStack(spacing: 0) {
+                    ForEach(0..<colCount, id: \.self) { col in
+                        if masterpieceGrid[row][col] == 1 {
+                            Rectangle()
+                                .fill(Color.white) // 显示占据部分
+                        } else {
+                            Rectangle()
+                                .opacity(0)
                         }
                     }
                 }
             }
         }
+    }
+    
+    func isBlockPlaced() {
+        let rows = grid.count
+        let cols = grid[0].count
+        // 遍历当前方块
+        for (index, block) in CurrentBlock.enumerated() {
+            guard let block = block else {
+                CurrentBlockStatus[index] = false  // 如果 block 为 nil，直接设置为不可放置
+                continue
+            }
+            var canPlace = false  // 标志位：是否可以放置
+            // 检查每个位置是否可以放置
+            for startRow in 0...(rows - block.shape.count) {
+                for startCol in 0...(cols - block.shape[0].count) {
+                    let isCanPlaceBlock = canPlaceBlock(block, atRow: startRow, col: startCol)
+                    if isCanPlaceBlock {
+                        print("当前方块可以放置，游戏继续。")
+                        CurrentBlockStatus[index] = true
+                        canPlace = true
+                        break  // 找到一个可放置的位置后，立即跳出内层循环
+                    }
+                }
+                if canPlace { break }  // 也跳出外层循环
+            }
+            
+            // 如果遍历完所有位置都无法放置，则标记为 false
+            if !canPlace {
+                CurrentBlockStatus[index] = false
+            }
+        }
+    }
     var body: some View {
         NavigationView {
             GeometryReader { globalGeo in
@@ -520,32 +554,32 @@ struct Game: View {
                                 } else {
                                     ZStack {
                                         // 虚化背景
-                                            Image("masterpiece\(paintingNumber)")
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
-                                                .clipped()
-                                                .opacity(0.3)
+                                        Image("masterpiece\(paintingNumber)")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                            .clipped()
+                                            .opacity(0.3)
                                         // 放置背景
-                                            Image("masterpiece\(paintingNumber)")
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
-                                                .clipped()
-                                                .opacity(0.8)
-                                                .mask(maskView()) // 使用 mask 实现显示占据的部分
+                                        Image("masterpiece\(paintingNumber)")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                            .clipped()
+                                            .opacity(0.8)
+                                            .mask(maskView()) // 使用 mask 实现显示占据的部分
                                     }
                                 }
                                 
                             }
                             .overlay {
                                 if CompletedFamousPainting {
-                                        Image("masterpiece\(paintingNumber)")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
-                                            .clipped()
-                                            .opacity(CompletedFamousPainting ? 1 : 0)
+                                    Image("masterpiece\(paintingNumber)")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: CGFloat(colCount) * cellSize, height: CGFloat(rowCount) * cellSize)
+                                        .clipped()
+                                        .opacity(CompletedFamousPainting ? 1 : 0)
                                 }
                             }
                         Spacer().frame(height: 30)
@@ -573,6 +607,8 @@ struct Game: View {
                                             shadowBlock = nil
                                             // 消除行、列的方块
                                             clearFullRowsAndColumns()
+                                            // 判断方块能否放置
+                                            isBlockPlaced()
                                             // 判断游戏是否结束
                                             if isGameOver() {
                                                 withAnimation {
@@ -607,6 +643,7 @@ struct Game: View {
                                             }
                                         })
                                         .offset(x: shakeOffset) // 应用抖动偏移
+                                        .opacity(CurrentBlockStatus[item] ? 1.0 : 0.3)  // 无法放置时改变透明度
                                     } else {
                                         Rectangle()
                                             .opacity(0)
@@ -629,7 +666,8 @@ struct Game: View {
                                     appStorage.RequestRating = true
                                     SKStoreReviewController.requestReview()
                                 }
-                                
+                                // 重制方块状态，改为可放置状态
+                            CurrentBlockStatus = Array(repeating: true, count: 3)
                                 withAnimation {
                                     print("结束标识改为false")
                                     // 结束标识改为false
