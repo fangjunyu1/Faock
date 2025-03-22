@@ -135,7 +135,6 @@ struct Game: View {
         }
         
         // 检查是否可以放置
-        print("进入canPlaceBlock方法")
         let isCanPlaceBlock =  canPlaceBlock(block, atRow: row, col: col)
         print("当canPlaceBlock方法为true时，执行棋盘遍历")
         if isCanPlaceBlock{
@@ -168,6 +167,10 @@ struct Game: View {
             if isCurrentBlock {
                 print("当前列表为空，刷新列表")
                 CurrentBlock = generateNewBlocks()
+                
+                // 消除行、列的方块，用于判断新的方块位置
+                clearFullRowsAndColumns()
+                
                 // 重新判断刷新的方块能否放置
                 isBlockPlaced()
                 print("CurrentBlock:\(CurrentBlock)")
@@ -471,6 +474,7 @@ struct Game: View {
     }
     
     func isBlockPlaced() {
+        print("进入isBlockPlaced方法")
         let rows = grid.count
         let cols = grid[0].count
         // 遍历当前方块
@@ -605,7 +609,7 @@ struct Game: View {
                                             print("设置shadowPosition和shadowBlock为nil")
                                             shadowPosition = nil
                                             shadowBlock = nil
-                                            // 消除行、列的方块
+                                            // 消除方块
                                             clearFullRowsAndColumns()
                                             // 判断方块能否放置
                                             isBlockPlaced()
