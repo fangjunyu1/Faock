@@ -208,7 +208,7 @@ struct Game: View {
                 isBlockPlaced()
                 print("CurrentBlock:\(CurrentBlock)")
                 // 判断游戏是否结束
-                if isGameOver() {
+                if !GameOver && isGameOver() {
                     withAnimation {
                         print("placeBlock方法，GameOver改为true")
                         GameOver = true
@@ -223,7 +223,7 @@ struct Game: View {
                             GameOverButton = true
                         }
                     }
-                } else if isMasterpieceGameOver() {
+                } else if !GameOver && isMasterpieceGameOver() {
                     withAnimation {
                         print("当放置方块后，检测isGameOver，GameOver改为true")
                         GameOver = true
@@ -647,7 +647,7 @@ struct Game: View {
                                             // 判断方块能否放置
                                             isBlockPlaced()
                                             // 判断游戏是否结束
-                                            if isGameOver() {
+                                            if !GameOver && isGameOver() {
                                                 withAnimation {
                                                     print("当放置方块后，检测isGameOver，GameOver改为true")
                                                     GameOver = true

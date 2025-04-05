@@ -27,7 +27,7 @@ class AppStorageManager:ObservableObject {
     }
     
     // 视图步骤
-    @Published var Music: Bool = false {
+    @Published var Music: Bool = true {
         didSet {
             if Music != oldValue {
                 UserDefaults.standard.set(Music, forKey: "Music")
@@ -97,12 +97,16 @@ class AppStorageManager:ObservableObject {
     
     // 从UserDefaults加载数据
     private func loadUserDefault() {
+        // 检查是否已存储 Music，如果没有则设置默认值为 true
+            if UserDefaults.standard.object(forKey: "Music") == nil {
+                UserDefaults.standard.set(true, forKey: "Music")
+            }
         Music = UserDefaults.standard.bool(forKey: "Music")  // 视图步骤
         HighestScore = UserDefaults.standard.integer(forKey: "HighestScore")  // 最高得分
         GameSessions = UserDefaults.standard.integer(forKey: "GameSessions")  // 游戏场次
         BlockSkins = UserDefaults.standard.string(forKey: "BlockSkins") ?? "block0"  // 方块皮肤
-        ChessboardSkin = UserDefaults.standard.string(forKey: "ChessboardSkin") ?? "block0"  // 棋盘皮肤
-        RequestRating = UserDefaults.standard.bool(forKey: "RequestRating")  // 视图步骤
+        ChessboardSkin = UserDefaults.standard.string(forKey: "ChessboardSkin") ?? "bg0"  // 棋盘皮肤
+        RequestRating = UserDefaults.standard.bool(forKey: "RequestRating")  // 评分
         isInAppPurchase = UserDefaults.standard.bool(forKey: "isInAppPurchase")  // 商品内购
     }
     
