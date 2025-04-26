@@ -47,7 +47,7 @@ struct Game: View {
     
     let paintingMaxNum: Int     // 最大画作数量
     let modelNames:[String]
-    
+
     // 待消除的行列
     @State var pendingClearRows: Set<Int> = []
     @State var pendingClearColumns: Set<Int> = []
@@ -291,7 +291,7 @@ struct Game: View {
         print("进入willClearLinesAndColumns方法")
         let touchOffsetX = origins.x
         let touchOffsetY = origins.y
-        // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
+        // y轴：鼠标点击位置 - 棋盘到顶点的位置 - 手势的偏移量 80
         let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
         let row = Int(round(Double(CalculateY / cellSize)))
         // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
@@ -306,6 +306,43 @@ struct Game: View {
         // 检查是否可以放置
         let canPlace = canPlaceBlock(block, atRow: row, col: col)
         print("canPlaceBlock(row: \(row), col: \(col)) 返回值: \(canPlace)")
+        if canPlace {
+            // 创建新的临时
+            var newGrid = grid
+            print("当前的临时棋盘为:\(grid)")
+            // 将当前方块遍历到新棋盘上
+            for r in 0..<block.shape.count {
+                // 遍历当前方块的列数
+                for c in 0..<block.shape[r].count {
+                    // 如果方块对应的格为 1，则进入判断
+                    if block.shape[r][c] == 1 {
+                        let targetRow = row + r
+                        let targetCol = col + c
+                        // 将临时棋盘对应的方格新增棋子
+                        newGrid[targetRow][targetCol] = 1
+                    }
+                }
+            }
+            print("新增方块后，当前的临时棋盘为:\(newGrid)")
+            for row in 0..<rowCount {
+                if newGrid[row].allSatisfy({ $0 == 1 }) {
+                    // 如果临时棋盘整行都有方块，将该行设置为待消除状态
+                    print("当前第\(row)行为待消除行，将对应行设置为待消除状态")
+                    pendingClearRows.insert(row)
+                }
+            }
+            for col in 0..<colCount {
+                if (0..<rowCount).allSatisfy({ newGrid[$0][col] == 1 }) {
+                    print("当前第\(col)行为待消除列，将对应列设置为待消除状态")
+                    pendingClearColumns.insert(col)
+                }
+            }
+            
+        } else {
+            print("当前区域不能放置，待消除行列重置为空")
+            pendingClearRows = []
+            pendingClearColumns = []
+        }
     }
     
     // 检查方块是否可以放置
@@ -489,9 +526,9 @@ struct Game: View {
     
     // 最高分数递增动画
     func increaseHighestScore(to newScore: Int) {
-        // 如果新得分和总得分差距过大，设置总得分为新得分的 -400.
-        if appStorage.HighestScore + 400 < newScore {
-            appStorage.HighestScore = newScore - 400
+        // 如果新得分和总得分差距过大，设置总得分为新得分的 -60.
+        if appStorage.HighestScore + 60 < newScore {
+            appStorage.HighestScore = newScore - 60
         }
         // 加载逐渐递增的动画效果
         Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
@@ -666,6 +703,9 @@ struct Game: View {
                                             DispatchQueue.main.async {
                                                 print("移动中")
                                                 print("gridOrigin:\(gridOrigin)")
+                                                // 每次移动都会清除待消除的行列
+                                                pendingClearRows = []
+                                                pendingClearColumns = []
                                                 // 阴影方块
                                                 shadowBlock(block, start, end, geo, item)
                                                 // 待消除的行列
