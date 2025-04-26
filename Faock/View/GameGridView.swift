@@ -16,14 +16,19 @@ struct GameGridView: View {
     var rowCount = 0
     var colCount = 0
     var cellSize: CGFloat
+    var pendingClearRows: Set<Int>
+    var pendingClearColumns: Set<Int>
     
-    init(grid: [[Int]],shadowPosition: (row: Int, col: Int)?,shadowBlock: Block?,cellSize: CGFloat) {
+    init(grid: [[Int]],shadowPosition: (row: Int, col: Int)?,shadowBlock: Block?,cellSize: CGFloat,pendingClearRows: Set<Int> = [],
+         pendingClearColumns: Set<Int> = []) {
         self.grid = grid
         self.shadowPosition = shadowPosition
         self.shadowBlock = shadowBlock
         self.rowCount = grid.count
         self.colCount = grid.first?.count ?? 0
         self.cellSize = cellSize
+        self.pendingClearRows = pendingClearRows
+        self.pendingClearColumns = pendingClearColumns
     }
     
     var body: some View {
@@ -35,6 +40,7 @@ struct GameGridView: View {
                         // 竖向 9 格
                         ForEach(0..<colCount, id: \.self) { col in
                             // 方格
+                            let isPending = pendingClearColumns.contains(col) || pendingClearRows.contains(row)
                             Rectangle()
                                 .frame(width: cellSize, height: cellSize)
                                 .foregroundColor(.clear)
@@ -44,6 +50,7 @@ struct GameGridView: View {
                                         Image(colorScheme == .light ? appStorage.BlockSkins : "block1")
                                             .resizable()
                                             .scaledToFit()
+                                            .opacity(isPending ? 0.8 : 1)
                                     } else {
                                         Color.clear
                                     }
@@ -124,6 +131,20 @@ struct GameGridView: View {
 
 #Preview {
     @ObservedObject var appStorage = AppStorageManager.shared
-    return GameGridView(grid: Array(repeating: Array(repeating: 0, count: 8), count: 12),shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]),cellSize: 36)
-        .environmentObject(appStorage)
+    GameGridView(grid: [
+        [1,0,0,0,1,0,0,0],
+        [1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,0,0,0,0],
+        [1,0,0,0,0,0,0,0],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0],
+        [1,0,0,0,1,0,0,0]
+    ],
+                 shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]),cellSize: 36,pendingClearRows: [],pendingClearColumns: Set([4]))
+    .environmentObject(appStorage)
 }

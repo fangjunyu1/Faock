@@ -47,6 +47,11 @@ struct Game: View {
     
     let paintingMaxNum: Int     // 最大画作数量
     let modelNames:[String]
+    
+    // 待消除的行列
+    @State var pendingClearRows: Set<Int> = []
+    @State var pendingClearColumns: Set<Int> = []
+    
     // 仅用于标记“世界名画”名称
     @State private var paintingNumber = 0
     @State private var windowSize: CGSize = .zero
@@ -248,10 +253,6 @@ struct Game: View {
     // 显示放置方块的阴影
     func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("进入shadowBlock方法")
-        print("start:\(start)")
-        print("end:\(end)")
-        print("origins:\(origins)")
-        print("gridOrigin:\(gridOrigin)")
         let touchOffsetX = origins.x
         let touchOffsetY = origins.y
         // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
@@ -276,11 +277,35 @@ struct Game: View {
             print("阴影尝试放置位置：row:\(row), col:\(col)")
             print("当前 shadowPosition：\(String(describing: shadowPosition))")
             print("当前 shadowBlock：\(String(describing: shadowBlock))")
+            
+            
         } else {
             print("进入 else 语句，canPlace 为 false")
             shadowPosition = nil
             shadowBlock = nil
         }
+    }
+    
+    // 检查待消除的行列
+    func willClearLinesAndColumns(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
+        print("进入willClearLinesAndColumns方法")
+        let touchOffsetX = origins.x
+        let touchOffsetY = origins.y
+        // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
+        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
+        let row = Int(round(Double(CalculateY / cellSize)))
+        // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
+        let CalculateX = touchOffsetX + end.width  - gridOrigin.x
+        let col = Int(round(Double(CalculateX / cellSize)))
+        print("row:\(row), col: \(col)")
+        // 检查 row 和 col 是否有效
+        guard row >= 0, col >= 0, row < rowCount, col < colCount else {
+            print("无法放置方块，超出网格边界")
+            return
+        }
+        // 检查是否可以放置
+        let canPlace = canPlaceBlock(block, atRow: row, col: col)
+        print("canPlaceBlock(row: \(row), col: \(col)) 返回值: \(canPlace)")
     }
     
     // 检查方块是否可以放置
@@ -430,6 +455,7 @@ struct Game: View {
         return true
     }
     
+    // 判断世界名画模式的结束规则
     func isMasterpieceGameOver() -> Bool{
         // 如果是“世界名画”模式，判断selectedTab
         if selectedTab == 2 {
@@ -449,6 +475,7 @@ struct Game: View {
         }
         return false
     }
+    
     // 分数递增动画
     func increaseScore(to newScore: Int) {
         Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
@@ -459,8 +486,14 @@ struct Game: View {
             }
         }
     }
+    
     // 最高分数递增动画
     func increaseHighestScore(to newScore: Int) {
+        // 如果新得分和总得分差距过大，设置总得分为新得分的 -400.
+        if appStorage.HighestScore + 400 < newScore {
+            appStorage.HighestScore = newScore - 400
+        }
+        // 加载逐渐递增的动画效果
         Timer.scheduledTimer(withTimeInterval: animationSpeed, repeats: true) { timer in
             if appStorage.HighestScore < newScore{
                 appStorage.HighestScore += incrementStep
@@ -470,6 +503,7 @@ struct Game: View {
         }
     }
     
+    // 更新最高分
     func updateScore() {
         if GameScore > appStorage.HighestScore {
             print("更新最高得分")
@@ -506,6 +540,7 @@ struct Game: View {
         }
     }
     
+    // 检查方块是否可以放置
     func isBlockPlaced() {
         print("进入isBlockPlaced方法")
         let rows = grid.count
@@ -570,7 +605,7 @@ struct Game: View {
                     // 网格和方块，用于结束时缩放。
                     VStack {
                         // 背景网格
-                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock,cellSize: cellSize)
+                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock,cellSize: cellSize,pendingClearRows:pendingClearRows,pendingClearColumns:pendingClearColumns)
                             .background {
                                 GeometryReader { gridGeo in
                                     Color.clear
@@ -631,11 +666,18 @@ struct Game: View {
                                             DispatchQueue.main.async {
                                                 print("移动中")
                                                 print("gridOrigin:\(gridOrigin)")
+                                                // 阴影方块
                                                 shadowBlock(block, start, end, geo, item)
+                                                // 待消除的行列
+                                                willClearLinesAndColumns(block,start, end, geo, item)
                                             }
                                         },
                                                            onDrop: {start, end, geo  in
                                             print("放置方块")
+                                            print("清空待消除的行列")
+                                            pendingClearRows = []
+                                            pendingClearColumns = []
+                                            
                                             print("gridOrigin:\(gridOrigin)")
                                             placeBlock(block, start, end, geo, item)
                                             // 放置方块
@@ -819,7 +861,7 @@ struct Game: View {
     //    if let bundleID = Bundle.main.bundleIdentifier {
     //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
     //    }
-    Game(viewStep: .constant(1),selectedTab: .constant(3), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"])
+    Game(viewStep: .constant(1),selectedTab: .constant(0), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"])
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
 }
