@@ -161,7 +161,9 @@ class IAPManager:ObservableObject {
     }
     // 移除内购状态
     func removePurchasedState(for productID: String) {
-        AppStorageManager.shared.isInAppPurchase = false    // 设置 AppStorageManager 的内购标识为 false
+        DispatchQueue.main.async {
+            AppStorageManager.shared.isInAppPurchase = false    // 设置 AppStorageManager 的内购标识为 false
+        }
         print("已移除购买状态: \(productID)")
     }
     
