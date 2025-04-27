@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var selectedTab = 0
     // let paintingNameList = ["蒙娜丽莎","呐喊","向日葵","戴珍珠耳环的少女","星空","最后的晚餐","拾穗者","梵高自画像","记忆的永恒","睡莲","抱银貂的女子"]
     // 模式名称
-    let modelNames = ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"]
+    let modelNames = ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks","Classic elimination"]
     let paintingMaxNum = 11
     var body: some View {
         if viewStep == 0 {

@@ -433,23 +433,27 @@ struct Game: View {
         print("rowsToClear.sorted().reversed():\(Array(rowsToClear.sorted().reversed()))")
         print("rowsToClear.sorted().enumerated():\(Array(rowsToClear.sorted().enumerated()))")
         print("rowsToClear.sorted().reversed().enumerated():\(Array(rowsToClear.sorted().reversed().enumerated()))")
-        for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
-            
-            let adjustedRow = max(0, row + index) // 确保不会小于 0
-            print("row:\(row)")
-            if adjustedRow >= 1 {  // 只有 adjustedRow >= 1 时，才能进行下移操作
-                // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
-                for r in (1...adjustedRow).reversed() {
-                    print("r:\(r)")
-                    // newGrid[3] = newGrid[2]
-                    // newGrid[2] = newGrid[1]
-                    // newGrid[1] = newGrid[0]
-                    // 最好将第0行消除到第1行
-                    newGrid[r] = newGrid[r - 1] // 当前行变成上一行
+        
+        // 如果是经典消除模式，不向下消除
+        if selectedTab != 4 {
+            for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
+                
+                let adjustedRow = max(0, row + index) // 确保不会小于 0
+                print("row:\(row)")
+                if adjustedRow >= 1 {  // 只有 adjustedRow >= 1 时，才能进行下移操作
+                    // 假如 row 只是3，那么reversed()为 [3,2,1]，所以先消除 row 为3的行
+                    for r in (1...adjustedRow).reversed() {
+                        print("r:\(r)")
+                        // newGrid[3] = newGrid[2]
+                        // newGrid[2] = newGrid[1]
+                        // newGrid[1] = newGrid[0]
+                        // 最好将第0行消除到第1行
+                        newGrid[r] = newGrid[r - 1] // 当前行变成上一行
+                    }
                 }
+                // 新增空行填充到第0行。
+                newGrid[0] = Array(repeating: 0, count: colCount) // 顶部填充空行
             }
-            // 新增空行填充到第0行。
-            newGrid[0] = Array(repeating: 0, count: colCount) // 顶部填充空行
         }
         grid = newGrid
     }
@@ -889,7 +893,7 @@ struct Game: View {
     //    if let bundleID = Bundle.main.bundleIdentifier {
     //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
     //    }
-    Game(viewStep: .constant(1),selectedTab: .constant(0), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"])
+    Game(viewStep: .constant(1),selectedTab: .constant(4), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks","Classic elimination"])
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
 }

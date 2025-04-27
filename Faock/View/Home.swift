@@ -110,6 +110,6 @@ struct Home: View {
 }
 
 #Preview {
-    Home(viewStep: .constant(1), selectedTab: .constant(0), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks"])
+    Home(viewStep: .constant(1), selectedTab: .constant(0), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks","Classic elimination"])
         .environmentObject(AppStorageManager.shared)
 }
