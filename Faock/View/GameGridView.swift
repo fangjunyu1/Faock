@@ -18,10 +18,10 @@ struct GameGridView: View {
     var cellSize: CGFloat
     var pendingClearRows: Set<Int>
     var pendingClearColumns: Set<Int>
-    var specialEliminationArea:[(Int,Int)] = [] // 特殊消除区域
-    
+    var specialEliminationArea:[[(Int,Int)]]? // 特殊消除区域
+    var squaresEliminated:[(Int,Int)]?  // 待消除方格
     init(grid: [[Int]],shadowPosition: (row: Int, col: Int)?,shadowBlock: Block?,cellSize: CGFloat,pendingClearRows: Set<Int> = [],
-         pendingClearColumns: Set<Int> = []) {
+         pendingClearColumns: Set<Int> = [],specialEliminationArea:[[(Int,Int)]]? = nil,squaresEliminated: [(Int,Int)]? = nil) {
         self.grid = grid
         self.shadowPosition = shadowPosition
         self.shadowBlock = shadowBlock
@@ -30,6 +30,8 @@ struct GameGridView: View {
         self.cellSize = cellSize
         self.pendingClearRows = pendingClearRows
         self.pendingClearColumns = pendingClearColumns
+        self.specialEliminationArea = specialEliminationArea
+        self.squaresEliminated = squaresEliminated
     }
     
     var body: some View {
@@ -41,10 +43,13 @@ struct GameGridView: View {
                         // 竖向 9 格
                         ForEach(0..<colCount, id: \.self) { col in
                             // 方格
-                            let isPending = pendingClearColumns.contains(col) || pendingClearRows.contains(row)
+                            let isPending = pendingClearColumns.contains(col) || pendingClearRows.contains(row) || (squaresEliminated?.first(where: { $0.0 == row && $0.1 == col })) != nil
+                            let isSpecial = specialEliminationArea?.contains(where: { area in
+                                area.contains(where: { $0 == (row,col) })
+                            }) ?? false
                             Rectangle()
                                 .frame(width: cellSize, height: cellSize)
-                                .foregroundColor(.clear)
+                                .foregroundColor(isSpecial ? Color.gray.opacity(0.3) : .clear) //  如果是特殊消除区域，红色半透明
                                 .border(Color(hex: "C7CDDC"))
                                 .overlay {
                                     if grid[row][col] == 1  {
@@ -143,9 +148,14 @@ struct GameGridView: View {
         [1,0,0,0,1,0,0,0],
         [1,0,0,0,1,0,0,0],
         [1,0,0,0,1,0,0,0],
-        [1,0,0,0,1,0,0,0],
-        [1,0,0,0,1,0,0,0]
     ],
-                 shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]),cellSize: 36,pendingClearRows: [],pendingClearColumns: Set([4]))
+                 shadowPosition: (row: 5, col: 3),shadowBlock: Block(shape: [[1,0,1],[1,1,1]]),cellSize: 36,pendingClearRows: [],pendingClearColumns: Set([4]),specialEliminationArea: [
+                    (0...2).flatMap { row in
+                        (2...5).map { col in (row, col)}
+                    },
+                    (7...9).flatMap { row in
+                        (2...5).map { col in (row, col)}
+                    }
+                ])
     .environmentObject(appStorage)
 }

@@ -47,16 +47,23 @@ struct Game: View {
     
     let paintingMaxNum: Int     // 最大画作数量
     let modelNames:[String]
-
+    
     // 待消除的行列
     @State var pendingClearRows: Set<Int> = []
     @State var pendingClearColumns: Set<Int> = []
+    // 待消除方格
+    @State var squaresEliminated: [(Int,Int)]? = nil
     
     // 仅用于标记“世界名画”名称
     @State private var paintingNumber = 0
     @State private var windowSize: CGSize = .zero
     @State private var GameOverButton = false
     @State private var ShowHighestScore = false
+    
+    
+    // 待消除的区域(模式为足球热区)
+    var specialEliminationArea: [[(Int, Int)]]? = nil
+
     init(viewStep: Binding<Int>,selectedTab:Binding<Int>, rowCount: Int = 10, colCount: Int = 8,paintingMaxNum: Int,modelNames: [String]) {
         self._viewStep = viewStep
         self._selectedTab = selectedTab
@@ -71,6 +78,18 @@ struct Game: View {
         // 画作数量
         self.paintingMaxNum = paintingMaxNum
         self.modelNames = modelNames
+        // 修改待消除区域（模式为足球热区）
+        if selectedTab.wrappedValue == 5 {
+            let startColArea = colCount / 2 - 2
+            self.specialEliminationArea = [
+                (0...2).flatMap { row in
+                    (startColArea...startColArea + 3).map { col in (row, col)}
+                },
+                (rowCount - 3...rowCount - 1).flatMap { row in
+                    (2...5).map { col in (row, col) }
+                }
+            ]
+        }
     }
     func generateNewBlocks() -> [Block] {
         let blocks = [
@@ -127,7 +146,7 @@ struct Game: View {
             Block(shape: [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]),
             Block(shape: [[0,0,0,1],[0,0,1,0],[0,1,0,0],[1,0,0,0]]),
             // 复杂方格
-
+            
         ]
         if selectedTab == 0 {
             return blocks.shuffled().prefix(3).map { $0 }
@@ -270,6 +289,7 @@ struct Game: View {
         // 每次都会清除待消除的行列
         pendingClearRows = []
         pendingClearColumns = []
+        squaresEliminated = []
         guard let (col,row) = calculateRowCol(touchOffsetX: origins.x, touchOffsetY: origins.y, end: end) else {
             return
         }
@@ -311,6 +331,22 @@ struct Game: View {
                 if (0..<rowCount).allSatisfy({ newGrid[$0][col] == 1 }) {
                     print("当前第\(col)行为待消除列，将对应列设置为待消除状态")
                     pendingClearColumns.insert(col)
+                }
+            }
+            
+            // 如果是足球热区模式，消除对应的区域
+            if selectedTab == 5 {
+                specialEliminationArea?.forEach { area in
+                    print("area:\(area)")
+                    let fillArea = area.allSatisfy { row,col in
+                        newGrid[row][col] == 1
+                    }
+                    if fillArea {
+                        // 如果这块区域全部满了，就把这些格子清掉
+                        for (row, col) in area {
+                            squaresEliminated?.append((row,col))
+                        }
+                    }
                 }
             }
             
@@ -404,6 +440,22 @@ struct Game: View {
         print("需要清除的行: \(rowsToClear.sorted())")
         print("需要清除的列: \(colsToClear.sorted())")
         
+        // 如果是足球热区模式，消除对应的区域
+        if selectedTab == 5 {
+            specialEliminationArea?.forEach { area in
+                print("area:\(area)")
+                let fillArea = area.allSatisfy { row,col in
+                    newGrid[row][col] == 1
+                }
+                if fillArea {
+                    // 如果这块区域全部满了，就把这些格子清掉
+                    for (row, col) in area {
+                        newGrid[row][col] = 0
+                    }
+                }
+            }
+        }
+        
         // 清除整行
         for row in rowsToClear {
             print("清理第\(row)行")
@@ -454,6 +506,8 @@ struct Game: View {
                 newGrid[0] = Array(repeating: 0, count: colCount) // 顶部填充空行
             }
         }
+        
+        
         grid = newGrid
     }
     
@@ -636,7 +690,7 @@ struct Game: View {
                     // 网格和方块，用于结束时缩放。
                     VStack {
                         // 背景网格
-                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock,cellSize: cellSize,pendingClearRows:pendingClearRows,pendingClearColumns:pendingClearColumns)
+                        GameGridView(grid: grid, shadowPosition: shadowPosition, shadowBlock: shadowBlock,cellSize: cellSize,pendingClearRows:pendingClearRows,pendingClearColumns:pendingClearColumns,specialEliminationArea: specialEliminationArea,squaresEliminated: squaresEliminated)
                             .background {
                                 GeometryReader { gridGeo in
                                     Color.clear
@@ -751,7 +805,7 @@ struct Game: View {
                                     SKStoreReviewController.requestReview()
                                 }
                                 // 重制方块状态，改为可放置状态
-                            CurrentBlockStatus = Array(repeating: true, count: 3)
+                                CurrentBlockStatus = Array(repeating: true, count: 3)
                                 withAnimation {
                                     print("结束标识改为false")
                                     // 结束标识改为false
@@ -859,6 +913,12 @@ struct Game: View {
             }
         }
         .navigationViewStyle(.stack) // 让 macOS 也变成单个视图
+    }
+}
+
+fileprivate let eliminationArea: [(Int, Int)] = [0...2, 9...11].flatMap { rowRange in
+    rowRange.flatMap { row in
+        (2...5).map { col in (row, col) }
     }
 }
 
