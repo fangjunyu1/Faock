@@ -378,6 +378,7 @@ struct Game: View {
     // 消除整行/整列的方块
     func clearFullRowsAndColumns() {
         print("进入clearFullRowsAndColumns方法")
+        print("当前棋盘为:\(grid)")
         var newGrid = grid
         print("创建newGrid")
         // 找到需要消除的行
@@ -411,9 +412,10 @@ struct Game: View {
         // 清除整行
         for row in rowsToClear {
             print("清理第\(row)行")
-            newGrid[row] = Array(repeating: 0, count: rowCount)
+            newGrid[row] = Array(repeating: 0, count: colCount)
         }
         
+        print("清理整行后的棋盘为:\(newGrid)")
         // 清除整列
         for col in colsToClear {
             print("清理第\(col)列")
@@ -422,7 +424,9 @@ struct Game: View {
                 newGrid[row][col] = 0
             }
         }
+        print("清理整列侯的棋盘为:\(newGrid)")
         
+        print("colCount:\(colCount),rowCount:\(rowCount)")
         // 奖励消除积分
         let EliminationRewards = rowsToClear.count * 10 + colsToClear.count * 10
         // 更新积分
