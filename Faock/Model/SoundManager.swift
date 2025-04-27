@@ -13,7 +13,7 @@ class SoundManager:ObservableObject {
     private var players: [String: AVAudioPlayer] = [:]
 
     private init() {
-        preloadSounds(["blockSound","clearSoundeffects"]) // 预加载音效
+        preloadSounds(["blockSound","clearSoundeffects","gameover1"]) // 预加载音效
     }
 
     private func preloadSounds(_ soundNames: [String]) {

@@ -201,35 +201,9 @@ struct Game: View {
                 print("CurrentBlock:\(CurrentBlock)")
                 // 判断游戏是否结束
                 if !GameOver && isGameOver() {
-                    withAnimation {
-                        print("placeBlock方法，GameOver改为true")
-                        GameOver = true
-                    }
-                    triggerShake() // 触发抖动
-                    // 更新最高分数
-                    updateScore()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        withAnimation {
-                            print("placeBlock方法，GameOverZoomAnimation和GameOverButton改为true")
-                            GameOverZoomAnimation = true
-                            GameOverButton = true
-                        }
-                    }
+                    executeGameover()
                 } else if !GameOver && isMasterpieceGameOver() {
-                    withAnimation {
-                        print("当放置方块后，检测isGameOver，GameOver改为true")
-                        GameOver = true
-                    }
-                    triggerShake() // 触发抖动
-                    // 更新最高分数
-                    updateScore()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        withAnimation {
-                            GameOverZoomAnimation = true
-                            GameOverButton = true
-                        }
-                    }
+                    executeGameover()
                 }
             }
         } else {
@@ -237,6 +211,27 @@ struct Game: View {
         }
     }
     
+    // 执行GameOver方法
+    func executeGameover() {
+        // 播放结束音效
+        if appStorage.Music {
+            sound.playSound(named: "gameover1")
+        }
+        withAnimation {
+            print("当放置方块后，检测isGameOver，GameOver改为true")
+            GameOver = true
+        }
+        triggerShake() // 触发抖动
+        // 更新最高分数
+        updateScore()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                GameOverZoomAnimation = true
+                GameOverButton = true
+            }
+        }
+    }
     // 显示放置方块的阴影
     func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("进入shadowBlock方法")
@@ -726,35 +721,9 @@ struct Game: View {
                                             isBlockPlaced()
                                             // 判断游戏是否结束
                                             if !GameOver && isGameOver() {
-                                                withAnimation {
-                                                    print("当放置方块后，检测isGameOver，GameOver改为true")
-                                                    GameOver = true
-                                                }
-                                                triggerShake() // 触发抖动
-                                                // 更新最高分数
-                                                updateScore()
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                                    withAnimation {
-                                                        GameOverZoomAnimation = true
-                                                        GameOverButton = true
-                                                    }
-                                                }
+                                                executeGameover()
                                             } else if isMasterpieceGameOver() {
-                                                withAnimation {
-                                                    print("当放置方块后，检测isGameOver，GameOver改为true")
-                                                    GameOver = true
-                                                }
-                                                triggerShake() // 触发抖动
-                                                // 更新最高分数
-                                                updateScore()
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                                    withAnimation {
-                                                        GameOverZoomAnimation = true
-                                                        GameOverButton = true
-                                                    }
-                                                }
+                                                executeGameover()
                                             }
                                         })
                                         .offset(x: shakeOffset) // 应用抖动偏移
