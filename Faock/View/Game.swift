@@ -433,8 +433,8 @@ struct Game: View {
         print("rowsToClear.sorted().enumerated():\(Array(rowsToClear.sorted().enumerated()))")
         print("rowsToClear.sorted().reversed().enumerated():\(Array(rowsToClear.sorted().reversed().enumerated()))")
         
-        // 如果是经典消除模式，不向下消除
-        if selectedTab != 4 {
+        // 只有下沉消除消除模式，会向下消除
+        if selectedTab == 0 {
             for (index, row) in rowsToClear.sorted().reversed().enumerated() { // 从下往上处理
                 
                 let adjustedRow = max(0, row + index) // 确保不会小于 0
@@ -866,7 +866,7 @@ struct Game: View {
     //    if let bundleID = Bundle.main.bundleIdentifier {
     //        UserDefaults.standard.removePersistentDomain(forName: bundleID)
     //    }
-    Game(viewStep: .constant(1),selectedTab: .constant(4), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks","Classic elimination"])
+    Game(viewStep: .constant(1),selectedTab: .constant(5), paintingMaxNum: 11, modelNames: ["Sinking elimination","Three Identical Blocks","World famous paintings","Slope Blocks","Classic elimination","Football Hot Zone"])
         .environmentObject(AppStorageManager.shared)
         .environmentObject(SoundManager.shared)
 }

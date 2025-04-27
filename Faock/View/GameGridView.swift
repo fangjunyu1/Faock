@@ -18,6 +18,7 @@ struct GameGridView: View {
     var cellSize: CGFloat
     var pendingClearRows: Set<Int>
     var pendingClearColumns: Set<Int>
+    var specialEliminationArea:[(Int,Int)] = [] // 特殊消除区域
     
     init(grid: [[Int]],shadowPosition: (row: Int, col: Int)?,shadowBlock: Block?,cellSize: CGFloat,pendingClearRows: Set<Int> = [],
          pendingClearColumns: Set<Int> = []) {
