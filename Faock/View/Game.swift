@@ -149,22 +149,9 @@ struct Game: View {
     
     // 放置方块
     func placeBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
-        print("进入placeBlock方法")
-        print("start:\(start)")
-        print("end:\(end)")
-        print("origins:\(origins)")
-        print("gridOrigin:\(gridOrigin)")
-        // 计算用户实际触碰的相对位置
-        let touchOffsetX = origins.x
-        let touchOffsetY = origins.y
-        print("touchOffsetX:\(touchOffsetX)")
-        print("touchOffsetY:\(touchOffsetY)")
-        // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
-        let row = Int(round(Double(CalculateY / cellSize)))
-        // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = touchOffsetX + end.width - gridOrigin.x
-        let col = Int(round(Double(CalculateX / cellSize)))
+        guard let (col,row) = calculateRowCol(touchOffsetX: origins.x, touchOffsetY: origins.y, end: end) else {
+            return
+        }
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < rowCount, col < colCount else {
@@ -253,14 +240,9 @@ struct Game: View {
     // 显示放置方块的阴影
     func shadowBlock(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("进入shadowBlock方法")
-        let touchOffsetX = origins.x
-        let touchOffsetY = origins.y
-        // y轴：方块到顶点的距离 - 方块到棋盘的 60 - 手势偏移的80 = 第一行
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
-        let row = Int(round(Double(CalculateY / cellSize)))
-        // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = touchOffsetX + end.width  - gridOrigin.x
-        let col = Int(round(Double(CalculateX / cellSize)))
+        guard let (col,row) = calculateRowCol(touchOffsetX: origins.x, touchOffsetY: origins.y, end: end) else {
+            return
+        }
         print("row:\(row), col: \(col)")
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < rowCount, col < colCount else {
@@ -289,15 +271,14 @@ struct Game: View {
     // 检查待消除的行列
     func willClearLinesAndColumns(_ block: Block, _ start: CGPoint, _ end: CGSize, _ origins: CGPoint, _ indices : Int) {
         print("进入willClearLinesAndColumns方法")
-        let touchOffsetX = origins.x
-        let touchOffsetY = origins.y
-        // y轴：鼠标点击位置 - 棋盘到顶点的位置 - 手势的偏移量 80
-        let CalculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
-        let row = Int(round(Double(CalculateY / cellSize)))
-        // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
-        let CalculateX = touchOffsetX + end.width  - gridOrigin.x
-        let col = Int(round(Double(CalculateX / cellSize)))
-        print("row:\(row), col: \(col)")
+        
+        // 每次都会清除待消除的行列
+        pendingClearRows = []
+        pendingClearColumns = []
+        guard let (col,row) = calculateRowCol(touchOffsetX: origins.x, touchOffsetY: origins.y, end: end) else {
+            return
+        }
+        
         // 检查 row 和 col 是否有效
         guard row >= 0, col >= 0, row < rowCount, col < colCount else {
             print("无法放置方块，超出网格边界")
@@ -343,6 +324,16 @@ struct Game: View {
             pendingClearRows = []
             pendingClearColumns = []
         }
+    }
+    
+    func calculateRowCol(touchOffsetX: CGFloat, touchOffsetY: CGFloat, end: CGSize) -> (Int, Int)? {
+        // y轴：鼠标点击位置 - 棋盘到顶点的位置 - 手势的偏移量 80
+        let calculateY = touchOffsetY - gridOrigin.y - GestureOffset + end.height
+        let row = Int(round(Double(calculateY / cellSize)))
+        // x轴：方块到左侧点的距离 - 方块到棋盘的 60 = 第一列
+        let calculateX = touchOffsetX + end.width  - gridOrigin.x
+        let col = Int(round(Double(calculateX / cellSize)))
+        return (col,row)
     }
     
     // 检查方块是否可以放置
@@ -703,9 +694,6 @@ struct Game: View {
                                             DispatchQueue.main.async {
                                                 print("移动中")
                                                 print("gridOrigin:\(gridOrigin)")
-                                                // 每次移动都会清除待消除的行列
-                                                pendingClearRows = []
-                                                pendingClearColumns = []
                                                 // 阴影方块
                                                 shadowBlock(block, start, end, geo, item)
                                                 // 待消除的行列
